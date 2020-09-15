@@ -1,0 +1,1 @@
+ALTER TABLE activo DROP COLUMN meta;

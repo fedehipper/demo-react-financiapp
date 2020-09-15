@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/layout">
+
+    <head>
+        <title>Mis gastos</title>
+    </head>
+
+    <body>
+        <section layout:fragment="content">
+            <div class="content-body">
+                <gasto/>
+            </div>
+        </section>
+
+        <th:block layout:fragment="scripts">
+            <script th:src="@{/js/components/gasto/gasto.js}"></script>
+            <script th:src="@{/js/components/gasto/boton-nuevo-gasto.js}"></script>
+            <script th:src="@{/js/components/gasto/control-gasto.js}"></script>
+            <script th:src="@{/js/components/barra-progreso.js}"></script>
+            <script th:src="@{/js/components/gasto/boton-editar-limite.js}"></script>
+            <script th:src="@{/js/components/gasto/modal-editar-limite.js}"></script>
+            <script th:src="@{/js/components/gasto/boton-editar-gasto.js}"></script>
+            <script th:src="@{/js/components/gasto/alerta-sin-gastos-periodo.js}"></script>
+            <script th:src="@{/js/components/gasto/boton-eliminar-gasto.js}"></script>
+            <script th:src="@{/js/components/gasto/modal-nuevo-gasto.js}"></script>
+            <script th:src="@{/js/components/gasto/modal-editar-gasto.js}"></script>
+            <script th:src="@{/js/components/gasto/modal-eliminar-gasto.js}"></script>
+            <script th:src="@{/js/components/datepicker.js}"></script>
+            <script th:src="@{/js/components/tooltip.js}"></script>
+            <script th:src="@{/js/components/focus.js}"></script>
+            <script th:src="@{/js/components/mensaje-accion.js}"></script>
+            <script th:src="@{/js/components/editable.js}"></script>
+            <script th:src="@{/js/app.js}"></script>
+        </th:block>
+    </body>
+</html>

@@ -1,0 +1,2 @@
+ALTER TABLE activo ADD COLUMN usuario_id BIGINT DEFAULT null;
+ALTER TABLE movimiento ADD COLUMN usuario_id BIGINT DEFAULT null;

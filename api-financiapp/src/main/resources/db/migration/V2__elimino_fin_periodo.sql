@@ -1,0 +1,1 @@
+ALTER TABLE activo_diario DROP COLUMN fin_periodo;

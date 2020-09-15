@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="loading" lang="es" data-textdirection="ltr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head>
+        <link rel="icon" type="image/png" th:href="@{fonts/logo.png}"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"/>
+        <title>FinanciApp</title>
+        <!-- Bootstrap core CSS-->
+        <script th:src="@{/vendor/app-assets/js/jquery.min.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+
+        <!--datepicker-->
+        <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+        <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/gijgo@1.9.13/js/messages/messages.es-es.js" type="text/javascript"></script>
+        <!--datepicker-->
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+        <!-- Custom styles for this template-->
+        <link th:href="@{/vendor/app-assets/css/sb-admin.css}" rel="stylesheet" type="text/css"/>        
+    </head>
+
+    <body>
+        <!--Navbar-->
+        <nav class="navbar navbar-dark sombra">
+            <button class="btn btn-link btn-sm text-dark" id="sidebarToggle">
+                <i class="fa fa-bars col"></i>
+            </button>
+            <a class="navbar-brand col-1 text-dark" href="#"><img th:src="@{fonts/logo.png}" width="30" height="30" alt=""/> Financiapp</a>
+
+            <ul class="nav ml-auto fa-clickable">
+                <li class="nav-item dropdown text-white">
+                    <a class="nav-link dropdown-toggle text-dark tamanio-usuario-logueado-icono" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user-circle fa-clickable mr-2"></i>
+                        <span class="mr-1" sec:authentication="name"/>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <ul class="sidebar navbar-nav duracion-traslado-navbar">
+                <li class="nav-item" th:classappend="${#request.requestURI.contains('/cartera') ? 'active' : ''}">
+                    <a class="nav-link pt-2 pb-2" th:href="@{/cartera}">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>Mi cartera</span>
+                    </a>
+                </li>
+                <li class="nav-item" th:classappend="${#request.requestURI.contains('/gasto') ? 'active' : ''}">
+                    <a class="nav-link pt-2 pb-2" th:href="@{/gasto}">
+                        <i class="fa fa-cart-arrow-down"></i>
+                        <span>Mis gastos</span>
+                    </a>
+                </li>
+                <hr class="division seccion-nav mt-1 mb-1">
+                <li class="nav-item">
+                    <div class="nav-link pt-2 pb-2">
+                        <span>Dólar: </span>
+                        <span th:text="${cotizacionDolar}"></span>
+                    </div>
+                </li>
+            </ul>
+
+            <div id="content-wrapper">
+
+                <div class="container-fluid col-10 offset-1">
+
+                    <!-- Contenido de componentes -->
+                    <div id="app" class="app-content content">
+                        <div class="content-body">
+                            <th:block layout:fragment="content"></th:block>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Sticky Footer -->
+                <footer class="sticky-footer duracion-traslado-navbar">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Patente pendiente © Financiapp 2020</span>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+
+        <script th:src="@{/vendor/app-assets/js/sb-admin.min.js}"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+        <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+
+        <th:block layout:fragment="scripts"></th:block>
+    </body>
+</html>

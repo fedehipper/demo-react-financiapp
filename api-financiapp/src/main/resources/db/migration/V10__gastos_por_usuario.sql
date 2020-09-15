@@ -1,0 +1,1 @@
+ALTER TABLE gasto ADD COLUMN usuario_id BIGINT DEFAULT null;

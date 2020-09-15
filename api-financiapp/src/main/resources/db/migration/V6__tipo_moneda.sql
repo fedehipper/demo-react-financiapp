@@ -1,0 +1,1 @@
+ALTER TABLE activo ADD COLUMN tipo_moneda VARCHAR DEFAULT 'ARS';

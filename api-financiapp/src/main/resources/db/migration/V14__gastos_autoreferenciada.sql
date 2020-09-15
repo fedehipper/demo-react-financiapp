@@ -1,0 +1,5 @@
+ALTER TABLE gasto 
+ADD COLUMN gasto_id BIGINT DEFAULT NULL;
+
+ALTER TABLE gasto
+ADD FOREIGN KEY (gasto_id) REFERENCES gasto(id);
