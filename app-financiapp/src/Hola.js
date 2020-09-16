@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 
 class FilaPersona extends Component {
     render() {
@@ -17,6 +17,7 @@ class TablaPersona extends Component {
     constructor() {
         super();
         this.state = {
+            gastos: [],
             personas: [
                 {
                     id: 1,
@@ -35,6 +36,13 @@ class TablaPersona extends Component {
                 }
             ]
         };
+    }
+
+    componentDidMount() {
+        const apiUrl = 'http://localhost:8097/api/gasto?anio=2020&mes=9';
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
     }
 
     render() {
