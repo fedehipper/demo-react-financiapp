@@ -6,6 +6,7 @@ import com.financiapp.service.DetalleActivoService;
 import com.financiapp.service.DetalleService;
 import com.financiapp.service.MetaInversionService;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/")
+@CrossOrigin(origins = "http://localhost:3000")
 public class DetalleMovimientoRestController {
 
     private final DetalleActivoService detalleMovimientoService;
