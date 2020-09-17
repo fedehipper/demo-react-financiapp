@@ -1,63 +1,70 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
-class FilaPersona extends Component {
-    render() {
-        return <tbody>
-            <tr>
-                <td>{this.props.personaARenderizar.nombre}</td>
-                <td>{this.props.personaARenderizar.edad}</td>
-            </tr>
-        </tbody>
-    }
-}
-
-
-class TablaPersona extends Component {
+class Gastos extends Component {
     constructor() {
         super();
         this.state = {
-            gastos: [],
-            personas: [
-                {
-                    id: 1,
-                    nombre: "Federico",
-                    edad: 21
-                },
-                {
-                    id: 2,
-                    nombre: "Carlos",
-                    edad: 33
-                },
-                {
-                    id: 3,
-                    nombre: "Tony",
-                    edad: 31
-                }
-            ]
+            gastos: []
         };
     }
 
     componentDidMount() {
+        this.buscarTodosLosGastos();
+    }
+
+    buscarTodosLosGastos() {
         const apiUrl = 'http://localhost:8097/api/gasto?anio=2020&mes=9';
         fetch(apiUrl)
             .then(response => response.json())
-            .then(data => this.setState({ data }));
+            .then(gastos => this.setState({ gastos }));
+    }
+
+    cambiarNecesidad(necesidadNueva, gastoId) {
+        const apiUr = 'http://localhost:8097/api/gasto/necesidad/' + gastoId;
+        const requestOptions = {
+            method: 'PUT'
+        };
+        fetch(apiUr, requestOptions)
+            .then(() => this.buscarTodosLosGastos());
     }
 
     render() {
+        return <tbody>{
+            this.state.gastos.map(unGasto => {
+                return <tr key={unGasto.id}>
+                    <td>{unGasto.concepto}</td>
+                    <td className='text-center'>{unGasto.fecha}</td>
+                    <td className='text-right'>{unGasto.valor}</td>
+                    <td className='text-center'>
+                        <div className='form-check'>
+                            <input
+                                type='checkbox'
+                                className='form-check-input'
+                                checked={unGasto.necesario}
+                                onChange={() => this.cambiarNecesidad(!unGasto.necesario, unGasto.id)}
+                            />
+                        </div>
+                    </td>
+                </tr>
+            })}
+        </tbody>
+    }
+}
+
+class TablaPersona extends Component {
+    render() {
         return (
-            <table className="table">
-                <thead>
+            <table className="table table-sm table-striped table-hover table-bordered">
+                <thead className="thead-light text-center">
                     <tr>
-                        <th>Nombre</th>
-                        <th>Edad</th>
+                        <th>Concepto</th>
+                        <th>Fecha</th>
+                        <th>Valor($)</th>
+                        <th>Necesario</th>
                     </tr>
                 </thead>
-                {
-                    this.state.personas
-                        .map(persona => <FilaPersona personaARenderizar={persona} key={persona.id} />)
-                }
+                <Gastos />
             </table>
         )
     }

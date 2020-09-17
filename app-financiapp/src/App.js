@@ -52,13 +52,22 @@ import TablaPersona from './Hola.js';
 
 
 
+class Layout extends Component {
+  render() {
+    return (
+      <div className='container'>{this.props.children}</div>
+    );
+  }
+}
 
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <TablaPersona />
+        <Layout>
+          <TablaPersona />
+        </Layout>
       </header>
     </div>
   );
