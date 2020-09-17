@@ -14,7 +14,7 @@ class Gastos extends Component {
     }
 
     buscarTodosLosGastos() {
-        const apiUrl = 'http://localhost:8097/api/gasto?anio=2020&mes=9';
+        const apiUrl = 'http://localhost:8097/api/gasto?anio=2020&mes=10';
         fetch(apiUrl)
             .then(response => response.json())
             .then(gastos => this.setState({ gastos }));
