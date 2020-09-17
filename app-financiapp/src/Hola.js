@@ -20,7 +20,7 @@ class Gastos extends Component {
             .then(gastos => this.setState({ gastos }));
     }
 
-    cambiarNecesidad(necesidadNueva, gastoId) {
+    cambiarNecesidad(gastoId) {
         const apiUr = 'http://localhost:8097/api/gasto/necesidad/' + gastoId;
         const requestOptions = {
             method: 'PUT'
@@ -42,7 +42,7 @@ class Gastos extends Component {
                                 type='checkbox'
                                 className='form-check-input'
                                 checked={unGasto.necesario}
-                                onChange={() => this.cambiarNecesidad(!unGasto.necesario, unGasto.id)}
+                                onChange={() => this.cambiarNecesidad(unGasto.id)}
                             />
                         </div>
                     </td>
