@@ -52,7 +52,7 @@ class Gastos extends Component {
     }
 }
 
-class TablaPersona extends Component {
+class TablaGastos extends Component {
     render() {
         return (
             <table className="table table-sm table-striped table-hover table-bordered">
@@ -71,5 +71,5 @@ class TablaPersona extends Component {
 }
 
 
-export default TablaPersona;
+export default TablaGastos;
 

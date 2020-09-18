@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import TablaPersona from './Hola.js';
+import GastosView from './Gastos.js';
 
 // class Formulario extends Component {
 //   constructor() {
@@ -66,7 +66,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Layout>
-          <TablaPersona />
+          <GastosView />
         </Layout>
       </header>
     </div>
