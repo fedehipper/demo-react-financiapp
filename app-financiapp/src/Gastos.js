@@ -21,10 +21,10 @@ class NavGastos extends Component {
     }
 }
 
-class SelectorPeriodo extends Component {
+class SelectorAnio extends Component {
     render() {
         return <div>
-            <select className="form-control">
+            <select className="form-control" onChange={this.props.setearAnioSeleccionado}>
                 {this.props.anios.map(unAnio => <option key={unAnio}>{unAnio}</option>)}
             </select>
         </div>
@@ -35,6 +35,7 @@ class GastosView extends Component {
     constructor() {
         super();
         this.state = {
+            anioSeleccionado: '',
             anios: []
         }
     }
@@ -50,11 +51,17 @@ class GastosView extends Component {
         this.buscarAnios();
     }
 
+    // se puede hacer este tipo de funcion o poner this.setearAnioSeleccionado = this.setearAnioSeleccionado.bind(this);
+    // para mantener el contexto, luego de recibir un evento de un hijo para setear el resultado a un estado del padre.
+    setearAnioSeleccionado = (eventoCambioAnio) => {
+        this.setState({ anioSeleccionado: eventoCambioAnio.target.value });
+    }
+
     render() {
         return <div>
             {this.anios}
             <div className="col-2 mb-3">
-                <SelectorPeriodo nombreSelect='Anio' anios={this.state.anios} />
+                <SelectorAnio nombreSelect='Anio' anios={this.state.anios} setearAnioSeleccionado={this.setearAnioSeleccionado} />
             </div>
             <NavGastos />
         </div>
