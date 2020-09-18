@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import GastosView from './Gastos.js';
+import GastosView from './gastos/Gastos.js';
 
 // class Formulario extends Component {
 //   constructor() {
