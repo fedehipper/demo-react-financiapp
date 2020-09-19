@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import gastosService from '../service/gastosService';
 
 class Gastos extends Component {
     constructor() {
@@ -14,18 +15,14 @@ class Gastos extends Component {
     }
 
     buscarTodosLosGastos() {
-        const apiUrl = 'http://localhost:8097/api/gasto?anio=2020&mes=10';
-        fetch(apiUrl)
+        gastosService.buscarTodos("2020", "9")
             .then(response => response.json())
             .then(gastos => this.setState({ gastos }));
     }
 
     cambiarNecesidad(gastoId) {
-        const apiUr = 'http://localhost:8097/api/gasto/necesidad/' + gastoId;
-        const requestOptions = {
-            method: 'PUT'
-        };
-        fetch(apiUr, requestOptions)
+        gastosService
+            .cambiarNecesidad(gastoId)
             .then(() => this.buscarTodosLosGastos());
     }
 
