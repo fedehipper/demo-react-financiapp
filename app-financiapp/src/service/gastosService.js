@@ -9,5 +9,8 @@ export default {
     },
     buscarTodos: (anio, mes) => {
         return service.get('http://localhost:8097/api/gasto?anio=' + anio + '&mes=' + mes);
+    },
+    buscarMesesDisponiblesPorAnio: (anio) => {
+        return service.get('http://localhost:8097/api/comboMes?anio=' + anio);
     }
 };
