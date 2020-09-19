@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import TablaGastos from './TableGastos.js';
+import gastosService from './../service/gastosService.js';
 
 class NavGastos extends Component {
     render() {
@@ -41,8 +42,7 @@ class GastosView extends Component {
     }
 
     buscarAnios() {
-        const apiUrl = 'http://localhost:8097/api/comboAnio';
-        fetch(apiUrl)
+        gastosService.buscarAnios()
             .then(response => response.json())
             .then(anios => this.setState({ anios }));
     }
@@ -61,7 +61,10 @@ class GastosView extends Component {
         return <div>
             {this.anios}
             <div className="col-2 mb-3">
-                <SelectorAnio nombreSelect='Anio' anios={this.state.anios} setearAnioSeleccionado={this.setearAnioSeleccionado} />
+                <SelectorAnio
+                    nombreSelect='Anio'
+                    anios={this.state.anios}
+                    setearAnioSeleccionado={this.setearAnioSeleccionado} />
             </div>
             <NavGastos />
         </div>
