@@ -6,7 +6,14 @@ Vue.component("gasto", {
             reiniicarEdicionMontoEstimado: false,
             anioSeleccionado: "",
             mesSeleccionado: "",
-            anios: [],
+            comboAnio: {
+                anioActual: "",
+                aniosASeleccionar: []
+            },
+            comboMes: {
+                mesActual: "",
+                mesesASeleccionar: []
+            },
             meses: [],
             toast: {
                 mensaje: "",
@@ -17,7 +24,6 @@ Vue.component("gasto", {
             mostrarMensajePeriodoSinGastos: false,
             mostrarPestaniaVerGrafico: false,
             graficoBurnUpData: "",
-            hoy: new Date(),
             gastoSeleccionado: ""
         };
     },
@@ -69,11 +75,9 @@ Vue.component("gasto", {
         obtenerAnios() {
             axios.get("/api/comboAnio")
                     .then(response => {
-                        this.anios = response.data;
-                        if (this.anios.length > 0) {
-                            if (this.anios.includes(this.anioActual())) {
-                                this.anioSeleccionado = this.anioActual();
-                            }
+                        this.comboAnio = response.data;
+                        this.anioSeleccionado = this.comboAnio.anioActual;
+                        if (this.comboAnio.aniosASeleccionar.length > 0) {
                             this.obtenerMesesPorAnio();
                         } else {
                             this.mostrarMensajePeriodoSinGastos = true;
@@ -83,13 +87,13 @@ Vue.component("gasto", {
         obtenerMesesPorAnio() {
             axios.get("/api/comboMes?anio=" + this.anioSeleccionado)
                     .then(response => {
-                        this.meses = response.data;
-                        if (this.meses.includes(this.mesActual()) && this.anioSeleccionado === this.anioActual()) {
-                            this.mesSeleccionado = this.mesActual();
-                        } else if (this.anioSeleccionado < this.anioActual()) {
-                            this.mesSeleccionado = Math.max(...this.meses);
+                        this.comboMes = response.data;
+                        if (this.comboMes.mesesASeleccionar.includes(this.comboMes.mesActual) && this.anioSeleccionado === this.comboAnio.anioActual) {
+                            this.mesSeleccionado = this.comboMes.mesActual;
+                        } else if (this.anioSeleccionado < this.comboAnio.anioActual) {
+                            this.mesSeleccionado = Math.max(...this.comboMes.mesesASeleccionar);
                         } else {
-                            this.mesSeleccionado = Math.min(...this.meses);
+                            this.mesSeleccionado = Math.min(...this.comboMes.mesesASeleccionar);
                         }
                         this.renderizarGastoActual();
                     });
@@ -174,12 +178,6 @@ Vue.component("gasto", {
             this.buscarGastoPorAnioYMes();
             this.buscarMontoMensualEstimado();
         },
-        mesActual() {
-            return this.hoy.getMonth() + 1;
-        },
-        anioActual() {
-            return this.hoy.getFullYear();
-        },
         verModalEliminacionGasto(gastoSeleccionado) {
             this.gastoSeleccionado = gastoSeleccionado;
             $("#modalEliminacionGastoId").modal();
@@ -191,7 +189,7 @@ Vue.component("gasto", {
     },
     computed: {
         deshabilitarEdicionDeGasto() {
-            var fechaHoyAnioYMes = this.anioActual() + "" + this.calcularMes(this.mesActual());
+            var fechaHoyAnioYMes = this.comboAnio.anioActual + "" + this.calcularMes(this.comboMes.mesActual);
             var fechaAnioYMesSeleccionado = this.anioSeleccionado + "" + this.calcularMes(this.mesSeleccionado);
             return fechaAnioYMesSeleccionado < fechaHoyAnioYMes;
         }
@@ -241,7 +239,7 @@ Vue.component("gasto", {
                                 <div class="col-6">
                                     <select class="form-control" v-model="anioSeleccionado" @change="obtenerMesesPorAnio">
                                         <option 
-                                            v-for="anio in anios" :value="anio">{{anio}}
+                                            v-for="anio in comboAnio.aniosASeleccionar" :value="anio">{{anio}}
                                         </option>
                                     </select>
                                 </div>
@@ -256,7 +254,7 @@ Vue.component("gasto", {
                                 <div class="col-5 pl-3">
                                     <select class="form-control" v-model="mesSeleccionado" @change="renderizarGastoActual">
                                         <option 
-                                            v-for="mes in meses" :value="mes">{{mes}}
+                                            v-for="mes in comboMes.mesesASeleccionar" :value="mes">{{mes}}
                                         </option>
                                     </select>
                                 </div>

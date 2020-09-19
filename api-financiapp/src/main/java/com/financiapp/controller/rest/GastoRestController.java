@@ -1,12 +1,13 @@
 package com.financiapp.controller.rest;
 
+import com.financiapp.domain.vo.ComboAniosVo;
+import com.financiapp.domain.vo.ComboMesesVo;
 import com.financiapp.domain.vo.GastoVo;
 import com.financiapp.domain.vo.GraficoBurnUpGastosMensual;
 import com.financiapp.domain.vo.SumatoriaGastoMesVo;
 import com.financiapp.service.GastoModificacionService;
 import com.financiapp.service.GastoService;
 import java.util.List;
-import java.util.Set;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,12 +43,12 @@ public class GastoRestController {
     }
 
     @GetMapping("comboAnio")
-    public Set<Integer> buscarComboAnios() {
+    public ComboAniosVo buscarComboAnios() {
         return gastoService.buscarAnios();
     }
 
     @GetMapping("comboMes")
-    public Set<Integer> buscarComboAnios(@RequestParam Integer anio) {
+    public ComboMesesVo buscarComboAnios(@RequestParam Integer anio) {
         return gastoService.buscarMesesPorAnio(anio);
     }
 

@@ -2,6 +2,8 @@ package com.financiapp.service;
 
 import com.financiapp.domain.Gasto;
 import com.financiapp.domain.Usuario;
+import com.financiapp.domain.vo.ComboAniosVo;
+import com.financiapp.domain.vo.ComboMesesVo;
 import com.financiapp.domain.vo.GastoVo;
 import com.financiapp.domain.vo.GraficoBurnUpGastosMensual;
 import com.financiapp.domain.vo.SumatoriaGastoMesVo;
@@ -39,21 +41,30 @@ public class GastoService {
                 .collect(toList());
     }
 
-    public Set<Integer> buscarAnios() {
-        return gastoRepository
+    public ComboAniosVo buscarAnios() {
+        var comboAnioVo = new ComboAniosVo();
+        comboAnioVo.setAnioActual(LocalDate.now().getYear());
+        var aniosASeleccionar = gastoRepository
                 .findByUsuarioId(usuarioService.buscarUsuarioLogueado().getId())
                 .stream()
                 .map(gasto -> gasto.getFecha().getYear())
                 .collect(toSet());
+        comboAnioVo.setAniosASeleccionar(aniosASeleccionar);
+        return comboAnioVo;
     }
 
-    public Set<Integer> buscarMesesPorAnio(Integer anio) {
-        return gastoRepository
+    public ComboMesesVo buscarMesesPorAnio(Integer anio) {
+        var comboMesesVo = new ComboMesesVo();
+        comboMesesVo.setMesActual(LocalDate.now().getMonthValue());
+        var mesesASeleccionar = gastoRepository
                 .findByUsuarioId(usuarioService.buscarUsuarioLogueado().getId())
                 .stream()
                 .filter(gasto -> anio.equals(gasto.getFecha().getYear()))
                 .map(gasto -> gasto.getFecha().getMonthValue())
                 .collect(toSet());
+        comboMesesVo.setMesesASeleccionar(mesesASeleccionar);
+        return comboMesesVo;
+                
     }
 
     public void crearNuevo(GastoVo gastoVo) {
@@ -121,7 +132,7 @@ public class GastoService {
         }
         return LocalDate.of(anio, fechaPago.plusMonths(numeroPago).getMonth(), 1);
     }
-    
+
     private boolean mesPagoActualSuperaElAnioActual(LocalDate fechaPago, int numeroPago) {
         return fechaPago.getMonth().getValue() + numeroPago > 12;
     }
