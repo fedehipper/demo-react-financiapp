@@ -22,7 +22,7 @@ class NavGastos extends Component {
     }
 }
 
-class SelectorAnio extends Component {
+class SelectAnio extends Component {
     render() {
         return <div>
             <label>{this.props.nombreSelect}</label>
@@ -53,14 +53,15 @@ class GastosView extends Component {
         gastosService.buscarAnios()
             .then(response => response.json())
             .then(comboAnio => {
-                this.setState({ comboAnio })
-                this.setState({ anioSeleccionado: comboAnio.anioActual })
+                this.setState({ comboAnio });
+                this.setState({ anioSeleccionado: comboAnio.anioActual });
+                return comboAnio.anioActual;
             })
-            .then(() => this.buscarMesesPorAnioSeleccionado());
+            .then(anioActual => this.buscarMesesPorAnioSeleccionado(anioActual));
     }
 
-    buscarMesesPorAnioSeleccionado() {
-        gastosService.buscarMesesDisponiblesPorAnio(this.state.anioSeleccionado)
+    buscarMesesPorAnioSeleccionado(anioSeleccionado) {
+        gastosService.buscarMesesDisponiblesPorAnio(anioSeleccionado)
             .then(response => response.json())
             .then(comboMes => this.setState({ comboMes }));
     }
@@ -73,13 +74,14 @@ class GastosView extends Component {
     // para mantener el contexto, luego de recibir un evento de un hijo para setear el resultado a un estado del padre.
     setearAnioSeleccionado = (eventoCambioAnio) => {
         const anioSeleccionado = parseInt(eventoCambioAnio.target.value);
-        this.setState({ anioSeleccionado: anioSeleccionado });
+        this.setState({ anioSeleccionado: anioSeleccionado })
+        this.buscarMesesPorAnioSeleccionado(anioSeleccionado);
     }
 
     render() {
         return <div>
             <div className="col-2 mb-3">
-                <SelectorAnio
+                <SelectAnio
                     nombreSelect='Anio'
                     anioSeleccionado={this.state.anioSeleccionado}
                     anios={this.state.comboAnio.aniosASeleccionar}
