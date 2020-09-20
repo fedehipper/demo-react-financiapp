@@ -42,7 +42,7 @@ Vue.component("gasto", {
                     });
         },
         fechaSeleccionadaEsAnteriorAHoy() {
-            var fechaHoyAnioYMes = this.anioActual() + "" + this.calcularMes(this.mesActual());
+            var fechaHoyAnioYMes = this.comboAnio.anioActual + "" + this.calcularMes(this.comboMes.mesActual);
             var fechaAnioYMesSeleccionado = this.anioSeleccionado + "" + this.calcularMes(this.mesSeleccionado);
             return fechaAnioYMesSeleccionado <= fechaHoyAnioYMes;
         },
