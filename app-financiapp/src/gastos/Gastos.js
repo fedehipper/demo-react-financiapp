@@ -22,12 +22,12 @@ class NavGastos extends Component {
     }
 }
 
-class SelectAnio extends Component {
+class Select extends Component {
     render() {
         return <div>
             <label>{this.props.nombreSelect}</label>
-            <select className="form-control" onChange={this.props.setearAnioSeleccionado} value={this.props.anioSeleccionado}>
-                {this.props.anios.map(unAnio => <option value={unAnio} key={unAnio}>{unAnio}</option>)}
+            <select className="form-control" onChange={this.props.setearValorSeleccionado} value={this.props.valorSeleccionado}>
+                {this.props.valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
             </select>
         </div>
     }
@@ -38,6 +38,7 @@ class GastosView extends Component {
         super();
         this.state = {
             anioSeleccionado: '',
+            mesSeleccionado: '',
             comboAnio: {
                 anioActual: '',
                 aniosASeleccionar: []
@@ -63,7 +64,10 @@ class GastosView extends Component {
     buscarMesesPorAnioSeleccionado(anioSeleccionado) {
         gastosService.buscarMesesDisponiblesPorAnio(anioSeleccionado)
             .then(response => response.json())
-            .then(comboMes => this.setState({ comboMes }));
+            .then(comboMes => {
+                this.setState({ comboMes });
+                this.setState({ mesSeleccionado: comboMes.mesActual });
+            });
     }
 
     componentDidMount() {
@@ -74,18 +78,29 @@ class GastosView extends Component {
     // para mantener el contexto, luego de recibir un evento de un hijo para setear el resultado a un estado del padre.
     setearAnioSeleccionado = (eventoCambioAnio) => {
         const anioSeleccionado = parseInt(eventoCambioAnio.target.value);
-        this.setState({ anioSeleccionado: anioSeleccionado })
+        this.setState({ anioSeleccionado: anioSeleccionado });
         this.buscarMesesPorAnioSeleccionado(anioSeleccionado);
+    }
+
+    setearMesSeleccionado = (eventoCambioMes) => {
+        const mesSeleccionado = parseInt(eventoCambioMes.target.value);
+        this.setState({ mesSeleccionado: mesSeleccionado });
     }
 
     render() {
         return <div>
             <div className="col-2 mb-3">
-                <SelectAnio
-                    nombreSelect='Anio'
-                    anioSeleccionado={this.state.anioSeleccionado}
-                    anios={this.state.comboAnio.aniosASeleccionar}
-                    setearAnioSeleccionado={this.setearAnioSeleccionado} />
+                <Select
+                    nombreSelect='Año'
+                    valorSeleccionado={this.state.anioSeleccionado}
+                    valores={this.state.comboAnio.aniosASeleccionar}
+                    setearValorSeleccionado={this.setearAnioSeleccionado} />
+                <Select
+                    nombreSelect='Mes'
+                    valorSeleccionado={this.state.mesSeleccionado}
+                    valores={this.state.comboMes.mesesASeleccionar}
+                    setearValorSeleccionado={this.setearMesSeleccionado}
+                />
             </div>
             <NavGastos />
         </div>
