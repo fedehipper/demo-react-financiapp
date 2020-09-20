@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import TablaGastos from './TableGastos.js';
+import TablaGastos from './TablaGastos.js';
 import gastosService from './../service/gastosService.js';
 
 class NavGastos extends Component {
