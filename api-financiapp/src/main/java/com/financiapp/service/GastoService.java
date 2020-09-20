@@ -55,16 +55,23 @@ public class GastoService {
 
     public ComboMesesVo buscarMesesPorAnio(Integer anio) {
         var comboMesesVo = new ComboMesesVo();
-        comboMesesVo.setMesActual(LocalDate.now().getMonthValue());
         var mesesASeleccionar = gastoRepository
                 .findByUsuarioId(usuarioService.buscarUsuarioLogueado().getId())
                 .stream()
                 .filter(gasto -> anio.equals(gasto.getFecha().getYear()))
                 .map(gasto -> gasto.getFecha().getMonthValue())
                 .collect(toSet());
+        comboMesesVo.setMesActual(mesActual(mesesASeleccionar, anio));
         comboMesesVo.setMesesASeleccionar(mesesASeleccionar);
         return comboMesesVo;
-                
+    }
+
+    private int mesActual(Set<Integer> meses, int anioSeleccionado) {
+        return anioSeleccionado != LocalDate.now().getYear() ? primerMes(meses) : LocalDate.now().getMonthValue();
+    }
+
+    private int primerMes(Set<Integer> meses) {
+        return meses.iterator().next();
     }
 
     public void crearNuevo(GastoVo gastoVo) {
