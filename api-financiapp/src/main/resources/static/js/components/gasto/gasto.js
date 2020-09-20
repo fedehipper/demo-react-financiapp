@@ -88,13 +88,7 @@ Vue.component("gasto", {
             axios.get("/api/comboMes?anio=" + this.anioSeleccionado)
                     .then(response => {
                         this.comboMes = response.data;
-                        if (this.comboMes.mesesASeleccionar.includes(this.comboMes.mesActual) && this.anioSeleccionado === this.comboAnio.anioActual) {
-                            this.mesSeleccionado = this.comboMes.mesActual;
-                        } else if (this.anioSeleccionado < this.comboAnio.anioActual) {
-                            this.mesSeleccionado = Math.max(...this.comboMes.mesesASeleccionar);
-                        } else {
-                            this.mesSeleccionado = Math.min(...this.comboMes.mesesASeleccionar);
-                        }
+                        this.mesSeleccionado = this.comboMes.mesActual;
                         this.renderizarGastoActual();
                     });
         },
@@ -134,8 +128,6 @@ Vue.component("gasto", {
                     .then(response => this.sumatoriaGasto = response.data);
         },
         crearGasto(nuevoGasto) {
-            this.anioSeleccionado = moment(nuevoGasto.fecha).year();
-            this.mesSeleccionado = moment(nuevoGasto.fecha).month() + 1;
             axios.post("/api/gasto", nuevoGasto)
                     .then(() => {
                         this.obtenerAnios();
