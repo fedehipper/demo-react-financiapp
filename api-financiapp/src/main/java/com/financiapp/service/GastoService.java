@@ -67,11 +67,19 @@ public class GastoService {
     }
 
     private int mesActual(Set<Integer> meses, int anioSeleccionado) {
-        return anioSeleccionado != LocalDate.now().getYear() ? primerMes(meses) : LocalDate.now().getMonthValue();
+        return anioSeleccionado != LocalDate.now().getYear() ? primerMes(meses) : determinarMesSiMesActualNoTieneGastos(meses);
     }
 
     private int primerMes(Set<Integer> meses) {
         return meses.iterator().next();
+    }
+
+    private int determinarMesSiMesActualNoTieneGastos(Set<Integer> meses) {
+        return meses
+                .stream()
+                .filter(unMes -> unMes == LocalDate.now().getMonthValue())
+                .findFirst()
+                .orElseGet(() -> primerMes(meses));
     }
 
     public void crearNuevo(GastoVo gastoVo) {
