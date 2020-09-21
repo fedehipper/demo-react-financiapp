@@ -6,7 +6,7 @@ import gastosService from './../service/gastosService.js';
 
 class NavGastos extends Component {
     render() {
-        return <div className="col">
+        return <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
                 <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
                     <li className="nav-item">
@@ -90,19 +90,25 @@ class GastosView extends Component {
 
     render() {
         return <div>
-            <div className="col-2 mb-3 mt-3">
+            <div className="mb-3 mt-3">
                 <h2 className='grosor-titulos'>Mis Gastos</h2>
-                <Select
-                    nombreSelect='Año'
-                    valorSeleccionado={this.state.anioSeleccionado}
-                    valores={this.state.comboAnio.aniosASeleccionar}
-                    setearValorSeleccionado={this.setearAnioSeleccionado} />
-                <Select
-                    nombreSelect='Mes'
-                    valorSeleccionado={this.state.mesSeleccionado}
-                    valores={this.state.comboMes.mesesASeleccionar}
-                    setearValorSeleccionado={this.setearMesSeleccionado}
-                />
+                <div className="row">
+                    <div className="ml-3">
+                        <Select
+                            nombreSelect='Año'
+                            valorSeleccionado={this.state.anioSeleccionado}
+                            valores={this.state.comboAnio.aniosASeleccionar}
+                            setearValorSeleccionado={this.setearAnioSeleccionado} />
+                    </div>
+                    <div className="ml-3">
+                        <Select
+                            nombreSelect='Mes'
+                            valorSeleccionado={this.state.mesSeleccionado}
+                            valores={this.state.comboMes.mesesASeleccionar}
+                            setearValorSeleccionado={this.setearMesSeleccionado}
+                        />
+                    </div>
+                </div>
             </div>
             <NavGastos />
         </div>
