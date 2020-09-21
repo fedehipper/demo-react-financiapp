@@ -78,6 +78,31 @@ class TablaGastos extends React.Component {
     }
 }
 
+class NavGastos extends React.Component {
+    render() {
+        return <div>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
+                <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li className="nav-item">
+                        <a className="nav-link active" data-toggle="tab" href="#detalle-gastos">Detalle mensual</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" data-toggle="tab" href="#otra">Otra</a>
+                    </li>
+                </ul>
+            </nav >
+            <div className="tab-content">
+                <div className="tab-pane fade show active" id="detalle-gastos">
+                    {this.props.tablaGastos}
+                </div>
+                <div className="tab-pane fade" id="otra">
+                    {this.props.otraVistaNav}
+                </div>
+            </div>
+        </div>
+    }
+}
+
 class GastosView extends React.Component {
     constructor() {
         super();
@@ -166,25 +191,15 @@ class GastosView extends React.Component {
                 setearAnioSeleccionado={this.setearAnioSeleccionado}
                 setearMesSeleccionado={this.setearMesSeleccionado}
             />
-            <div>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
-                    <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
-                        <li className="nav-item">
-                            <a className="nav-link active" data-toggle="tab" href="#detalle-gastos">Detalle mensual</a>
-                        </li>
-                    </ul>
-                </nav >
-                <div className="tab-content">
-                    <div className="tab-pane fade show active" id="detalle-gastos">
-                        <TablaGastos
-                            gastos={this.state.gastos}
-                            cambiarNecesidad={this.cambiarNecesidad}
-                        />
-                    </div>
-                </div>
-            </div>
-
-        </div>
+            <NavGastos
+                tablaGastos={
+                    <TablaGastos
+                        gastos={this.state.gastos}
+                        cambiarNecesidad={this.cambiarNecesidad}
+                    />}
+                otraVistaNav={<p>Otra vista nav</p>}
+            />
+        </div >
     }
 }
 
