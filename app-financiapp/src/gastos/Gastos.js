@@ -3,23 +3,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
 
-class NavGastos extends React.Component {
-    render() {
-        return <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
-                <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li className="nav-item">
-                        <a className="nav-link active" data-toggle="tab" href="#detalle-gastos">Detalle mensual</a>
-                    </li>
-                </ul>
-            </nav >
-            <div className="tab-content">
-                <div className="tab-pane fade show active" id="detalle-gastos">
-                </div>
-            </div>
-        </div>
-    }
-}
 
 class Select extends React.Component {
     render() {
@@ -61,6 +44,40 @@ class ComboAnioYMes extends React.Component {
     }
 }
 
+class TablaGastos extends React.Component {
+    render() {
+        return <table className="table table-sm table-striped table-hover table-bordered">
+            <thead className="thead-light text-center">
+                <tr>
+                    <th>Concepto</th>
+                    <th>Fecha</th>
+                    <th>Valor($)</th>
+                    <th>Necesario</th>
+                </tr>
+            </thead>
+            <tbody>{
+                this.props.gastos.map(unGasto => {
+                    return <tr key={unGasto.id}>
+                        <td>{unGasto.concepto}</td>
+                        <td className='text-center'>{unGasto.fecha}</td>
+                        <td className='text-right'>{unGasto.valor}</td>
+                        <td className='text-center'>
+                            <div className='form-check'>
+                                <input
+                                    type='checkbox'
+                                    className='form-check-input'
+                                    checked={unGasto.necesario}
+                                    onChange={() => this.props.cambiarNecesidad(unGasto.id)}
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                })}
+            </tbody>
+        </table>
+    }
+}
+
 class GastosView extends React.Component {
     constructor() {
         super();
@@ -91,7 +108,7 @@ class GastosView extends React.Component {
             .then(gastos => this.setState({ gastos }));
     }
 
-    cambiarNecesidad(gastoId) {
+    cambiarNecesidad = (gastoId) => {
         gastosService
             .cambiarNecesidad(gastoId)
             .then(() => this.buscarTodosLosGastos());
@@ -146,35 +163,24 @@ class GastosView extends React.Component {
                 setearAnioSeleccionado={this.setearAnioSeleccionado}
                 setearMesSeleccionado={this.setearMesSeleccionado}
             />
-            <table className="table table-sm table-striped table-hover table-bordered">
-                <thead className="thead-light text-center">
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Fecha</th>
-                        <th>Valor($)</th>
-                        <th>Necesario</th>
-                    </tr>
-                </thead>
-                <tbody>{
-                    this.state.gastos.map(unGasto => {
-                        return <tr key={unGasto.id}>
-                            <td>{unGasto.concepto}</td>
-                            <td className='text-center'>{unGasto.fecha}</td>
-                            <td className='text-right'>{unGasto.valor}</td>
-                            <td className='text-center'>
-                                <div className='form-check'>
-                                    <input
-                                        type='checkbox'
-                                        className='form-check-input'
-                                        checked={unGasto.necesario}
-                                        onChange={() => this.cambiarNecesidad(unGasto.id)}
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    })}
-                </tbody>
-            </table>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
+                    <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li className="nav-item">
+                            <a className="nav-link active" data-toggle="tab" href="#detalle-gastos">Detalle mensual</a>
+                        </li>
+                    </ul>
+                </nav >
+                <div className="tab-content">
+                    <div className="tab-pane fade show active" id="detalle-gastos">
+                        <TablaGastos
+                            gastos={this.state.gastos}
+                            cambiarNecesidad={this.cambiarNecesidad}
+                        />
+                    </div>
+                </div>
+            </div>
+
         </div>
     }
 }
