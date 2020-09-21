@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import './../css/financiapp.css';
 import TablaGastos from './TablaGastos.js';
 import gastosService from './../service/gastosService.js';
 
@@ -89,7 +90,8 @@ class GastosView extends Component {
 
     render() {
         return <div>
-            <div className="col-2 mb-3">
+            <div className="col-2 mb-3 mt-3">
+                <h2 className='grosor-titulos'>Mis Gastos</h2>
                 <Select
                     nombreSelect='Año'
                     valorSeleccionado={this.state.anioSeleccionado}
