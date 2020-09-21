@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import GastosView from './gastos/Gastos.js';
 
@@ -52,7 +52,7 @@ import GastosView from './gastos/Gastos.js';
 
 
 
-class Layout extends Component {
+class Layout extends React.Component {
   render() {
     return (
       <div className='container'>{this.props.children}</div>
