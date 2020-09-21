@@ -25,11 +25,15 @@ class NavGastos extends Component {
 
 class Select extends Component {
     render() {
-        return <div>
-            <label>{this.props.nombreSelect}</label>
-            <select className="form-control" onChange={this.props.setearValorSeleccionado} value={this.props.valorSeleccionado}>
-                {this.props.valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
-            </select>
+        return <div className='row'>
+            <div className='mr-3 mt-2'>
+                <label>{this.props.nombreSelect}</label>
+            </div>
+            <div>
+                <select className="form-control" onChange={this.props.setearValorSeleccionado} value={this.props.valorSeleccionado}>
+                    {this.props.valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
+                </select>
+            </div>
         </div>
     }
 }
@@ -91,8 +95,8 @@ class GastosView extends Component {
     render() {
         return <div>
             <div className="mb-3 mt-3">
-                <h2 className='grosor-titulos'>Mis Gastos</h2>
-                <div className="row">
+                <h2 className='grosor-titulos mb-4'>Mis Gastos</h2>
+                <div className="row ml-0">
                     <div className="ml-3">
                         <Select
                             nombreSelect='Año'
@@ -100,7 +104,7 @@ class GastosView extends Component {
                             valores={this.state.comboAnio.aniosASeleccionar}
                             setearValorSeleccionado={this.setearAnioSeleccionado} />
                     </div>
-                    <div className="ml-3">
+                    <div className="ml-5">
                         <Select
                             nombreSelect='Mes'
                             valorSeleccionado={this.state.mesSeleccionado}
