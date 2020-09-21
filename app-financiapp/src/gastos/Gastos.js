@@ -147,6 +147,9 @@ class GastosView extends React.Component {
         this.buscarMesesPorAnioSeleccionado(anioSeleccionado);
     }
 
+    // se puede tener en el padre una espera de un evento, para esto en el hijo debe haber un onChange={this.setearMesSeleccionado} junto
+    // con un value={valorQue tendrá el target.value} O también se puede llamar a la función con el valor haciendo onChange={() => this.setearMesSeleccionado(valorDeLaLlamada)}
+    // en los onChange de acciones "nativas" es mejor onChange con value y en los personalizados se pueden usar amboas.
     setearMesSeleccionado = (eventoCambioMes) => {
         const mesSeleccionado = parseInt(eventoCambioMes.target.value);
         this.setState({ mesSeleccionado: mesSeleccionado });
