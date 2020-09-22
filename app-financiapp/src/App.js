@@ -52,12 +52,10 @@ import GastosView from './gastos/Gastos.js';
 
 
 
-class Layout extends React.Component {
-  render() {
-    return (
-      <div className='container'>{this.props.children}</div>
-    );
-  }
+function Layout(props) {
+  return (
+    <div className='container'>{props.children}</div>
+  );
 }
 
 

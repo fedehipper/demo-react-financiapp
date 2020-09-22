@@ -4,49 +4,49 @@ import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
 
 
-class Select extends React.Component {
-    render() {
-        return <div className='row'>
+function Select(props) {
+    return (
+        <div className='row'>
             <div className='mr-3 mt-2'>
-                <label>{this.props.nombreSelect}</label>
+                <label>{props.nombreSelect}</label>
             </div>
             <div>
-                <select className="form-control" onChange={this.props.setearValorSeleccionado} value={this.props.valorSeleccionado}>
-                    {this.props.valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
+                <select className="form-control" onChange={props.setearValorSeleccionado} value={props.valorSeleccionado}>
+                    {props.valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
                 </select>
             </div>
         </div>
-    }
+    );
 }
 
-class ComboAnioYMes extends React.Component {
-    render() {
-        return <div className="mb-3 mt-3">
+function ComboAnioYMes(props) {
+    return (
+        <div className="mb-3 mt-3">
             <h2 className='grosor-titulos mb-4'>Mis Gastos</h2>
             <div className="row ml-0">
                 <div className="ml-3">
                     <Select
                         nombreSelect='Año'
-                        valorSeleccionado={this.props.anioSeleccionado}
-                        valores={this.props.comboAnio.aniosASeleccionar}
-                        setearValorSeleccionado={this.props.setearAnioSeleccionado} />
+                        valorSeleccionado={props.anioSeleccionado}
+                        valores={props.comboAnio.aniosASeleccionar}
+                        setearValorSeleccionado={props.setearAnioSeleccionado} />
                 </div>
                 <div className="ml-5">
                     <Select
                         nombreSelect='Mes'
-                        valorSeleccionado={this.props.mesSeleccionado}
-                        valores={this.props.comboMes.mesesASeleccionar}
-                        setearValorSeleccionado={this.props.setearMesSeleccionado}
+                        valorSeleccionado={props.mesSeleccionado}
+                        valores={props.comboMes.mesesASeleccionar}
+                        setearValorSeleccionado={props.setearMesSeleccionado}
                     />
                 </div>
             </div>
         </div>
-    }
+    );
 }
 
-class TablaGastos extends React.Component {
-    render() {
-        return <table className="table table-sm table-striped table-hover table-bordered">
+function TablaGastos(props) {
+    return (
+        <table className="table table-sm table-striped table-hover table-bordered">
             <thead className="thead-light text-center">
                 <tr>
                     <th>Concepto</th>
@@ -56,7 +56,7 @@ class TablaGastos extends React.Component {
                 </tr>
             </thead>
             <tbody>{
-                this.props.gastos.map(unGasto => {
+                props.gastos.map(unGasto => {
                     return <tr key={unGasto.id}>
                         <td>{unGasto.concepto}</td>
                         <td className='text-center'>{unGasto.fecha}</td>
@@ -67,7 +67,7 @@ class TablaGastos extends React.Component {
                                     type='checkbox'
                                     className='form-check-input'
                                     checked={unGasto.necesario}
-                                    onChange={() => this.props.cambiarNecesidad(unGasto.id)}
+                                    onChange={() => props.cambiarNecesidad(unGasto.id)}
                                 />
                             </div>
                         </td>
@@ -75,12 +75,12 @@ class TablaGastos extends React.Component {
                 })}
             </tbody>
         </table>
-    }
+    );
 }
 
-class NavGastos extends React.Component {
-    render() {
-        return <div>
+function NavGastos(props) {
+    return (
+        <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
                 <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
                     <li className="nav-item">
@@ -93,14 +93,14 @@ class NavGastos extends React.Component {
             </nav >
             <div className="tab-content">
                 <div className="tab-pane fade show active" id="detalle-gastos">
-                    {this.props.tablaGastos}
+                    {props.tablaGastos}
                 </div>
                 <div className="tab-pane fade" id="otra">
-                    {this.props.otraVistaNav}
+                    {props.otraVistaNav}
                 </div>
             </div>
         </div>
-    }
+    );
 }
 
 class GastosView extends React.Component {
