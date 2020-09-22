@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
@@ -103,104 +103,115 @@ function NavGastos(props) {
     );
 }
 
-class GastosView extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            gastos: [],
-            anioSeleccionado: '',
-            mesSeleccionado: '',
-            comboAnio: {
-                anioActual: '',
-                aniosASeleccionar: []
-            },
-            comboMes: {
-                mesActual: '',
-                mesesASeleccionar: []
-            }
+function GastosView() {
+    const [gastos, setGastos] = useState([]);
+    const [anioSeleccionado, setAnioSeleccionado] = useState('');
+    const [mesSeleccionado, setMesSeleccionado] = useState('');
+    const [comboAnio, setComboAnio] = useState({
+        anioActual: '',
+        aniosASeleccionar: []
+    });
+    const [comboMes, setComboMes] = useState({
+        mesActual: '',
+        mesesASeleccionar: []
+    });
+
+    useEffect(() => {
+        async function buscarAnios() {
+            gastosService
+                .buscarAnios()
+                .then(response => response.json())
+                .then(comboAnio => {
+                    setComboAnio(comboAnio);
+                    setAnioSeleccionado(comboAnio.anioActual);
+                    return comboAnio.anioActual;
+                })
+                .then(anioActual => buscarMesesPorAnioSeleccionado(anioActual));
         }
-    }
 
-    buscarTodosLosGastos() {
-        gastosService.buscarTodos(this.state.anioSeleccionado, this.state.mesSeleccionado)
+        async function buscarMesesPorAnioSeleccionado(anioSeleccionado) {
+            gastosService.buscarMesesDisponiblesPorAnio(anioSeleccionado)
+                .then(response => response.json())
+                .then(comboMes => {
+                    setComboMes(comboMes);
+                    setMesSeleccionado(comboMes.mesActual);
+                    return {
+                        anioSeleccionado: anioSeleccionado, mesSeleccionado: comboMes.mesActual
+                    }
+                })
+                .then(anioYMesSeleccionados => buscarTodosLosGastos(anioYMesSeleccionados));
+        };
+
+        async function buscarTodosLosGastos(anioYMesSeleccionados) {
+            gastosService.buscarTodos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado)
+                .then(response => response.json())
+                .then(gastos => setGastos(gastos));
+        };
+
+        buscarAnios();
+    }, []);
+
+    const buscarTodosLosGastos = () => {
+        gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
             .then(response => response.json())
-            .then(gastos => this.setState({ gastos }));
-    }
+            .then(gastos => setGastos(gastos));
+    };
 
-    buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado) {
-        gastosService.buscarTodos(this.state.anioSeleccionado, mesSeleccionado)
+    const buscarTodosLosGastosCuandoCambiaSoloMes = (mesSeleccionado) => {
+        gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
             .then(response => response.json())
-            .then(gastos => this.setState({ gastos }));
-    }
+            .then(gastos => setGastos(gastos));
+    };
 
-    cambiarNecesidad = (gastoId) => {
+    const cambiarNecesidad = (gastoId) => {
         gastosService
             .cambiarNecesidad(gastoId)
-            .then(() => this.buscarTodosLosGastos());
-    }
+            .then(() => buscarTodosLosGastos());
+    };
 
-    buscarAnios() {
-        gastosService.buscarAnios()
-            .then(response => response.json())
-            .then(comboAnio => {
-                this.setState({ comboAnio });
-                this.setState({ anioSeleccionado: comboAnio.anioActual });
-                return comboAnio.anioActual;
-            })
-            .then(anioActual => this.buscarMesesPorAnioSeleccionado(anioActual));
-    }
-
-    buscarMesesPorAnioSeleccionado(anioSeleccionado) {
+    const buscarMesesPorAnioSeleccionado = (anioSeleccionado) => {
         gastosService.buscarMesesDisponiblesPorAnio(anioSeleccionado)
             .then(response => response.json())
             .then(comboMes => {
-                this.setState({ comboMes });
-                this.setState({ mesSeleccionado: comboMes.mesActual });
+                setComboMes(comboMes);
+                return comboMes.mesActual;
             })
-            .then(() => this.buscarTodosLosGastos());
-    }
+            .then(mesActual => setMesSeleccionado(mesActual))
+            .then(() => buscarTodosLosGastos());
+    };
 
-    componentDidMount() {
-        this.buscarAnios();
-    }
-
-    // se puede hacer este tipo de funcion o poner this.setearAnioSeleccionado = this.setearAnioSeleccionado.bind(this);
-    // para mantener el contexto, luego de recibir un evento de un hijo para setear el resultado a un estado del padre.
-    setearAnioSeleccionado = (eventoCambioAnio) => {
+    const setearAnioSeleccionado = (eventoCambioAnio) => {
         const anioSeleccionado = parseInt(eventoCambioAnio.target.value);
-        this.setState({ anioSeleccionado: anioSeleccionado });
-        this.buscarMesesPorAnioSeleccionado(anioSeleccionado);
-    }
+        setAnioSeleccionado(anioSeleccionado);
+        buscarMesesPorAnioSeleccionado(anioSeleccionado);
+    };
 
-    // se puede tener en el padre una espera de un evento, para esto en el hijo debe haber un onChange={this.setearMesSeleccionado} junto
-    // con un value={valorQue tendrá el target.value} O también se puede llamar a la función con el valor haciendo onChange={() => this.setearMesSeleccionado(valorDeLaLlamada)}
-    // en los onChange de acciones "nativas" es mejor onChange con value y en los personalizados se pueden usar amboas.
-    setearMesSeleccionado = (eventoCambioMes) => {
+    const setearMesSeleccionado = (eventoCambioMes) => {
         const mesSeleccionado = parseInt(eventoCambioMes.target.value);
-        this.setState({ mesSeleccionado: mesSeleccionado });
-        this.buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
-    }
+        setMesSeleccionado(mesSeleccionado);
+        buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
+    };
 
-    render() {
-        return <div>
+    return (
+        <div>
             <ComboAnioYMes
-                comboAnio={this.state.comboAnio}
-                comboMes={this.state.comboMes}
-                mesSeleccionado={this.state.mesSeleccionado}
-                anioSeleccionado={this.state.anioSeleccionado}
-                setearAnioSeleccionado={this.setearAnioSeleccionado}
-                setearMesSeleccionado={this.setearMesSeleccionado}
+                comboAnio={comboAnio}
+                comboMes={comboMes}
+                mesSeleccionado={mesSeleccionado}
+                anioSeleccionado={anioSeleccionado}
+                setearAnioSeleccionado={setearAnioSeleccionado}
+                setearMesSeleccionado={setearMesSeleccionado}
             />
             <NavGastos
                 tablaGastos={
                     <TablaGastos
-                        gastos={this.state.gastos}
-                        cambiarNecesidad={this.cambiarNecesidad}
+                        gastos={gastos}
+                        cambiarNecesidad={cambiarNecesidad}
                     />}
                 otraVistaNav={<p>Otra vista nav</p>}
             />
         </div >
-    }
+    );
 }
 
 export default GastosView;
