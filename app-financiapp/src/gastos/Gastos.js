@@ -151,7 +151,13 @@ function GastosView() {
         buscarAnios();
     }, []);
 
-    const buscarTodosLosGastos = () => {
+    const buscarTodosLosGastos = (anioYMesSeleccionados) => {
+        gastosService.buscarTodos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado)
+            .then(response => response.json())
+            .then(gastos => setGastos(gastos));
+    };
+
+    const buscarTodosLosGastosALModificarUnaNecesidad = () => {
         gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
             .then(response => response.json())
             .then(gastos => setGastos(gastos));
@@ -166,7 +172,7 @@ function GastosView() {
     const cambiarNecesidad = (gastoId) => {
         gastosService
             .cambiarNecesidad(gastoId)
-            .then(() => buscarTodosLosGastos());
+            .then(() => buscarTodosLosGastosALModificarUnaNecesidad());
     };
 
     const buscarMesesPorAnioSeleccionado = (anioSeleccionado) => {
@@ -174,10 +180,12 @@ function GastosView() {
             .then(response => response.json())
             .then(comboMes => {
                 setComboMes(comboMes);
-                return comboMes.mesActual;
+                setMesSeleccionado(comboMes.mesActual);
+                return {
+                    anioSeleccionado: anioSeleccionado, mesSeleccionado: comboMes.mesActual
+                }
             })
-            .then(mesActual => setMesSeleccionado(mesActual))
-            .then(() => buscarTodosLosGastos());
+            .then(anioYMesSeleccionados => buscarTodosLosGastos(anioYMesSeleccionados));
     };
 
     const setearAnioSeleccionado = (eventoCambioAnio) => {
