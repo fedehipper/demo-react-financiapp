@@ -80,6 +80,10 @@ function TablaGastos(props) {
 }
 
 function NavGastos(props) {
+    const saludar = () => {
+        props.abrirModal();
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
@@ -91,6 +95,9 @@ function NavGastos(props) {
                         <a className="nav-link" data-toggle="tab" href="#otra">Otra</a>
                     </li>
                 </ul>
+                <BotonNuevoGasto
+                    eventoSaludo={saludar}
+                />
             </nav >
             <div className="tab-content">
                 <div className="tab-pane fade show active" id="detalle-gastos">
@@ -101,6 +108,12 @@ function NavGastos(props) {
                 </div>
             </div>
         </div>
+    );
+}
+
+function BotonNuevoGasto(props) {
+    return (
+        <button className='btn btn-danger' onClick={props.eventoSaludo}>Nuevo gasto</button>
     );
 }
 
@@ -184,6 +197,10 @@ function GastosView() {
         buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
     };
 
+    const abrirModal = () => {
+        console.log("abro modal");
+    }
+
     return (
         <div>
             <ModalNuevoGasto />
@@ -196,6 +213,7 @@ function GastosView() {
                 setearMesSeleccionado={setearMesSeleccionado}
             />
             <NavGastos
+                abrirModal={abrirModal}
                 tablaGastos={
                     <TablaGastos
                         gastos={gastos}
