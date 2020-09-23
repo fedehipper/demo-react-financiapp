@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
@@ -118,6 +118,7 @@ function GastosView() {
 
     useEffect(() => {
         inicializarGastosPorAnioYMes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const inicializarGastosPorAnioYMes = () => {
