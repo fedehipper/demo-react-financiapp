@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
@@ -117,39 +117,21 @@ function GastosView() {
     });
 
     useEffect(() => {
-        async function buscarAnios() {
-            gastosService
-                .buscarAnios()
-                .then(response => response.json())
-                .then(comboAnio => {
-                    setComboAnio(comboAnio);
-                    setAnioSeleccionado(comboAnio.anioActual);
-                    return comboAnio.anioActual;
-                })
-                .then(anioActual => buscarMesesPorAnioSeleccionado(anioActual));
-        }
-
-        async function buscarMesesPorAnioSeleccionado(anioSeleccionado) {
-            gastosService.buscarMesesDisponiblesPorAnio(anioSeleccionado)
-                .then(response => response.json())
-                .then(comboMes => {
-                    setComboMes(comboMes);
-                    setMesSeleccionado(comboMes.mesActual);
-                    return {
-                        anioSeleccionado: anioSeleccionado, mesSeleccionado: comboMes.mesActual
-                    }
-                })
-                .then(anioYMesSeleccionados => buscarTodosLosGastos(anioYMesSeleccionados));
-        };
-
-        async function buscarTodosLosGastos(anioYMesSeleccionados) {
-            gastosService.buscarTodos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado)
-                .then(response => response.json())
-                .then(gastos => setGastos(gastos));
-        };
-
-        buscarAnios();
+        inicializarGastosPorAnioYMes();
     }, []);
+
+    const inicializarGastosPorAnioYMes = () => {
+        gastosService
+            .buscarAnios()
+            .then(response => response.json())
+            .then(comboAnio => {
+                setComboAnio(comboAnio);
+                setAnioSeleccionado(comboAnio.anioActual);
+                return comboAnio.anioActual;
+            })
+            .then(anioActual => buscarMesesPorAnioSeleccionado(anioActual));
+    };
+
 
     const buscarTodosLosGastos = (anioYMesSeleccionados) => {
         gastosService.buscarTodos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado)
