@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
+import ModalNuevoGasto from './ModalNuevoGasto.js';
 
 
 function Select(props) {
@@ -185,6 +186,7 @@ function GastosView() {
 
     return (
         <div>
+            <ModalNuevoGasto />
             <ComboAnioYMes
                 comboAnio={comboAnio}
                 comboMes={comboMes}
