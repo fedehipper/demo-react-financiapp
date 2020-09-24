@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import GastosView from './gastos/Gastos.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // class Formulario extends Component {
 //   constructor() {

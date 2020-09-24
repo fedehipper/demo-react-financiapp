@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
 import ModalNuevoGasto from './ModalNuevoGasto.js';
+import { Button, Nav, Table } from 'react-bootstrap';
 
 
 function Select(props) {
@@ -47,7 +47,7 @@ function ComboAnioYMes(props) {
 
 function TablaGastos(props) {
     return (
-        <table className="table table-sm table-striped table-hover table-bordered">
+        <Table size="sm" striped hover bordered>
             <thead className="thead-light text-center">
                 <tr>
                     <th>Concepto</th>
@@ -75,30 +75,29 @@ function TablaGastos(props) {
                     </tr>
                 })}
             </tbody>
-        </table>
+        </Table>
     );
 }
 
 function NavGastos(props) {
+
     const saludar = () => {
         props.abrirModal();
     }
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
+            <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
                 <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li className="nav-item">
-                        <a className="nav-link active" data-toggle="tab" href="#detalle-gastos">Detalle mensual</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" data-toggle="tab" href="#otra">Otra</a>
-                    </li>
+                    <Nav.Item>
+                        <Nav.Link href='#detalle-gastos'>Detalle mensual</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href='#otra'>Otra</Nav.Link>
+                    </Nav.Item>
                 </ul>
-                <BotonNuevoGasto
-                    eventoSaludo={saludar}
-                />
-            </nav >
+                <BotonNuevoGasto eventoSaludo={saludar} />
+            </Nav>
             <div className="tab-content">
                 <div className="tab-pane fade show active" id="detalle-gastos">
                     {props.tablaGastos}
@@ -112,9 +111,7 @@ function NavGastos(props) {
 }
 
 function BotonNuevoGasto(props) {
-    return (
-        <button className='btn btn-danger' onClick={props.eventoSaludo}>Nuevo gasto</button>
-    );
+    return <Button className='btn btn-danger' onClick={props.eventoSaludo}>Nuevo gasto</Button>
 }
 
 function GastosView() {
