@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
 function ModalNuevoGasto(props) {
     const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        props.cerrarModal();
+    }
+
     const handleShow = () => setShow(true);
 
     // ver cuando cambie la props.modalNuevoGastoAbierto -> llamar a handleShow
+    useEffect(() => {
+        if (props.modalNuevoGastoAbierto) {
+            console.log("cambia estado");
+            handleShow();
+        }
+    });
 
     return (
         <>

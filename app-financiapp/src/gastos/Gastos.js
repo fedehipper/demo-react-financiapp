@@ -199,9 +199,16 @@ function GastosView() {
         setModalNuevogastoAbierto(true);
     }
 
+    const cerrarModal = () => {
+        setModalNuevogastoAbierto(false);
+    }
+
     return (
         <div>
-            <ModalNuevoGasto modalNuevoGastoAbierto={modalNuevoGastoAbierto} />
+            <ModalNuevoGasto
+                modalNuevoGastoAbierto={modalNuevoGastoAbierto}
+                cerrarModal={cerrarModal}
+            />
             <ComboAnioYMes
                 comboAnio={comboAnio}
                 comboMes={comboMes}
