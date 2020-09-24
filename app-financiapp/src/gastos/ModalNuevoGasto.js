@@ -13,8 +13,7 @@ function ModalNuevoGasto(props) {
 
     // ver cuando cambie la props.modalNuevoGastoAbierto -> llamar a handleShow
     useEffect(() => {
-        if (props.modalNuevoGastoAbierto) {
-            console.log("cambia estado");
+        if (show !== props.modalNuevoGastoAbierto) {
             handleShow();
         }
     });
