@@ -81,7 +81,7 @@ function TablaGastos(props) {
 
 function NavGastos(props) {
 
-    const saludar = () => {
+    const abrirModal = () => {
         props.abrirModal();
     }
 
@@ -96,7 +96,7 @@ function NavGastos(props) {
                         <Nav.Link href='#otra'>Otra</Nav.Link>
                     </Nav.Item>
                 </ul>
-                <BotonNuevoGasto eventoSaludo={saludar} />
+                <BotonNuevoGasto abrirModal={abrirModal} />
             </Nav>
             <div className="tab-content">
                 <div className="tab-pane fade show active" id="detalle-gastos">
@@ -111,10 +111,11 @@ function NavGastos(props) {
 }
 
 function BotonNuevoGasto(props) {
-    return <Button className='btn btn-danger' onClick={props.eventoSaludo}>Nuevo gasto</Button>
+    return <Button className='btn btn-danger' onClick={props.abrirModal}>Nuevo gasto</Button>
 }
 
 function GastosView() {
+    const [modalNuevoGastoAbierto, setModalNuevogastoAbierto] = useState(false);
     const [gastos, setGastos] = useState([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState('');
     const [mesSeleccionado, setMesSeleccionado] = useState('');
@@ -195,12 +196,12 @@ function GastosView() {
     };
 
     const abrirModal = () => {
-        console.log("abro modal");
+        setModalNuevogastoAbierto(true);
     }
 
     return (
         <div>
-            <ModalNuevoGasto />
+            <ModalNuevoGasto modalNuevoGastoAbierto={modalNuevoGastoAbierto} />
             <ComboAnioYMes
                 comboAnio={comboAnio}
                 comboMes={comboMes}

@@ -1,30 +1,35 @@
-import React, { } from 'react';
+import React, { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
-function ModalNuevoGasto() {
+function ModalNuevoGasto(props) {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    // ver cuando cambie la props.modalNuevoGastoAbierto -> llamar a handleShow
+
     return (
-        <div className='modal fade'>
-            <div className='modal-dialog modal-dialog-centered'>
-                <div className='modal-content'>
+        <>
+            <Button variant="primary" onClick={handleShow}>
+                Launch demo modal
+      </Button>
 
-                    <div className='modal-header'>
-                        <h5 className='modal-title'>Nuevo gasto</h5>
-                        <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
-                    </div>
-
-                    <div className='modal-body'>
-                        <p>Cuerpa de modal</p>
-                    </div>
-
-                    <div className='modal-footer'>
-                        <button type='button' className='btn btn-secondary' data-dismiss='modal'>Cancelar</button>
-                        <button type='submit' className='btn btn-primary'>Aceptar</button>
-                    </div>
-
-                </div>
-            </div>
-        </div >
+            <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+          </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Changes
+          </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 }
 
