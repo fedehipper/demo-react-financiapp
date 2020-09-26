@@ -3,7 +3,8 @@ import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
 import ModalNuevoGasto from './ModalNuevoGasto.js';
 import { Button, Nav, Table } from 'react-bootstrap';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 function Select(props) {
     return (
@@ -111,7 +112,11 @@ function NavGastos(props) {
 }
 
 function BotonNuevoGasto(props) {
-    return <Button className='btn btn-danger' onClick={props.abrirModal}>Nuevo gasto</Button>
+    return (
+        <Button className='btn btn-danger' onClick={props.abrirModal}>
+            <FontAwesomeIcon icon={faPlusCircle} /> Nuevo gasto
+        </Button>
+    );
 }
 
 function GastosView() {
