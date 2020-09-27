@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Modal } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup, Modal } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -52,7 +52,7 @@ function ModalNuevoGasto(props) {
 
     return (
         <>
-            <Modal show={show} onHide={abrirModal} centered>
+            <Modal show={show} onHide={cancelar} centered>
                 <Modal.Header closeButton>
                     <Modal.Title><h5>Nuevo gasto</h5></Modal.Title>
                 </Modal.Header>
@@ -66,6 +66,7 @@ function ModalNuevoGasto(props) {
                                 value={concepto}
                                 className='mb-3'>
                             </Form.Control>
+
                             <Form.Label>Cantidad de pagos</Form.Label>
                             <select
                                 onChange={e => setCantidadPagos(parseInt(e.target.value))}
@@ -74,13 +75,19 @@ function ModalNuevoGasto(props) {
                                 {cantidadPagosDisponibles
                                     .map(unaOpcionPago => <option value={unaOpcionPago} key={unaOpcionPago}>{unaOpcionPago}</option>)}
                             </select>
+
                             <Form.Label>Monto</Form.Label>
-                            <Form.Control
-                                required
-                                onChange={e => setValor(e.target.value)}
-                                value={valor}
-                                className='form-control mb-3'>
-                            </Form.Control>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Prepend>
+                                    <InputGroup.Text>$</InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control
+                                    required
+                                    onChange={e => setValor(e.target.value)}
+                                    value={valor}>
+                                </Form.Control>
+                            </InputGroup>
+
                             <Form.Label>Fecha a realizar el pago</Form.Label>
                             <div>
                                 <DatePicker
