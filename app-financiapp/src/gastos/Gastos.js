@@ -68,6 +68,7 @@ function NavGastos(props) {
                     accion={abrirModal}
                     color='danger'
                     icono={faPlusCircle}
+                    texto='Nuevo gasto'
                 />
             </Nav>
             <div className="tab-content">

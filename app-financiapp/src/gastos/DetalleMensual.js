@@ -1,15 +1,8 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import IconoEnAnchor from '../IconoEnAnchor';
 
-function BotonEliminacionGasto(props) {
-    return (
-        <Button variant={props.color} onClick={props.accion}>
-            <FontAwesomeIcon icon={props.icono} /> Nuevo gasto
-        </Button>
-    );
-}
 
 function DetalleMensual(props) {
     return (
@@ -20,6 +13,7 @@ function DetalleMensual(props) {
                     <th>Fecha</th>
                     <th>Valor($)</th>
                     <th>Necesario</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>{
@@ -38,10 +32,18 @@ function DetalleMensual(props) {
                                 />
                             </div>
                         </td>
+                        <td>
+                            <IconoEnAnchor
+                                icono={faTrash}
+                                color='text-danger'
+                                accion={console.log('voy a eliminar un gasto')}
+                                textoTooltip='Eliminar gasto'
+                            />
+                        </td>
                     </tr>
                 })}
             </tbody>
-        </Table>
+        </Table >
     );
 }
 
