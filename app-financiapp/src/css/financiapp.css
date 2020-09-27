@@ -1,3 +1,7 @@
 .grosor-titulos {
     font-weight: 400;
 }
+
+.react-datepicker-wrapper {
+    width: 100%;
+}

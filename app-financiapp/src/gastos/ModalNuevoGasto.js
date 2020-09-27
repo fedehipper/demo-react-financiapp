@@ -1,13 +1,14 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Modal } from 'react-bootstrap';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function ModalNuevoGasto(props) {
     const [cantidadPagosDisponibles] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
     const [show, setShow] = useState(false);
     const [valor, setValor] = useState('');
     const [cantidadPagos, setCantidadPagos] = useState(1);
-    const [fecha, setFecha] = useState(moment(new Date()).format('YYYY-MM-DD'));
+    const [fecha, setFecha] = useState(new Date());
     const [concepto, setConcepto] = useState('');
 
     const nuevoGasto = () => {
@@ -23,7 +24,7 @@ function ModalNuevoGasto(props) {
     const resetearModal = () => {
         setValor('');
         setCantidadPagos(1);
-        setFecha(moment(new Date()).format('YYYY-MM-DD'));
+        setFecha(new Date());
         setConcepto('');
     }
 
@@ -81,11 +82,12 @@ function ModalNuevoGasto(props) {
                                 className='form-control mb-3'>
                             </Form.Control>
                             <Form.Label>Fecha a realizar el pago</Form.Label>
-                            <Form.Control
-                                onChange={e => setFecha(e.target.value)}
-                                value={fecha}
-                                className='form-control mb-3'>
-                            </Form.Control>
+                            <div>
+                                <DatePicker
+                                    className='form-control'
+                                    selected={fecha}
+                                    onChange={nuevaFecha => setFecha(nuevaFecha)} />
+                            </div>
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>

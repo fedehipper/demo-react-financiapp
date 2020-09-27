@@ -3,5 +3,8 @@
 # Iconos:
 # https://fontawesome.com/how-to-use/on-the-web/using-with/react
 
-# React bootstrap:
+# React Bootstrap:
 # https://react-bootstrap.github.io/getting-started/introduction/
+
+# React Datepicker
+# https://reactdatepicker.com/
