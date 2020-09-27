@@ -12,5 +12,8 @@ export default {
     },
     buscarMesesDisponiblesPorAnio: (anio) => {
         return service.get('http://localhost:8097/api/comboMes?anio=' + anio);
+    },
+    crearGasto: (gasto) => {
+        return service.post('http://localhost:8097/api/gasto', gasto);
     }
 };

@@ -6,14 +6,14 @@ function ModalNuevoGasto(props) {
     const [cantidadPagosDisponibles] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
     const [show, setShow] = useState(false);
     const [valor, setValor] = useState('');
-    const [cantidadPagosSeleccionado, setCantidadPagosSeleccionado] = useState(1);
+    const [cantidadPagos, setCantidadPagos] = useState(1);
     const [fecha, setFecha] = useState(moment(new Date()).format('YYYY-MM-DD'));
     const [concepto, setConcepto] = useState('');
 
     const nuevoGasto = () => {
         return {
             valor: valor,
-            cantidadPagosSeleccionado: cantidadPagosSeleccionado,
+            cantidadPagos: cantidadPagos,
             fecha: fecha,
             concepto: concepto,
             necesario: true
@@ -22,7 +22,7 @@ function ModalNuevoGasto(props) {
 
     const resetearModal = () => {
         setValor('');
-        setCantidadPagosSeleccionado(1);
+        setCantidadPagos(1);
         setFecha(moment(new Date()).format('YYYY-MM-DD'));
         setConcepto('');
     }
@@ -59,8 +59,8 @@ function ModalNuevoGasto(props) {
                             </input>
                             <label>Cantidad de pagos</label>
                             <select
-                                onChange={e => setCantidadPagosSeleccionado(parseInt(e.target.value))}
-                                value={cantidadPagosSeleccionado}
+                                onChange={e => setCantidadPagos(parseInt(e.target.value))}
+                                value={cantidadPagos}
                                 className='form-control mb-3'>
                                 {cantidadPagosDisponibles.map(unaOpcionPago => <option value={unaOpcionPago} key={unaOpcionPago}>{unaOpcionPago}</option>)}
                             </select>

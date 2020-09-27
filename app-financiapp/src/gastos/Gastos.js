@@ -151,8 +151,8 @@ function GastosView() {
     };
 
 
-    const buscarTodosLosGastos = (anioYMesSeleccionados) => {
-        gastosService.buscarTodos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado)
+    const buscarTodosLosGastos = (anioSeleccionado, mesSeleccionado) => {
+        gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
             .then(response => response.json())
             .then(gastos => setGastos(gastos));
     };
@@ -185,7 +185,7 @@ function GastosView() {
                     anioSeleccionado: anioSeleccionado, mesSeleccionado: comboMes.mesActual
                 }
             })
-            .then(anioYMesSeleccionados => buscarTodosLosGastos(anioYMesSeleccionados));
+            .then(anioYMesSeleccionados => buscarTodosLosGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado));
     };
 
     const setearAnioSeleccionado = (eventoCambioAnio) => {
@@ -209,7 +209,8 @@ function GastosView() {
     }
 
     const crearNuevoGasto = (nuevoGasto) => {
-        console.log(nuevoGasto);
+        gastosService.crearGasto(nuevoGasto)
+            .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado));
     }
 
     return (
