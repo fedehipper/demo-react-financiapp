@@ -85,6 +85,7 @@ function ModalNuevoGasto(props) {
                             <div>
                                 <DatePicker
                                     className='form-control'
+                                    dateFormat="yyyy-MM-dd"
                                     selected={fecha}
                                     onChange={nuevaFecha => setFecha(nuevaFecha)} />
                             </div>
