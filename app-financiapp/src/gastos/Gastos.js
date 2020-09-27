@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './../css/financiapp.css';
 import gastosService from './../service/gastosService.js';
 import ModalNuevoGasto from './ModalNuevoGasto.js';
-import { Button, Nav, Table } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Nav } from 'react-bootstrap';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import DetalleMensual from './DetalleMensual';
+import Boton from '../Boton';
 
 function Select(props) {
     return (
@@ -46,40 +47,6 @@ function ComboAnioYMes(props) {
     );
 }
 
-function TablaGastos(props) {
-    return (
-        <Table size="sm" striped hover bordered>
-            <thead className="thead-light text-center">
-                <tr>
-                    <th>Concepto</th>
-                    <th>Fecha</th>
-                    <th>Valor($)</th>
-                    <th>Necesario</th>
-                </tr>
-            </thead>
-            <tbody>{
-                props.gastos.map(unGasto => {
-                    return <tr key={unGasto.id}>
-                        <td>{unGasto.concepto}</td>
-                        <td className='text-center'>{unGasto.fecha}</td>
-                        <td className='text-right'>{unGasto.valor}</td>
-                        <td className='text-center'>
-                            <div className='form-check'>
-                                <input
-                                    type='checkbox'
-                                    className='form-check-input'
-                                    checked={unGasto.necesario}
-                                    onChange={() => props.cambiarNecesidad(unGasto.id)}
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                })}
-            </tbody>
-        </Table>
-    );
-}
-
 function NavGastos(props) {
 
     const abrirModal = () => {
@@ -97,7 +64,11 @@ function NavGastos(props) {
                         <Nav.Link href='#otra'>Otra</Nav.Link>
                     </Nav.Item>
                 </ul>
-                <BotonNuevoGasto abrirModal={abrirModal} />
+                <Boton
+                    accion={abrirModal}
+                    color='danger'
+                    icono={faPlusCircle}
+                />
             </Nav>
             <div className="tab-content">
                 <div className="tab-pane fade show active" id="detalle-gastos">
@@ -108,14 +79,6 @@ function NavGastos(props) {
                 </div>
             </div>
         </div>
-    );
-}
-
-function BotonNuevoGasto(props) {
-    return (
-        <Button className='btn btn-danger' onClick={props.abrirModal}>
-            <FontAwesomeIcon icon={faPlusCircle} /> Nuevo gasto
-        </Button>
     );
 }
 
@@ -231,7 +194,7 @@ function GastosView() {
             <NavGastos
                 abrirModal={abrirModal}
                 tablaGastos={
-                    <TablaGastos
+                    <DetalleMensual
                         gastos={gastos}
                         cambiarNecesidad={cambiarNecesidad}
                     />}
