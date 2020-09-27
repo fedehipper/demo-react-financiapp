@@ -109,4 +109,3 @@ function ModalNuevoGasto(props) {
 }
 
 export default ModalNuevoGasto;
-
