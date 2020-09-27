@@ -27,7 +27,8 @@ function ModalNuevoGasto(props) {
         setConcepto('');
     }
 
-    const aceptar = () => {
+    const aceptar = (e) => {
+        e.preventDefault();
         setShow(false);
         props.cerrarModal();
         props.crearNuevoGasto(nuevoGasto());
@@ -54,7 +55,7 @@ function ModalNuevoGasto(props) {
                 <Modal.Header closeButton>
                     <Modal.Title><h5>Nuevo gasto</h5></Modal.Title>
                 </Modal.Header>
-                <Form>
+                <Form onSubmit={aceptar}>
                     <Modal.Body>
                         <Form.Group as={Col} className='pl-0 pr-0'>
                             <Form.Label>Concepto</Form.Label>
@@ -89,7 +90,7 @@ function ModalNuevoGasto(props) {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={cancelar}>Cancelar</Button>
-                        <Button variant='primary' type='submit' onClick={aceptar}>Aceptar</Button>
+                        <Button variant='primary' type='submit'>Aceptar</Button>
                     </Modal.Footer>
                 </Form>
             </Modal>
