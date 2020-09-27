@@ -30,7 +30,7 @@ function ModalNuevoGasto(props) {
     const cerrarModal = () => {
         setShow(false);
         props.cerrarModal();
-        // props.crearNuevoGasto(nuevoGasto());
+        props.crearNuevoGasto(nuevoGasto());
         resetearModal();
     }
 

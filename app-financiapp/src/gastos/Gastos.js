@@ -208,11 +208,16 @@ function GastosView() {
         setModalNuevogastoAbierto(false);
     }
 
+    const crearNuevoGasto = (nuevoGasto) => {
+        console.log(nuevoGasto);
+    }
+
     return (
         <div>
             <ModalNuevoGasto
                 modalNuevoGastoAbierto={modalNuevoGastoAbierto}
                 cerrarModal={cerrarModal}
+                crearNuevoGasto={crearNuevoGasto}
             />
             <ComboAnioYMes
                 comboAnio={comboAnio}
