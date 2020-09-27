@@ -18,8 +18,8 @@ function TooltipOpcional(props) {
 function IconoEnAnchor(props) {
     return <div className='text-center'>
         <TooltipOpcional textoTooltip={props.textoTooltip}>
-            <SafeAnchor className={props.color}>
-                <FontAwesomeIcon icon={props.icono} onClick={props.accion} />
+            <SafeAnchor className={props.color} onClick={props.accion}>
+                <FontAwesomeIcon icon={props.icono} />
             </SafeAnchor>
         </TooltipOpcional>
     </div >
