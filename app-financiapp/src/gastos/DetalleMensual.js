@@ -36,7 +36,7 @@ function DetalleMensual(props) {
                             <IconoEnAnchor
                                 icono={faTrash}
                                 color='text-danger'
-                                accion={props.abrirModalEliminacionGasto}
+                                accion={() => props.abrirModalEliminacionGasto(unGasto.id)} // al pasarle parametros debo llamarlo como lambda, si no estoy ejecutando la función en el renderizado
                                 textoTooltip='Eliminar gasto'
                             />
                         </td>

@@ -8,7 +8,7 @@ function ModalEliminacionGasto(props) {
         e.preventDefault();
         setShow(false);
         props.cerrarModal();
-        // eliminar...;
+        props.eliminarGastoPorId();
     }
 
     const cancelar = () => {
