@@ -86,6 +86,8 @@ function NavGastos(props) {
 
 function GastosView() {
     const [gastoIdSeleccionado, setGastoIdSeleccionado] = useState('');
+    const [gastoConceptoSeleccionado, setGastoConceptoSeleccionado] = useState('');
+
     const [modalEliminacionGasto, setModalEliminacionGasto] = useState(false);
     const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
     const [gastos, setGastos] = useState([]);
@@ -175,8 +177,9 @@ function GastosView() {
         setModalNuevoGastoAbierto(false);
     }
 
-    const abrirModalEliminacionGasto = (gastoId) => {
+    const abrirModalEliminacionGasto = (gastoId, gastoConcepto) => {
         setGastoIdSeleccionado(gastoId);
+        setGastoConceptoSeleccionado(gastoConcepto);
         setModalEliminacionGasto(true);
     }
 
@@ -202,6 +205,7 @@ function GastosView() {
                 crearNuevoGasto={crearNuevoGasto}
             />
             <ModalEliminacionGasto
+                conceptoAEliminar={gastoConceptoSeleccionado}
                 modalEliminacionGastoAbierto={modalEliminacionGasto}
                 cerrarModal={cerrarModalEliminacionGasto}
                 eliminarGastoPorId={eliminarGastoPorId}
