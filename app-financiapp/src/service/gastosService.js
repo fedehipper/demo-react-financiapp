@@ -15,5 +15,8 @@ export default {
     },
     crearGasto: (gasto) => {
         return service.post('http://localhost:8097/api/gasto', gasto);
+    },
+    eliminarGastoPorId: (gastoId) => {
+        return service.delete('http://localhost:8097/api/gasto/' + gastoId);
     }
 };

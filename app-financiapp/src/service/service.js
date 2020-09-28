@@ -17,5 +17,11 @@ export default {
             }
         }
         return fetch(url, requestOptions);
+    },
+    delete: (url) => {
+        const requestOptions = {
+            method: 'DELETE',
+        }
+        return fetch(url, requestOptions);
     }
 };

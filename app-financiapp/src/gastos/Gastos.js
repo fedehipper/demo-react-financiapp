@@ -6,6 +6,7 @@ import { Nav } from 'react-bootstrap';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import DetalleMensual from './DetalleMensual';
 import Boton from '../Boton';
+import ModalEliminacionGasto from './ModalEliminacionGasto';
 
 function Select(props) {
     return (
@@ -84,7 +85,8 @@ function NavGastos(props) {
 }
 
 function GastosView() {
-    const [modalNuevoGastoAbierto, setModalNuevogastoAbierto] = useState(false);
+    const [modalEliminacionGasto, setModalEliminacionGasto] = useState(false);
+    const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
     const [gastos, setGastos] = useState([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState('');
     const [mesSeleccionado, setMesSeleccionado] = useState('');
@@ -164,12 +166,20 @@ function GastosView() {
         buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
     };
 
-    const abrirModal = () => {
-        setModalNuevogastoAbierto(true);
+    const abrirModalNuevoGasto = () => {
+        setModalNuevoGastoAbierto(true);
     }
 
-    const cerrarModal = () => {
-        setModalNuevogastoAbierto(false);
+    const cerrarModalNuevoGasto = () => {
+        setModalNuevoGastoAbierto(false);
+    }
+
+    const abrirModalEliminacionGasto = () => {
+        setModalEliminacionGasto(true);
+    }
+
+    const cerrarModalEliminacionGasto = () => {
+        setModalEliminacionGasto(false);
     }
 
     const crearNuevoGasto = (nuevoGasto) => {
@@ -181,8 +191,12 @@ function GastosView() {
         <div>
             <ModalNuevoGasto
                 modalNuevoGastoAbierto={modalNuevoGastoAbierto}
-                cerrarModal={cerrarModal}
+                cerrarModal={cerrarModalNuevoGasto}
                 crearNuevoGasto={crearNuevoGasto}
+            />
+            <ModalEliminacionGasto
+                modalEliminacionGastoAbierto={modalEliminacionGasto}
+                cerrarModal={cerrarModalEliminacionGasto}
             />
             <ComboAnioYMes
                 comboAnio={comboAnio}
@@ -193,11 +207,12 @@ function GastosView() {
                 setearMesSeleccionado={setearMesSeleccionado}
             />
             <NavGastos
-                abrirModal={abrirModal}
+                abrirModal={abrirModalNuevoGasto}
                 tablaGastos={
                     <DetalleMensual
                         gastos={gastos}
                         cambiarNecesidad={cambiarNecesidad}
+                        abrirModalEliminacionGasto={abrirModalEliminacionGasto}
                     />}
                 otraVistaNav={<p>Otra vista nav</p>}
             />

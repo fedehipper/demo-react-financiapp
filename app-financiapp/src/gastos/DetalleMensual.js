@@ -5,10 +5,6 @@ import IconoEnAnchor from '../IconoEnAnchor';
 
 
 function DetalleMensual(props) {
-    const mensaje = () => {
-        console.log("Hola");
-    }
-
     return (
         <Table size="sm" striped hover bordered>
             <thead className="thead-light text-center">
@@ -40,7 +36,7 @@ function DetalleMensual(props) {
                             <IconoEnAnchor
                                 icono={faTrash}
                                 color='text-danger'
-                                accion={mensaje}
+                                accion={props.abrirModalEliminacionGasto}
                                 textoTooltip='Eliminar gasto'
                             />
                         </td>
