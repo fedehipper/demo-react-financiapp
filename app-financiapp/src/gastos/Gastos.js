@@ -7,6 +7,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import DetalleMensual from './DetalleMensual';
 import Boton from '../Boton';
 import ModalEliminacionGasto from './ModalEliminacionGasto';
+import ModalEdicionGasto from './ModalEdicionGasto';
 
 function Select(props) {
     return (
@@ -89,6 +90,7 @@ function GastosView() {
     const [gastoConceptoSeleccionado, setGastoConceptoSeleccionado] = useState('');
 
     const [modalEliminacionGasto, setModalEliminacionGasto] = useState(false);
+    const [modalEdicionGasto, setModalEdicionGasto] = useState(false);
     const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
     const [gastos, setGastos] = useState([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState('');
@@ -183,8 +185,17 @@ function GastosView() {
         setModalEliminacionGasto(true);
     }
 
+    const abrirModalEdicionGasto = (gastoId) => {
+        setGastoIdSeleccionado(gastoId);
+        setModalEdicionGasto(true);
+    }
+
     const cerrarModalEliminacionGasto = () => {
         setModalEliminacionGasto(false);
+    }
+
+    const cerrarModalEdicionGasto = () => {
+        setModalEdicionGasto(false);
     }
 
     const crearNuevoGasto = (nuevoGasto) => {
@@ -199,6 +210,10 @@ function GastosView() {
 
     return (
         <div>
+            <ModalEdicionGasto
+                modalEdicionGastoAbierto={modalEdicionGasto}
+                cerrarModal={cerrarModalEdicionGasto}
+            />
             <ModalNuevoGasto
                 modalNuevoGastoAbierto={modalNuevoGastoAbierto}
                 cerrarModal={cerrarModalNuevoGasto}
@@ -225,6 +240,7 @@ function GastosView() {
                         gastos={gastos}
                         cambiarNecesidad={cambiarNecesidad}
                         abrirModalEliminacionGasto={abrirModalEliminacionGasto}
+                        abrirModalEdicionGasto={abrirModalEdicionGasto}
                     />}
                 otraVistaNav={<p>Otra vista nav</p>}
             />

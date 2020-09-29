@@ -5,11 +5,20 @@ import java.time.LocalDate;
 public class GastoVo {
 
     private Long id;
+    private boolean primerCuota;
     private LocalDate fecha;
     private String concepto;
     private String valor;
     private boolean necesario;
     private Integer cantidadPagos;
+
+    public boolean isPrimerCuota() {
+        return primerCuota;
+    }
+
+    public void setPrimerCuota(boolean primerCuota) {
+        this.primerCuota = primerCuota;
+    }
 
     public Integer getCantidadPagos() {
         return cantidadPagos;

@@ -42,7 +42,7 @@ Vue.component("modal-editar-gasto", {
                 <div class="modal-content" @keyup.esc="resetear">
 
                     <div class="modal-header">
-                        <h5 class="modal-title">Nuevo gasto</h5>
+                        <h5 class="modal-title">Editar gasto</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="resetearOriginales">
                             <span aria-hidden="true">&times;</span>
                         </button>

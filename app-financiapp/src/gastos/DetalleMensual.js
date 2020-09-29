@@ -1,4 +1,4 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import IconoEnAnchor from '../IconoEnAnchor';
@@ -13,7 +13,7 @@ function DetalleMensual(props) {
                     <th>Fecha</th>
                     <th>Valor($)</th>
                     <th>Necesario</th>
-                    <th>Acciones</th>
+                    <th colSpan='2'>Acciones</th>
                 </tr>
             </thead>
             <tbody>{
@@ -31,6 +31,14 @@ function DetalleMensual(props) {
                                     onChange={() => props.cambiarNecesidad(unGasto.id)}
                                 />
                             </div>
+                        </td>
+                        <td>
+                            <IconoEnAnchor
+                                icono={faEdit}
+                                color='text-primary'
+                                accion={() => props.abrirModalEdicionGasto(unGasto.id)}
+                                textoTooltip='Editar gasto'
+                            />
                         </td>
                         <td>
                             <IconoEnAnchor
