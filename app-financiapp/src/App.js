@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Layout(props) {
   return (
-    <div className='container'>{props.children}</div>
+    <div className='container-fluid col-10'>{props.children}</div>
   );
 }
 
