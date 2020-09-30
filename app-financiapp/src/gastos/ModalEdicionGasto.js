@@ -24,10 +24,19 @@ function ModalEdicionGasto(props) {
 
     useEffect(() => {
         if (show !== props.modalEdicionGastoAbierto) {
-            // setGastoAEditar(props.gastoAEditar);
             abrirModal();
         }
     });
+
+    const mostrarFechaSiEsPrimeraCuotaOUnica = () => {
+        return props.gastoAEditar.primerCuota ? <>
+            <label>Fecha</label>
+            <FormControl
+                onChange={e => setFecha(e.target.value)}
+                value={fecha}
+                className='mb-3' />
+        </> : <></>
+    }
 
     return (
         <>
@@ -49,12 +58,7 @@ function ModalEdicionGasto(props) {
                             value={valor}
                             className='mb-3'
                         />
-                        <label>Fecha</label>
-                        <FormControl
-                            onChange={e => setFecha(e.target.value)}
-                            value={fecha}
-                            className='mb-3'
-                        />
+                        {mostrarFechaSiEsPrimeraCuotaOUnica()}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={cancelar}>Cancelar</Button>
