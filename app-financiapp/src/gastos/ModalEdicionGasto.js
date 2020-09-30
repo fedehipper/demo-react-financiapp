@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, FormControl, Modal } from 'react-bootstrap';
+import { useStateFromProp } from '../hook/hooks';
 
 function ModalEdicionGasto(props) {
     const [show, setShow] = useState(false);
-    const [valor, setValor] = useState('');
-    const [fecha, setFecha] = useState('');
-    const [concepto, setConcepto] = useState('');
+    const [valor, setValor] = useStateFromProp(props.gastoAEditar.valor);
+    const [fecha, setFecha] = useStateFromProp(props.gastoAEditar.fecha);
+    const [concepto, setConcepto] = useStateFromProp(props.gastoAEditar.concepto);
 
     const cancelar = () => {
         setShow(false);
@@ -23,10 +24,7 @@ function ModalEdicionGasto(props) {
 
     useEffect(() => {
         if (show !== props.modalEdicionGastoAbierto) {
-            console.log('veces que entra');
-            setValor(props.gastoAEditar.valor);
-            setFecha(props.gastoAEditar.fecha);
-            setConcepto(props.gastoAEditar.concepto);
+            // setGastoAEditar(props.gastoAEditar);
             abrirModal();
         }
     });
