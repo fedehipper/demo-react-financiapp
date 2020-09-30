@@ -56,8 +56,7 @@ Vue.component("modal-editar-gasto", {
                                     maxlength="25"
                                     class="form-control"
                                     required
-                                    v-model="concepto"
-                                    placeholder="Nombre del concepto">
+                                    v-model="concepto">
                             </div>
                             <div>
                                 <label>Monto</label>
@@ -71,8 +70,7 @@ Vue.component("modal-editar-gasto", {
                                         min="0" max="999999999999999"
                                         class="form-control"
                                         required
-                                        v-model="valor"
-                                        placeholder="Monto pagado">
+                                        v-model="valor">
                                 </div>
                             </div>
                             <div class="mb-3">

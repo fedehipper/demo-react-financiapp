@@ -86,11 +86,10 @@ function NavGastos(props) {
 }
 
 function GastosView() {
-    const [gastoIdSeleccionado, setGastoIdSeleccionado] = useState('');
-    const [gastoConceptoSeleccionado, setGastoConceptoSeleccionado] = useState('');
+    const [gastoSeleccionado, setGastoSeleccionado] = useState({});
 
-    const [modalEliminacionGasto, setModalEliminacionGasto] = useState(false);
-    const [modalEdicionGasto, setModalEdicionGasto] = useState(false);
+    const [modalEliminacionGastoAbierto, setModalEliminacionGastoAbierto] = useState(false);
+    const [modalEdicionGastoAbierto, setModalEdicionGastoAbierto] = useState(false);
     const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
     const [gastos, setGastos] = useState([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState('');
@@ -179,23 +178,22 @@ function GastosView() {
         setModalNuevoGastoAbierto(false);
     }
 
-    const abrirModalEliminacionGasto = (gastoId, gastoConcepto) => {
-        setGastoIdSeleccionado(gastoId);
-        setGastoConceptoSeleccionado(gastoConcepto);
-        setModalEliminacionGasto(true);
+    const abrirModalEliminacionGasto = (idGastoSeleccionado, conceptoGastoSeleccionado) => {
+        setGastoSeleccionado({ id: idGastoSeleccionado, concepto: conceptoGastoSeleccionado });
+        setModalEliminacionGastoAbierto(true);
     }
 
-    const abrirModalEdicionGasto = (gastoId) => {
-        setGastoIdSeleccionado(gastoId);
-        setModalEdicionGasto(true);
+    const abrirModalEdicionGasto = (gastoSeleccionado) => {
+        setGastoSeleccionado(gastoSeleccionado);
+        setModalEdicionGastoAbierto(true);
     }
 
     const cerrarModalEliminacionGasto = () => {
-        setModalEliminacionGasto(false);
+        setModalEliminacionGastoAbierto(false);
     }
 
     const cerrarModalEdicionGasto = () => {
-        setModalEdicionGasto(false);
+        setModalEdicionGastoAbierto(false);
     }
 
     const crearNuevoGasto = (nuevoGasto) => {
@@ -204,15 +202,16 @@ function GastosView() {
     }
 
     const eliminarGastoPorId = () => {
-        gastosService.eliminarGastoPorId(gastoIdSeleccionado)
+        gastosService.eliminarGastoPorId(gastoSeleccionado.id)
             .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado))
     }
 
     return (
         <div>
             <ModalEdicionGasto
-                modalEdicionGastoAbierto={modalEdicionGasto}
+                modalEdicionGastoAbierto={modalEdicionGastoAbierto}
                 cerrarModal={cerrarModalEdicionGasto}
+                gastoAEditar={gastoSeleccionado}
             />
             <ModalNuevoGasto
                 modalNuevoGastoAbierto={modalNuevoGastoAbierto}
@@ -220,8 +219,8 @@ function GastosView() {
                 crearNuevoGasto={crearNuevoGasto}
             />
             <ModalEliminacionGasto
-                conceptoAEliminar={gastoConceptoSeleccionado}
-                modalEliminacionGastoAbierto={modalEliminacionGasto}
+                conceptoAEliminar={gastoSeleccionado.concepto}
+                modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
                 cerrarModal={cerrarModalEliminacionGasto}
                 eliminarGastoPorId={eliminarGastoPorId}
             />

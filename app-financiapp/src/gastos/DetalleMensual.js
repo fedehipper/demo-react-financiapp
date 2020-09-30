@@ -36,7 +36,7 @@ function DetalleMensual(props) {
                             <IconoEnAnchor
                                 icono={faEdit}
                                 color='text-primary'
-                                accion={() => props.abrirModalEdicionGasto(unGasto.id)}
+                                accion={() => props.abrirModalEdicionGasto(unGasto)}
                                 textoTooltip='Editar gasto'
                             />
                         </td>
