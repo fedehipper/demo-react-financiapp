@@ -2,9 +2,13 @@ export default {
     get: (url) => {
         return fetch(url);
     },
-    put: (url) => {
+    put: (url, body) => {
         const requestOptions = {
-            method: 'PUT'
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         };
         return fetch(url, requestOptions);
     },

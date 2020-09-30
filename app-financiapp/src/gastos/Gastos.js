@@ -201,6 +201,11 @@ function GastosView() {
             .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado));
     }
 
+    const editarGasto = (gastoEditado) => {
+        gastosService.editarGasto(gastoEditado)
+            .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado));
+    }
+
     const eliminarGastoPorId = () => {
         gastosService.eliminarGastoPorId(gastoSeleccionado.id)
             .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado))
@@ -212,6 +217,7 @@ function GastosView() {
                 modalEdicionGastoAbierto={modalEdicionGastoAbierto}
                 cerrarModal={cerrarModalEdicionGasto}
                 gastoAEditar={gastoSeleccionado}
+                editarGasto={editarGasto}
             />
             <ModalNuevoGasto
                 modalNuevoGastoAbierto={modalNuevoGastoAbierto}

@@ -11,14 +11,30 @@ function ModalEdicionGasto(props) {
     const cancelar = () => {
         setShow(false);
         props.cerrarModal();
+        resetearModal();
+    }
+
+    const resetearModal = () => {
+        setValor(props.gastoAEditar.valor);
+        setConcepto(props.gastoAEditar.concepto);
+        setFecha(props.gastoAEditar.fecha);
     }
 
     const aceptar = (e) => {
         e.preventDefault();
         setShow(false);
         props.cerrarModal();
+        props.editarGasto(gastoEditado());
     }
 
+    const gastoEditado = () => {
+        return {
+            id: props.gastoAEditar.id,
+            valor: valor,
+            fecha: fecha,
+            concepto: concepto
+        }
+    }
 
     const abrirModal = () => setShow(true);
 
@@ -32,6 +48,7 @@ function ModalEdicionGasto(props) {
         return props.gastoAEditar.primerCuota ? <>
             <label>Fecha</label>
             <FormControl
+                required
                 onChange={e => setFecha(e.target.value)}
                 value={fecha}
                 className='mb-3' />
@@ -48,12 +65,14 @@ function ModalEdicionGasto(props) {
                     <Modal.Body>
                         <label>Concepto</label>
                         <FormControl
+                            required
                             onChange={e => setConcepto(e.target.value)}
                             value={concepto}
                             className='mb-3'
                         />
                         <label>Monto</label>
                         <FormControl
+                            required
                             onChange={e => setValor(e.target.value)}
                             value={valor}
                             className='mb-3'
