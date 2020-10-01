@@ -50,20 +50,38 @@ function ComboAnioYMes(props) {
 }
 
 function NavGastos(props) {
+    const [opcionSeleccionada, setOpcionSeleccionada] = useState('detalle-gastos');
 
     const abrirModal = () => {
         props.abrirModal();
     }
 
+    const asignarOpcionSeleccionada = () => {
+        if (opcionSeleccionada === 'detalle-gastos') {
+            console.log(opcionSeleccionada);
+            return <div className='tab-pane fade show active'>
+                {props.tablaGastos}
+            </div>
+        } else {
+            console.log(opcionSeleccionada);
+            return <div className='tab-pane fade'>
+                {props.otraVistaNav}
+            </div>
+        }
+    }
+
     return (
         <div>
-            <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2">
+            <Nav
+                className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2"
+                onSelect={setOpcionSeleccionada}
+            >
                 <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
                     <Nav.Item>
-                        <Nav.Link href='#detalle-gastos'>Detalle mensual</Nav.Link>
+                        <Nav.Link eventKey='detalle-gastos'>Detalle mensual</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link href='#otra'>Otra</Nav.Link>
+                        <Nav.Link eventKey='otra'>Otra</Nav.Link>
                     </Nav.Item>
                 </ul>
                 <Boton
@@ -73,14 +91,7 @@ function NavGastos(props) {
                     texto='Nuevo gasto'
                 />
             </Nav>
-            <div className="tab-content">
-                <div className="tab-pane fade show active" id="detalle-gastos">
-                    {props.tablaGastos}
-                </div>
-                <div className="tab-pane fade" id="otra">
-                    {props.otraVistaNav}
-                </div>
-            </div>
+            {asignarOpcionSeleccionada()}
         </div>
     );
 }
@@ -247,7 +258,7 @@ function GastosView() {
                         abrirModalEliminacionGasto={abrirModalEliminacionGasto}
                         abrirModalEdicionGasto={abrirModalEdicionGasto}
                     />}
-                otraVistaNav={<p>Otra vista nav</p>}
+                otraVistaNav={<h1>Otra vista nav</h1>}
             />
         </div >
     );
