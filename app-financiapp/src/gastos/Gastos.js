@@ -8,6 +8,7 @@ import DetalleMensual from './DetalleMensual';
 import Boton from '../Boton';
 import ModalEliminacionGasto from './ModalEliminacionGasto';
 import ModalEdicionGasto from './ModalEdicionGasto';
+import GraficoGastos from './GraficoGastos';
 
 function Select(props) {
     return (
@@ -58,14 +59,12 @@ function NavGastos(props) {
 
     const asignarOpcionSeleccionada = () => {
         if (opcionSeleccionada === 'detalle-gastos') {
-            console.log(opcionSeleccionada);
             return <div className='tab-pane show active'>
                 {props.tablaGastos}
             </div>
         } else {
-            console.log(opcionSeleccionada);
             return <div className='tab-pane'>
-                {props.otraVistaNav}
+                {props.graficoGastos}
             </div>
         }
     }
@@ -81,7 +80,7 @@ function NavGastos(props) {
                         <Nav.Link eventKey='detalle-gastos'>Detalle mensual</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey='otra'>Otra</Nav.Link>
+                        <Nav.Link eventKey='grafico-gastos'>Otra</Nav.Link>
                     </Nav.Item>
                 </ul>
                 <Boton
@@ -258,7 +257,7 @@ function GastosView() {
                         abrirModalEliminacionGasto={abrirModalEliminacionGasto}
                         abrirModalEdicionGasto={abrirModalEdicionGasto}
                     />}
-                otraVistaNav={<h1>Otra vista nav</h1>}
+                graficoGastos={<GraficoGastos />}
             />
         </div >
     );
