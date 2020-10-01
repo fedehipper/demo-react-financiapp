@@ -59,12 +59,12 @@ function NavGastos(props) {
     const asignarOpcionSeleccionada = () => {
         if (opcionSeleccionada === 'detalle-gastos') {
             console.log(opcionSeleccionada);
-            return <div className='tab-pane fade show active'>
+            return <div className='tab-pane show active'>
                 {props.tablaGastos}
             </div>
         } else {
             console.log(opcionSeleccionada);
-            return <div className='tab-pane fade'>
+            return <div className='tab-pane'>
                 {props.otraVistaNav}
             </div>
         }
