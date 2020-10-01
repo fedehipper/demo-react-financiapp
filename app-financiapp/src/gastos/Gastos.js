@@ -80,7 +80,7 @@ function NavGastos(props) {
                         <Nav.Link eventKey='detalle-gastos'>Detalle mensual</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey='grafico-gastos'>Otra</Nav.Link>
+                        <Nav.Link eventKey='grafico-gastos'>Gráfico mensual</Nav.Link>
                     </Nav.Item>
                 </ul>
                 <Boton
