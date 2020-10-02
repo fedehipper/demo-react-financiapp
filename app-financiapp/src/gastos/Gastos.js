@@ -97,7 +97,6 @@ function NavGastos(props) {
 
 function GastosView() {
     const [gastoSeleccionado, setGastoSeleccionado] = useState({});
-
     const [modalEliminacionGastoAbierto, setModalEliminacionGastoAbierto] = useState(false);
     const [modalEdicionGastoAbierto, setModalEdicionGastoAbierto] = useState(false);
     const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
@@ -112,11 +111,22 @@ function GastosView() {
         mesActual: '',
         mesesASeleccionar: []
     });
+    const [graficoGastos, setGraficoGastos] = useState({
+        diasDelMes: [],
+        gastoEstimadoAcumuladoPorDiasDelMes: [],
+        gastoAcumuladoSinRepetirPorDia: []
+    });
 
     useEffect(() => {
         inicializarGastosPorAnioYMes();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const buscarGraficoGastos = (anio, mes) => {
+        gastosService.buscarGraficoGastos(anio, mes)
+            .then(response => response.json())
+            .then(graficoGastos => setGraficoGastos(graficoGastos));
+    }
 
     const inicializarGastosPorAnioYMes = () => {
         gastosService
@@ -165,7 +175,10 @@ function GastosView() {
                     anioSeleccionado: anioSeleccionado, mesSeleccionado: comboMes.mesActual
                 }
             })
-            .then(anioYMesSeleccionados => buscarTodosLosGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado));
+            .then(anioYMesSeleccionados => {
+                buscarTodosLosGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
+                buscarGraficoGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
+            });
     };
 
     const setearAnioSeleccionado = (eventoCambioAnio) => {
@@ -257,7 +270,9 @@ function GastosView() {
                         abrirModalEliminacionGasto={abrirModalEliminacionGasto}
                         abrirModalEdicionGasto={abrirModalEdicionGasto}
                     />}
-                graficoGastos={<GraficoGastos />}
+                graficoGastos={<GraficoGastos
+                    graficoGastos={graficoGastos}
+                />}
             />
         </div >
     );

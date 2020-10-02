@@ -21,5 +21,8 @@ export default {
     },
     editarGasto: (gasto) => {
         return service.put('http://localhost:8097/api/gasto/' + gasto.id, gasto);
+    },
+    buscarGraficoGastos: (anio, mes) => {
+        return service.get('http://localhost:8097/api/gastoBurnUp?anio=' + anio + '&mes=' + mes);
     }
 };
