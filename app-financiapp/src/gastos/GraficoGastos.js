@@ -1,36 +1,37 @@
 import Chart from 'chart.js'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-class LineChart extends React.Component {
-    constructor(props) {
-        super();
-        this.chartRef = React.createRef();
-    }
+function GraficoGastos(props) {
 
-    componentDidMount() {
-        this.myChart = new Chart(this.chartRef.current, {
+    const [chartRef] = useState(React.createRef());
+
+    useEffect(() => {
+        graficar();
+    });
+
+    const graficar = () => {
+        return new Chart(chartRef.current, {
             type: 'line',
             data: {
                 datasets: [{
                     label: 'Gasto disponible hasta la fecha',
-                    data: this.props.graficoGastos.gastoAcumuladoSinRepetirPorDia,
+                    data: props.graficoGastos.gastoAcumuladoSinRepetirPorDia,
                     borderColor: "#007bff",
                     pointBackgroundColor: "#007bff"
                 },
                 {
                     label: 'Gasto realizado hasta la fecha',
-                    data: this.props.graficoGastos.gastoEstimadoAcumuladoPorDiasDelMes,
+                    data: props.graficoGastos.gastoEstimadoAcumuladoPorDiasDelMes,
                     borderColor: "#dc3545",
                     pointBackgroundColor: "#dc3545"
                 }],
-                labels: this.props.graficoGastos.diasDelMes
+                labels: props.graficoGastos.diasDelMes
             }
-        });
+        })
     }
 
-    render() {
-        return <canvas ref={this.chartRef} />;
-    }
+    return <canvas ref={chartRef} />;
 }
-export default LineChart;
+
+export default GraficoGastos;
 
