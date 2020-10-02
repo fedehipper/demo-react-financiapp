@@ -185,12 +185,14 @@ function GastosView() {
         const anioSeleccionado = parseInt(eventoCambioAnio.target.value);
         setAnioSeleccionado(anioSeleccionado);
         buscarMesesPorAnioSeleccionado(anioSeleccionado);
+        buscarGraficoGastos(anioSeleccionado, mesSeleccionado);
     };
 
     const setearMesSeleccionado = (eventoCambioMes) => {
         const mesSeleccionado = parseInt(eventoCambioMes.target.value);
         setMesSeleccionado(mesSeleccionado);
         buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
+        buscarGraficoGastos(anioSeleccionado, mesSeleccionado);
     };
 
     const abrirModalNuevoGasto = () => {

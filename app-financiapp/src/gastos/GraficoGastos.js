@@ -10,7 +10,11 @@ function GraficoGastos(props) {
     });
 
     const graficar = () => {
-        return new Chart(chartRef.current, {
+        var grafico = null;
+        if (grafico !== null) {
+            grafico.destroy();
+        }
+        grafico = new Chart(chartRef.current, {
             type: 'line',
             data: {
                 datasets: [{
@@ -27,7 +31,7 @@ function GraficoGastos(props) {
                 }],
                 labels: props.graficoGastos.diasDelMes
             }
-        })
+        });
     }
 
     return <canvas ref={chartRef} />;
