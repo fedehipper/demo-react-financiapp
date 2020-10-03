@@ -32,13 +32,12 @@ Vue.component("gasto", {
             axios.get("/api/gastoBurnUp?anio=" + this.anioSeleccionado + "&mes=" + this.mesSeleccionado)
                     .then(response => {
                         this.graficoBurnUpData = response.data;
-                        if (this.fechaSeleccionadaEsAnteriorAHoy()) {
-                            this.mostrarPestaniaVerGrafico = true;
-                            this.graficar();
-                        } else {
-                            this.graficoBurnUp.destroy();
-                            this.mostrarPestaniaVerGrafico = false;
-                        }
+                        this.mostrarPestaniaVerGrafico = true;
+                        this.graficar();
+                    })
+                    .catch(() => {
+                        this.graficoBurnUp.destroy();
+                        this.mostrarPestaniaVerGrafico = false;
                     });
         },
         fechaSeleccionadaEsAnteriorAHoy() {
