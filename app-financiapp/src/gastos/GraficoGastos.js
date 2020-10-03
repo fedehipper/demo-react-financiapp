@@ -18,27 +18,26 @@ function GraficoGastos(props) {
     });
 
     const mensajeGraficoNoDisponible = () => {
-        return <Alert variant='warning'>
-            No se encuentra disponible el gráfico de gastos para este período.
-        </Alert>
+        return <Alert variant='warning'>No se encuentra disponible el gráfico de gastos para este período.</Alert>
+    }
+
+    const dataSet = (label, data, borderColor, pointBackgroundColor) => {
+        return {
+            label: label,
+            data: data,
+            borderColor: borderColor,
+            pointBackgroundColor: pointBackgroundColor
+        }
     }
 
     const graficar = () => {
         grafico = new Chart(chartRef.current, {
             type: 'line',
             data: {
-                datasets: [{
-                    label: 'Gasto disponible hasta la fecha',
-                    data: props.graficoGastos.gastoAcumuladoSinRepetirPorDia,
-                    borderColor: "#007bff",
-                    pointBackgroundColor: "#007bff"
-                },
-                {
-                    label: 'Gasto realizado hasta la fecha',
-                    data: props.graficoGastos.gastoEstimadoAcumuladoPorDiasDelMes,
-                    borderColor: "#dc3545",
-                    pointBackgroundColor: "#dc3545"
-                }],
+                datasets: [
+                    dataSet('Gasto disponible hasta la fecha', props.graficoGastos.gastoAcumuladoSinRepetirPorDia, "#007bff", "#007bff"),
+                    dataSet('Gasto realizado hasta la fecha', props.graficoGastos.gastoEstimadoAcumuladoPorDiasDelMes, "#dc3545", "#dc3545")
+                ],
                 labels: props.graficoGastos.diasDelMes
             }
         });
