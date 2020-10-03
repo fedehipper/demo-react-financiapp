@@ -3,7 +3,7 @@ package com.financiapp.controller.rest;
 import com.financiapp.domain.vo.ComboAniosVo;
 import com.financiapp.domain.vo.ComboMesesVo;
 import com.financiapp.domain.vo.GastoVo;
-import com.financiapp.domain.vo.GraficoBurnUpGastosMensual;
+import com.financiapp.domain.vo.GraficoBurnUpGastosMensualVo;
 import com.financiapp.domain.vo.SumatoriaGastoMesVo;
 import com.financiapp.service.GastoModificacionService;
 import com.financiapp.service.GastoService;
@@ -38,7 +38,7 @@ public class GastoRestController {
     }
 
     @GetMapping("gastoBurnUp")
-    public GraficoBurnUpGastosMensual buscarGastoBurnUp(@RequestParam String anio, @RequestParam String mes) {
+    public GraficoBurnUpGastosMensualVo buscarGastoBurnUp(@RequestParam String anio, @RequestParam String mes) {
         return gastoService.obtenerBurnUpPorAnioYMes(anio, mes);
     }
 

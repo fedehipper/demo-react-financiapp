@@ -5,15 +5,15 @@ import com.financiapp.domain.Usuario;
 import com.financiapp.domain.vo.ComboAniosVo;
 import com.financiapp.domain.vo.ComboMesesVo;
 import com.financiapp.domain.vo.GastoVo;
-import com.financiapp.domain.vo.GraficoBurnUpGastosMensual;
+import com.financiapp.domain.vo.GraficoBurnUpGastosMensualVo;
 import com.financiapp.domain.vo.SumatoriaGastoMesVo;
 import com.financiapp.repository.GastoRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Predicate;
 import static java.util.stream.Collectors.toList;
@@ -88,20 +88,30 @@ public class GastoService {
                 .forEach(gastoPorPago -> gastoRepository.save(gastoPorPago));
     }
 
-    public GraficoBurnUpGastosMensual obtenerBurnUpPorAnioYMes(String anio, String mes) {
-        LocalDate fechaPorParametro = determinarFechaPorParametro(anio, mes);
-        validarQueElPeriodoSeleccionadoSeaAnteriorOIgualAlLaFechaActualParaGraficar(anio, mes);
-        var graficoBurnUpGastosMensual = new GraficoBurnUpGastosMensual();
+    public GraficoBurnUpGastosMensualVo obtenerBurnUpPorAnioYMes(String anio, String mes) {
+        if (fechaPorParametroSuperaMesActual(Integer.valueOf(anio), Integer.valueOf(mes))) {
+            return graficoNoDisponible();
+        } else {
+            return graficoDisponible(determinarFechaPorParametro(anio, mes));
+        }
+    }
+
+    private GraficoBurnUpGastosMensualVo graficoDisponible(LocalDate fechaPorParametro) {
+        GraficoBurnUpGastosMensualVo graficoBurnUpGastosMensual = new GraficoBurnUpGastosMensualVo();
         graficoBurnUpGastosMensual.setDiasDelMes(diasDelMesYAnioSeleccionado(fechaPorParametro));
         graficoBurnUpGastosMensual.setGastoAcumuladoSinRepetirPorDia(gastoAcumuladoSinRepetirPorDia(fechaPorParametro));
         graficoBurnUpGastosMensual.setGastoEstimadoAcumuladoPorDiasDelMes(gastosTodoElMesAcumulados(fechaPorParametro));
+        graficoBurnUpGastosMensual.setDisponible(true);
         return graficoBurnUpGastosMensual;
     }
 
-    private void validarQueElPeriodoSeleccionadoSeaAnteriorOIgualAlLaFechaActualParaGraficar(String anio, String mes) {
-        if (fechaPorParametroSuperaMesActual(Integer.valueOf(anio), Integer.valueOf(mes))) {
-            throw new NoSuchElementException("Aún no se han generaron los gastos para el período seleccionado.");
-        }
+    private GraficoBurnUpGastosMensualVo graficoNoDisponible() {
+        GraficoBurnUpGastosMensualVo graficoBurnUpGastosMensual = new GraficoBurnUpGastosMensualVo();
+        graficoBurnUpGastosMensual.setDiasDelMes(Collections.EMPTY_LIST);
+        graficoBurnUpGastosMensual.setGastoAcumuladoSinRepetirPorDia(Collections.EMPTY_LIST);
+        graficoBurnUpGastosMensual.setGastoEstimadoAcumuladoPorDiasDelMes(Collections.EMPTY_LIST);
+        graficoBurnUpGastosMensual.setDisponible(false);
+        return graficoBurnUpGastosMensual;
     }
 
     private boolean fechaPorParametroSuperaMesActual(int anio, int mes) {

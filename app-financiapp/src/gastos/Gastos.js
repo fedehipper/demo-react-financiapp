@@ -26,24 +26,23 @@ function Select(props) {
 }
 
 function ComboAnioYMes(props) {
+    const select = (nombreSelect, valorSeleccionado, valores, setearValorSeleccionado) => {
+        return <Select
+            nombreSelect={nombreSelect}
+            valorSeleccionado={valorSeleccionado}
+            valores={valores}
+            setearValorSeleccionado={setearValorSeleccionado} />
+    }
+
     return (
         <div className="mb-3 mt-3">
             <h2 className='grosor-titulos mb-4'>Mis Gastos</h2>
             <div className="row ml-0">
                 <div className="ml-3">
-                    <Select
-                        nombreSelect='Año'
-                        valorSeleccionado={props.anioSeleccionado}
-                        valores={props.comboAnio.aniosASeleccionar}
-                        setearValorSeleccionado={props.setearAnioSeleccionado} />
+                    {select('Año', props.anioSeleccionado, props.comboAnio.aniosASeleccionar, props.setearAnioSeleccionado)}
                 </div>
                 <div className="ml-5">
-                    <Select
-                        nombreSelect='Mes'
-                        valorSeleccionado={props.mesSeleccionado}
-                        valores={props.comboMes.mesesASeleccionar}
-                        setearValorSeleccionado={props.setearMesSeleccionado}
-                    />
+                    {select('Mes', props.mesSeleccionado, props.comboMes.mesesASeleccionar, props.setearMesSeleccionado)}
                 </div>
             </div>
         </div>
@@ -59,29 +58,27 @@ function NavGastos(props) {
 
     const asignarOpcionSeleccionada = () => {
         if (opcionSeleccionada === 'detalle-gastos') {
-            return <div className='tab-pane show active'>
-                {props.tablaGastos}
-            </div>
+            return <div className='tab-pane show active'>{props.tablaGastos}</div>
+        } else if (opcionSeleccionada === 'grafico-gastos') {
+            return <div className='tab-pane'>{props.graficoGastos}</div>
         } else {
-            return <div className='tab-pane'>
-                {props.graficoGastos}
-            </div>
+            return <div className='tab-pane'>{props.controlGastos}</div>
         }
+    }
+
+    const seccionNav = (eventKey, titulo) => {
+        return <Nav.Item>
+            <Nav.Link eventKey={eventKey}>{titulo}</Nav.Link>
+        </Nav.Item>
     }
 
     return (
         <div>
-            <Nav
-                className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2"
-                onSelect={setOpcionSeleccionada}
-            >
+            <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2" onSelect={setOpcionSeleccionada}>
                 <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
-                    <Nav.Item>
-                        <Nav.Link eventKey='detalle-gastos'>Detalle mensual</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey='grafico-gastos'>Gráfico mensual</Nav.Link>
-                    </Nav.Item>
+                    {seccionNav('detalle-gastos', 'Detalle mensual')}
+                    {props.graficoGastosDisponible ? seccionNav('grafico-gastos', 'Gráfico mensual') : <></>}
+                    {seccionNav('control-gastos', 'Limita tus gastos')}
                 </ul>
                 <Boton
                     accion={abrirModal}
@@ -114,7 +111,8 @@ function GastosView() {
     const [graficoGastos, setGraficoGastos] = useState({
         diasDelMes: [],
         gastoEstimadoAcumuladoPorDiasDelMes: [],
-        gastoAcumuladoSinRepetirPorDia: []
+        gastoAcumuladoSinRepetirPorDia: [],
+        disponible: false
     });
 
     useEffect(() => {
@@ -272,9 +270,14 @@ function GastosView() {
                         abrirModalEliminacionGasto={abrirModalEliminacionGasto}
                         abrirModalEdicionGasto={abrirModalEdicionGasto}
                     />}
-                graficoGastos={<GraficoGastos
-                    graficoGastos={graficoGastos}
-                />}
+                graficoGastos={
+                    <GraficoGastos
+                        graficoGastos={graficoGastos}
+                        graficoGastosDisponible={graficoGastos.disponible}
+                    />
+                }
+                controlGastos={<p>control</p>}
+                graficoGastosDisponible={graficoGastos.disponible}
             />
         </div >
     );

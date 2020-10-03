@@ -31,15 +31,21 @@ Vue.component("gasto", {
         buscarGraficoBurnUp() {
             axios.get("/api/gastoBurnUp?anio=" + this.anioSeleccionado + "&mes=" + this.mesSeleccionado)
                     .then(response => {
-                        this.graficoBurnUpData = response.data;
-                        this.mostrarPestaniaVerGrafico = true;
-                        this.graficar();
+                        console.log(response);
+                        if (response.status === 200) {
+                            this.graficoBurnUpData = response.data;
+                            this.mostrarPestaniaVerGrafico = true;
+                            this.graficar();
+                        } else {
+                            console.log(response);
+                            this.graficoBurnUp.destroy();
+                            this.mostrarPestaniaVerGrafico = false;
+                        }
                     })
-                    .catch(() => {
-                        this.graficoBurnUp.destroy();
-                        this.mostrarPestaniaVerGrafico = false;
-                    });
-        },
+                           .catch(error => {
+    console.log(error)
+});
+        }, 
         fechaSeleccionadaEsAnteriorAHoy() {
             var fechaHoyAnioYMes = this.comboAnio.anioActual + "" + this.calcularMes(this.comboMes.mesActual);
             var fechaAnioYMesSeleccionado = this.anioSeleccionado + "" + this.calcularMes(this.mesSeleccionado);
@@ -309,8 +315,11 @@ Vue.component("gasto", {
                                 
                                 <div class="tab-pane fade" id="grafico-gastos">
                                     <div class="row">
-                                        <div class="col mb-4">
+                                        <div v-if="mostrarPestaniaVerGrafico" class="col mb-4">
                                             <canvas id="burnUp" class="chartjs" width="770" height="385" style="display: block; width: 770px; height: 385px;"></canvas>
+                                        </div>
+                                        <div v-else class="alert alert-warning" role="alert">
+                                            A simple warning alert—check it out!
                                         </div>
                                     </div>
                                 </div>
@@ -318,7 +327,6 @@ Vue.component("gasto", {
                                 <div class="tab-pane fade" id="control-gastos">
                                     <control-gasto :sumatoriaGasto="sumatoriaGasto" :montoLimite="montoMensualEstimado" @editarLimite="actualizarMontoMensualEstimado"/>
                                 </div>
-                            
                             </div>
     
                         </div>
