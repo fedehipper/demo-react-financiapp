@@ -2,7 +2,7 @@ import React from 'react';
 
 function LayoutControl(props) {
     return (
-        <div class="row position-relative">
+        <div className="row position-relative">
             <div className="col-md-3 p-4">
                 {props.imagen}
             </div>

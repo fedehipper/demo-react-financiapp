@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Button, Card, Table } from 'react-bootstrap';
 import ahorro from '../img/ahorro.jpg';
 import LayoutControl from '../LayoutControl';
 
@@ -28,19 +28,19 @@ function ControlGastos(props) {
     }
 
     const limiteGastos = () => {
-        return <div className="card bg-light">
-            <div className="card-body pb-3 pl-3 pr-3 pt-2">
+        return <Card bg='light'>
+            <Card.Body className="pb-3 pl-3 pr-3 pt-2">
                 <div className="row">
-                    <h5 className="col card-title">Límite a gastar</h5>
+                    <Card.Title className="col card-title">Límite a gastar</Card.Title>
                     {/* boton */}
                 </div>
                 <div className="row col">
-                    <div>Monto límite: <b>$ {props.montoMensualEstimado}</b></div>
+                    <Card.Text>Monto límite: <b>$ {props.montoMensualEstimado}</b></Card.Text>
                     {/* <i className="text-warning col-2 mt-1 fa fa-exclamation-triangle" v-tooltip title="Monto límite superado"></i> */}
                 </div>
                     barra de progreso
-                </div>
-        </div>
+            </Card.Body>
+        </Card>
     }
 
     return <LayoutControl
