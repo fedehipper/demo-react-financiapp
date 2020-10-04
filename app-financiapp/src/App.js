@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
-import GastosView from './gastos/Gastos.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import GastosView from './components/gastos/Gastos';
 
 function Layout(props) {
   return (

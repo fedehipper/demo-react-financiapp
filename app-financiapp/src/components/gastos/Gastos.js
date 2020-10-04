@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import './../css/financiapp.css';
-import gastosService from './../service/gastosService.js';
+import './../../css/financiapp.css';
+import gastosService from '../../service/gastosService.js';
 import ModalNuevoGasto from './ModalNuevoGasto.js';
 import { Nav } from 'react-bootstrap';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import DetalleMensual from './DetalleMensual';
 import Boton from '../Boton';
 import ModalEliminacionGasto from './ModalEliminacionGasto';
-import ModalEdicionGasto from './ModalEdicionGasto';
 import GraficoGastos from './GraficoGastos';
 import ControlGastos from './ControlGastos';
+import ModalEdicionGasto from './ModalEdicionGasto';
 
 function Select(props) {
     return (

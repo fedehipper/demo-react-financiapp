@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Card, Table } from 'react-bootstrap';
-import ahorro from '../img/ahorro.jpg';
+import { Card, Table } from 'react-bootstrap';
+import ahorro from '../../img/ahorro.jpg';
 import LayoutControl from '../LayoutControl';
 
 function ControlGastos(props) {

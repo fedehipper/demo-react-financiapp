@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, FormControl, Modal } from 'react-bootstrap';
-import { useStateFromProp } from '../hook/hooks';
+import { useStateFromProp } from '../../hook/hooks';
 
 function ModalEdicionGasto(props) {
     const [show, setShow] = useState(false);
