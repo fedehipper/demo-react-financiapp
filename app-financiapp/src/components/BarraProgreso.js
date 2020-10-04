@@ -7,7 +7,10 @@ function BarraProgreso(props) {
         return porcentaje > 100 ? 100 : porcentaje;
     }
 
-    return <ProgressBar variant={props.color} now={porcentajeProgreso()} label={`${porcentajeProgreso()}%`} />
+    return <ProgressBar
+        variant={props.color}
+        now={porcentajeProgreso()}
+        label={`${porcentajeProgreso()}%`} />
 }
 
 export default BarraProgreso;
