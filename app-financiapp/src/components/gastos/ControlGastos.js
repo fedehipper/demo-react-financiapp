@@ -3,10 +3,18 @@ import { Card, Table } from 'react-bootstrap';
 import ahorro from '../../img/ahorro.jpg';
 import BarraProgreso from '../BarraProgreso';
 import LayoutControl from '../LayoutControl';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function ControlGastos(props) {
     const imagenAhorro = () => {
         return <img className="img-fluid" src={ahorro} alt='' />
+    }
+
+    const montoLimiteEsSuperado = () => {
+        if (props.sumatoriaGastos.gastoTotal > props.montoMensualEstimado) {
+            return <div className='text-warning'><FontAwesomeIcon icon={faExclamationTriangle} /></div>
+        }
     }
 
     const tablaSumatoriaGastos = () => {
@@ -35,11 +43,11 @@ function ControlGastos(props) {
                     <Card.Title className='col card-title'>Límite a gastar</Card.Title>
                     {/* boton */}
                 </div>
-                <div className='row col'>
+                <div className='row col pb-3'>
                     <Card.Text>Monto límite: <b>$ {props.montoMensualEstimado}</b></Card.Text>
-                    {/* <i className="text-warning col-2 mt-1 fa fa-exclamation-triangle" v-tooltip title="Monto límite superado"></i> */}
+                    {montoLimiteEsSuperado()}
                 </div>
-                <div className='mt-2'>
+                <div>
                     <BarraProgreso
                         valorActual={props.sumatoriaGastos.gastoTotal}
                         valorMaximo={props.montoMensualEstimado}
