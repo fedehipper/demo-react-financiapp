@@ -27,5 +27,8 @@ export default {
     },
     buscarSumatoriaGastos: (anio, mes) => {
         return service.get('http://localhost:8097/api/gasto/total?anio=' + anio + '&mes=' + mes);
+    },
+    buscarMontoMensualEstimado: (anio, mes) => {
+        return service.get('http://localhost:8097/api/montoMensualEstimado?anio=' + anio + '&mes=' + mes);
     }
 };

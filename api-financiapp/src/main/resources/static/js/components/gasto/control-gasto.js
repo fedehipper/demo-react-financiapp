@@ -31,7 +31,7 @@ Vue.component("control-gasto", {
                                 <td class="text-right">$ {{sumatoriaGasto.gastoTotal}}</td>
                             </tr>
                         </tbody>
-                </table>
+                    </table>
                 </div>
                 <div class="col-md-4 position-static p-4">
                     <div class="card bg-light">

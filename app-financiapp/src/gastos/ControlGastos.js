@@ -35,7 +35,7 @@ function ControlGastos(props) {
                         boton
                             </div>
                 <div class="row col">
-                    <div>Monto límite: <b>$ 1232.23</b></div>
+                    <div>Monto límite: <b>$ {props.montoMensualEstimado}</b></div>
                     <i v-if="montoLimiteEsSuperado" class="text-warning col-2 mt-1 fa fa-exclamation-triangle" v-tooltip title="Monto límite superado"></i>
                 </div>
                     barra de progreso

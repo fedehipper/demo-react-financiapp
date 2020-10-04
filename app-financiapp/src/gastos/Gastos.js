@@ -120,6 +120,7 @@ function GastosView() {
         gastoNecesario: '',
         gastoInnecesario: ''
     });
+    const [montoMensualEstimado, setMontoMensualEstimado] = useState(0.00);
 
     useEffect(() => {
         inicializarGastosPorAnioYMes();
@@ -181,8 +182,7 @@ function GastosView() {
             })
             .then(anioYMesSeleccionados => {
                 buscarTodosLosGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
-                buscarGraficoGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
-                buscarSumatoriaGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
+                asignarEstadoPor(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
             });
     };
 
@@ -190,43 +190,36 @@ function GastosView() {
         const anioSeleccionado = parseInt(eventoCambioAnio.target.value);
         setAnioSeleccionado(anioSeleccionado);
         buscarMesesPorAnioSeleccionado(anioSeleccionado);
-        buscarGraficoGastos(anioSeleccionado, mesSeleccionado);
-        buscarSumatoriaGastos(anioSeleccionado, mesSeleccionado);
+        asignarEstadoPor(anioSeleccionado, mesSeleccionado);
     };
 
     const setearMesSeleccionado = (eventoCambioMes) => {
         const mesSeleccionado = parseInt(eventoCambioMes.target.value);
         setMesSeleccionado(mesSeleccionado);
         buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
-        buscarGraficoGastos(anioSeleccionado, mesSeleccionado);
-        buscarSumatoriaGastos(anioSeleccionado, mesSeleccionado);
+        asignarEstadoPor(anioSeleccionado, mesSeleccionado);
     };
 
-    const abrirModalNuevoGasto = () => {
-        setModalNuevoGastoAbierto(true);
+    const asignarEstadoPor = (anio, mes) => {
+        buscarGraficoGastos(anio, mes);
+        buscarSumatoriaGastos(anio, mes);
+        buscarMontoMensualEstimado(anio, mes);
     }
 
-    const cerrarModalNuevoGasto = () => {
-        setModalNuevoGastoAbierto(false);
-    }
-
+    const cerrarModalEliminacionGasto = () => setModalEliminacionGastoAbierto(false);
     const abrirModalEliminacionGasto = (idGastoSeleccionado, conceptoGastoSeleccionado) => {
         setGastoSeleccionado({ id: idGastoSeleccionado, concepto: conceptoGastoSeleccionado });
         setModalEliminacionGastoAbierto(true);
     }
 
+    const cerrarModalEdicionGasto = () => setModalEdicionGastoAbierto(false);
     const abrirModalEdicionGasto = (gastoSeleccionado) => {
         setGastoSeleccionado(gastoSeleccionado);
         setModalEdicionGastoAbierto(true);
     }
 
-    const cerrarModalEliminacionGasto = () => {
-        setModalEliminacionGastoAbierto(false);
-    }
-
-    const cerrarModalEdicionGasto = () => {
-        setModalEdicionGastoAbierto(false);
-    }
+    const abrirModalNuevoGasto = () => setModalNuevoGastoAbierto(true);
+    const cerrarModalNuevoGasto = () => setModalNuevoGastoAbierto(false);
 
     const crearNuevoGasto = (nuevoGasto) => {
         gastosService.crearGasto(nuevoGasto)
@@ -247,6 +240,12 @@ function GastosView() {
         gastosService.buscarSumatoriaGastos(anio, mes)
             .then(response => response.json())
             .then(sumatoriaGastos => setSumatoriaGastosPorPeriodoSeleccionado(sumatoriaGastos));
+    }
+
+    const buscarMontoMensualEstimado = (anio, mes) => {
+        gastosService.buscarMontoMensualEstimado(anio, mes)
+            .then(response => response.json())
+            .then(montoMensualEstimado => setMontoMensualEstimado(montoMensualEstimado));
     }
 
     return (
@@ -293,6 +292,7 @@ function GastosView() {
                 }
                 controlGastos={<ControlGastos
                     sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
+                    montoMensualEstimado={montoMensualEstimado}
                 />}
                 graficoGastosDisponible={graficoGastos.disponible}
             />
