@@ -13,7 +13,7 @@ function ControlGastos(props) {
 
     const montoLimiteEsSuperado = () => {
         if (props.sumatoriaGastos.gastoTotal > props.montoMensualEstimado) {
-            return <div className='text-warning'><FontAwesomeIcon icon={faExclamationTriangle} /></div>
+            return <div className='text-warning ml-3'><FontAwesomeIcon icon={faExclamationTriangle} /></div>
         }
     }
 
@@ -43,11 +43,11 @@ function ControlGastos(props) {
                     <Card.Title className='col card-title'>Límite a gastar</Card.Title>
                     {/* boton */}
                 </div>
-                <div className='row col pb-3'>
-                    <Card.Text>Monto límite: <b>$ {props.montoMensualEstimado}</b></Card.Text>
+                <div className='row col p-0 pl-3'>
+                    <Card.Text className='mb-0'>Monto límite: <b>$ {props.montoMensualEstimado}</b></Card.Text>
                     {montoLimiteEsSuperado()}
                 </div>
-                <div>
+                <div className='mt-3'>
                     <BarraProgreso
                         valorActual={props.sumatoriaGastos.gastoTotal}
                         valorMaximo={props.montoMensualEstimado}
