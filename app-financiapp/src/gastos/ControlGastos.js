@@ -28,15 +28,15 @@ function ControlGastos(props) {
     }
 
     const limiteGastos = () => {
-        return <div class="card bg-light">
-            <div class="card-body pb-3 pl-3 pr-3 pt-2">
-                <div class="row">
-                    <h5 class="col card-title">Límite a gastar</h5>
-                        boton
-                            </div>
-                <div class="row col">
+        return <div className="card bg-light">
+            <div className="card-body pb-3 pl-3 pr-3 pt-2">
+                <div className="row">
+                    <h5 className="col card-title">Límite a gastar</h5>
+                    {/* boton */}
+                </div>
+                <div className="row col">
                     <div>Monto límite: <b>$ {props.montoMensualEstimado}</b></div>
-                    <i v-if="montoLimiteEsSuperado" class="text-warning col-2 mt-1 fa fa-exclamation-triangle" v-tooltip title="Monto límite superado"></i>
+                    {/* <i className="text-warning col-2 mt-1 fa fa-exclamation-triangle" v-tooltip title="Monto límite superado"></i> */}
                 </div>
                     barra de progreso
                 </div>
