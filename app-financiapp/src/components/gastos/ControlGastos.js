@@ -3,8 +3,9 @@ import { Card, Table } from 'react-bootstrap';
 import ahorro from '../../img/ahorro.jpg';
 import BarraProgreso from '../BarraProgreso';
 import LayoutControl from '../LayoutControl';
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import IconoEnAnchor from '../IconoEnAnchor';
 
 function ControlGastos(props) {
     const imagenAhorro = () => {
@@ -34,12 +35,23 @@ function ControlGastos(props) {
         </Table>
     }
 
+    const saludar = () => {
+        console.log('saludar');
+    }
+
     const limiteGastos = () => {
         return <Card bg='light'>
             <Card.Body className='pb-3 pl-3 pr-3 pt-2'>
                 <div className='row'>
                     <Card.Title className='col card-title'>Límite a gastar</Card.Title>
-                    {/* boton */}
+                    <div className='mr-3'>
+                        <IconoEnAnchor
+                            className='ml-1'
+                            textoTooltip='Editar meta a superar'
+                            accion={saludar}
+                            icono={faEdit}
+                        />
+                    </div>
                 </div>
                 <div className='row col p-0 pl-3'>
                     <Card.Text className='mb-0'>Monto límite: <b>$ {props.montoMensualEstimado}</b></Card.Text>
