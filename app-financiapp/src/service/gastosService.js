@@ -30,5 +30,8 @@ export default {
     },
     buscarMontoMensualEstimado: (anio, mes) => {
         return service.get('http://localhost:8097/api/montoMensualEstimado?anio=' + anio + '&mes=' + mes);
+    },
+    editarMontoMensualEstimado: (monto) => {
+        return service.put('http://localhost:8097/api/montoMensualEstimado', monto);
     }
 };

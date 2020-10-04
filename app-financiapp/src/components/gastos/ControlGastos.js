@@ -35,8 +35,8 @@ function ControlGastos(props) {
         </Table>
     }
 
-    const saludar = () => {
-        console.log('saludar');
+    const abrirModal = () => {
+        props.abrirModal();
     }
 
     const limiteGastos = () => {
@@ -48,7 +48,7 @@ function ControlGastos(props) {
                         <IconoEnAnchor
                             className='ml-1'
                             textoTooltip='Editar meta a superar'
-                            accion={saludar}
+                            accion={abrirModal}
                             icono={faEdit}
                         />
                     </div>

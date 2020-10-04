@@ -10,6 +10,7 @@ import ModalEliminacionGasto from './ModalEliminacionGasto';
 import GraficoGastos from './GraficoGastos';
 import ControlGastos from './ControlGastos';
 import ModalEdicionGasto from './ModalEdicionGasto';
+import ModalEdicionLimiteGastos from './ModalEdicionLimiteGastos';
 
 function Select(props) {
     return (
@@ -98,6 +99,7 @@ function GastosView() {
     const [modalEliminacionGastoAbierto, setModalEliminacionGastoAbierto] = useState(false);
     const [modalEdicionGastoAbierto, setModalEdicionGastoAbierto] = useState(false);
     const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
+    const [modalEdicionLimiteGastosAbierto, setModalEdicionLimiteGastosAbierto] = useState(false);
     const [gastos, setGastos] = useState([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState('');
     const [mesSeleccionado, setMesSeleccionado] = useState('');
@@ -211,6 +213,9 @@ function GastosView() {
         setModalEliminacionGastoAbierto(true);
     }
 
+    const cerrarModalEdicionLimiteGastos = () => setModalEdicionLimiteGastosAbierto(false);
+    const abrirModalEdicionLimiteGastos = () => setModalEdicionLimiteGastosAbierto(true);
+
     const cerrarModalEdicionGasto = () => setModalEdicionGastoAbierto(false);
     const abrirModalEdicionGasto = (gastoSeleccionado) => {
         setGastoSeleccionado(gastoSeleccionado);
@@ -247,6 +252,16 @@ function GastosView() {
             .then(montoMensualEstimado => setMontoMensualEstimado(montoMensualEstimado));
     }
 
+    const editarMontoMensualEstimado = (monto) => {
+        const montoMensualAEditar = {
+            anio: anioSeleccionado,
+            mes: mesSeleccionado,
+            montoEstimado: monto
+        }
+        gastosService.editarMontoMensualEstimado(montoMensualAEditar)
+            .then(() => buscarMontoMensualEstimado(anioSeleccionado, mesSeleccionado));
+    }
+
     return (
         <div>
             <ModalEdicionGasto
@@ -265,6 +280,12 @@ function GastosView() {
                 modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
                 cerrarModal={cerrarModalEliminacionGasto}
                 eliminarGastoPorId={eliminarGastoPorId}
+            />
+            <ModalEdicionLimiteGastos
+                modalEdicionLimiteGastosAbierto={modalEdicionLimiteGastosAbierto}
+                cerrarModal={cerrarModalEdicionLimiteGastos}
+                montoMensualEstimado={montoMensualEstimado}
+                editarMontoMensualEstimado={editarMontoMensualEstimado}
             />
             <ComboAnioYMes
                 comboAnio={comboAnio}
@@ -292,6 +313,7 @@ function GastosView() {
                 controlGastos={<ControlGastos
                     sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
                     montoMensualEstimado={montoMensualEstimado}
+                    abrirModal={abrirModalEdicionLimiteGastos}
                 />}
                 graficoGastosDisponible={graficoGastos.disponible}
             />
