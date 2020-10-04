@@ -17,21 +17,19 @@ function ControlGastos(props) {
         }
     }
 
+    const filaTablaSumatoriaGastos = (textoCabecera, textoCuerpo, colorCabecera) => {
+        return <tr>
+            <th scope="row" className={colorCabecera}>{textoCabecera}</th>
+            <td className="text-right">$ {textoCuerpo}</td>
+        </tr>
+    }
+
     const tablaSumatoriaGastos = () => {
         return <Table size='sm' hover>
             <tbody>
-                <tr>
-                    <th scope="row" className="text-danger">Suma de gastos innecesarios</th>
-                    <td className="text-right">$ {props.sumatoriaGastos.gastoInnecesario}</td>
-                </tr>
-                <tr>
-                    <th scope="row" className="text-success">Suma de gastos necesarios</th>
-                    <td className="text-right">$ {props.sumatoriaGastos.gastoNecesario}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Total</th>
-                    <td className="text-right">$ {props.sumatoriaGastos.gastoTotal}</td>
-                </tr>
+                {filaTablaSumatoriaGastos('Suma de gastos innecesarios', props.sumatoriaGastos.gastoInnecesario, 'text-danger')}
+                {filaTablaSumatoriaGastos('Suma de gastos necesarios', props.sumatoriaGastos.gastoNecesario, 'text-success')}
+                {filaTablaSumatoriaGastos('Total', props.sumatoriaGastos.gastoTotal)}
             </tbody>
         </Table>
     }
