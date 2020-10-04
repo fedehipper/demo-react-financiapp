@@ -24,5 +24,8 @@ export default {
     },
     buscarGraficoGastos: (anio, mes) => {
         return service.get('http://localhost:8097/api/gastoBurnUp?anio=' + anio + '&mes=' + mes);
+    },
+    buscarSumatoriaGastos: (anio, mes) => {
+        return service.get('http://localhost:8097/api/gasto/total?anio=' + anio + '&mes=' + mes);
     }
 };

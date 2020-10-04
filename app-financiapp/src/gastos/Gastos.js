@@ -9,6 +9,7 @@ import Boton from '../Boton';
 import ModalEliminacionGasto from './ModalEliminacionGasto';
 import ModalEdicionGasto from './ModalEdicionGasto';
 import GraficoGastos from './GraficoGastos';
+import ControlGastos from './ControlGastos';
 
 function Select(props) {
     return (
@@ -114,6 +115,11 @@ function GastosView() {
         gastoAcumuladoSinRepetirPorDia: [],
         disponible: false
     });
+    const [sumatoriaGastosPorPeriodoSeleccionado, setSumatoriaGastosPorPeriodoSeleccionado] = useState({
+        gastoTotal: '',
+        gastoNecesario: '',
+        gastoInnecesario: ''
+    });
 
     useEffect(() => {
         inicializarGastosPorAnioYMes();
@@ -176,6 +182,7 @@ function GastosView() {
             .then(anioYMesSeleccionados => {
                 buscarTodosLosGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
                 buscarGraficoGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
+                buscarSumatoriaGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
             });
     };
 
@@ -184,6 +191,7 @@ function GastosView() {
         setAnioSeleccionado(anioSeleccionado);
         buscarMesesPorAnioSeleccionado(anioSeleccionado);
         buscarGraficoGastos(anioSeleccionado, mesSeleccionado);
+        buscarSumatoriaGastos(anioSeleccionado, mesSeleccionado);
     };
 
     const setearMesSeleccionado = (eventoCambioMes) => {
@@ -191,6 +199,7 @@ function GastosView() {
         setMesSeleccionado(mesSeleccionado);
         buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
         buscarGraficoGastos(anioSeleccionado, mesSeleccionado);
+        buscarSumatoriaGastos(anioSeleccionado, mesSeleccionado);
     };
 
     const abrirModalNuevoGasto = () => {
@@ -232,6 +241,12 @@ function GastosView() {
     const eliminarGastoPorId = () => {
         gastosService.eliminarGastoPorId(gastoSeleccionado.id)
             .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado))
+    }
+
+    const buscarSumatoriaGastos = (anio, mes) => {
+        gastosService.buscarSumatoriaGastos(anio, mes)
+            .then(response => response.json())
+            .then(sumatoriaGastos => setSumatoriaGastosPorPeriodoSeleccionado(sumatoriaGastos));
     }
 
     return (
@@ -276,7 +291,9 @@ function GastosView() {
                         graficoGastosDisponible={graficoGastos.disponible}
                     />
                 }
-                controlGastos={<p>control</p>}
+                controlGastos={<ControlGastos
+                    sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
+                />}
                 graficoGastosDisponible={graficoGastos.disponible}
             />
         </div >
