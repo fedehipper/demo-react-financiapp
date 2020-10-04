@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, FormControl, Modal } from 'react-bootstrap';
+import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { useStateFromProp } from '../../hook/hooks';
 
 function ModalEdicionLimiteGastos(props) {
@@ -41,12 +41,15 @@ function ModalEdicionLimiteGastos(props) {
                 <Form onSubmit={aceptar}>
                     <Modal.Body>
                         <label>Monto</label>
-                        <FormControl
-                            required
-                            onChange={e => setLimite(e.target.value)}
-                            value={limite}
-                            className='mb-3'
-                        />
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>$</InputGroup.Text>
+                            </InputGroup.Prepend><FormControl
+                                required
+                                onChange={e => setLimite(e.target.value)}
+                                value={limite}
+                            />
+                        </InputGroup>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={cancelar}>Cancelar</Button>

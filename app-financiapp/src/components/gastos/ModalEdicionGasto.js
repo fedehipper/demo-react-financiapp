@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, FormControl, Modal } from 'react-bootstrap';
+import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import { useStateFromProp } from '../../hook/hooks';
 
 function ModalEdicionGasto(props) {
@@ -71,12 +71,16 @@ function ModalEdicionGasto(props) {
                             className='mb-3'
                         />
                         <label>Monto</label>
-                        <FormControl
-                            required
-                            onChange={e => setValor(e.target.value)}
-                            value={valor}
-                            className='mb-3'
-                        />
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>$</InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <FormControl
+                                required
+                                onChange={e => setValor(e.target.value)}
+                                value={valor}
+                            />
+                        </InputGroup>
                         {mostrarFechaSiEsPrimeraCuotaOUnica()}
                     </Modal.Body>
                     <Modal.Footer>
