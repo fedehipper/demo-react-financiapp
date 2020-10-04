@@ -145,7 +145,6 @@ function GastosView() {
             .then(anioActual => buscarMesesPorAnioSeleccionado(anioActual));
     };
 
-
     const buscarTodosLosGastos = (anioSeleccionado, mesSeleccionado) => {
         gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
             .then(response => response.json())
