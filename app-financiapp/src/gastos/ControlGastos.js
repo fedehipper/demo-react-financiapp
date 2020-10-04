@@ -28,7 +28,19 @@ function ControlGastos(props) {
     }
 
     const limiteGastos = () => {
-        return <p>controlar gastos </p>
+        return <div class="card bg-light">
+            <div class="card-body pb-3 pl-3 pr-3 pt-2">
+                <div class="row">
+                    <h5 class="col card-title">Límite a gastar</h5>
+                        boton
+                            </div>
+                <div class="row col">
+                    <div>Monto límite: <b>$ 1232.23</b></div>
+                    <i v-if="montoLimiteEsSuperado" class="text-warning col-2 mt-1 fa fa-exclamation-triangle" v-tooltip title="Monto límite superado"></i>
+                </div>
+                    barra de progreso
+                </div>
+        </div>
     }
 
     return <LayoutControl
