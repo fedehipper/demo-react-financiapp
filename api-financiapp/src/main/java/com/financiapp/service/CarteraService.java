@@ -24,18 +24,18 @@ public class CarteraService {
     private final MovimientoRepository movimientoRepository;
     private final DetalleActivoService detalleActivoService;
     private final ActivoRepository activoRepository;
-    private final CotizacionDolarRepository cotizacionDolarRepository;
+    private final CotizacionDolarService cotizacionDolarService;
     private final UsuarioService usuarioService;
 
     public CarteraService(MovimientoRepository movimientoRepository,
             DetalleActivoService detalleActivoService,
             ActivoRepository activoRepository,
-            CotizacionDolarRepository cotizacionDolarRepository,
+            CotizacionDolarService cotizacionDolarService,
             UsuarioService usuarioService) {
         this.movimientoRepository = movimientoRepository;
         this.detalleActivoService = detalleActivoService;
         this.activoRepository = activoRepository;
-        this.cotizacionDolarRepository = cotizacionDolarRepository;
+        this.cotizacionDolarService = cotizacionDolarService;
         this.usuarioService = usuarioService;
     }
 
@@ -59,7 +59,7 @@ public class CarteraService {
         if (activos.isEmpty()) {
             return new ArrayList<>();
         } else {
-            var cotizacionDolar = cotizacionDolarRepository.buscarCotizacionDolar().getLibre();
+            var cotizacionDolar = cotizacionDolarService.buscarCotizacion().getLibre();
             var montoTotal = sumarMontos(activos, cotizacionDolar);
             return activos
                     .stream()

@@ -1,7 +1,7 @@
 package com.financiapp.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.financiapp.domain.vo.CotizacionDolar;
+import com.financiapp.domain.vo.CotizacionDolarVo;
 import java.io.IOException;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
@@ -17,10 +17,10 @@ public class CotizacionDolarRepository {
         this.restTemplate = restTemplate;
     }
 
-    public CotizacionDolar buscarCotizacionDolar() throws IOException {
+    public CotizacionDolarVo buscarCotizacionDolar() throws IOException {
         var uri = "http://ws.geeklab.com.ar/dolar/get-dolar-json.php";
         return objectMapper
-                .readValue(restTemplate.getForObject(uri, String.class), CotizacionDolar.class);
+                .readValue(restTemplate.getForObject(uri, String.class), CotizacionDolarVo.class);
     }
 
 }
