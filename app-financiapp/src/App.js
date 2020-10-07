@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar } from 'react-bootstrap';
 import logoFinanciap from './img/logo.png';
-import AppRouter from './navigation/AppRouter';
+import AppRouter from './router/AppRouter';
 
 function Layout(props) {
   return <div>
