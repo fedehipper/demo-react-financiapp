@@ -12,12 +12,11 @@ function MisGastos() {
 }
 
 function AppRouter(props) {
-    return (
-        <Router>
-            <Route path="/" exact component={MiCartera} />
-            <Route path="/mi-cartera/" component={MiCartera} />
-            <Route path="/mis-gastos/" component={MisGastos} />
-        </Router>
-    );
+    return <Router>
+        <Route path="/" exact component={MiCartera} />
+        <Route path="/mi-cartera/" component={MiCartera} />
+        <Route path="/mis-gastos/" component={MisGastos} />
+    </Router>
 }
+
 export default AppRouter;
