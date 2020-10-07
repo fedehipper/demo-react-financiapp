@@ -1,8 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GastosView from './components/gastos/Gastos';
 import { Nav, Navbar } from 'react-bootstrap';
 import logoFinanciap from './img/logo.png';
+import AppRouter from './navigation/AppRouter';
 
 function Layout(props) {
   return <div>
@@ -11,12 +11,14 @@ function Layout(props) {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#miCartera">Mi cartera</Nav.Link>
-          <Nav.Link href="#misGastos">Mis gastos</Nav.Link>
+          <Nav.Link href="mi-cartera">Mi cartera</Nav.Link>
+          <Nav.Link href="mis-gastos">Mis gastos</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-    <div className='container-fluid col-10'>{props.children}</div>
+    <div className='container-fluid col-10' >
+      <AppRouter />
+    </div>
   </div>
 }
 
@@ -24,11 +26,9 @@ function Layout(props) {
 function App() {
   return <div className="App">
     <header className="App-header">
-      <Layout>
-        <GastosView />
-      </Layout>
+      <Layout />
     </header>
-  </div>
+  </div >
 }
 
 export default App;
