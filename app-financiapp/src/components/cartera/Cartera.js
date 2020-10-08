@@ -1,7 +1,10 @@
 import React from 'react';
+import TituloVista from '../TituloVista';
 
 function Cartera() {
-    return <p>soy tu cartera!</p>
+    return <div className="mb-3 mt-3">
+        <TituloVista titulo='Mi cartera' />
+    </div>
 }
 
 export default Cartera;

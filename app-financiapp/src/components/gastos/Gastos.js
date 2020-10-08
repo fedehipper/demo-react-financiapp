@@ -11,6 +11,7 @@ import GraficoGastos from './GraficoGastos';
 import ControlGastos from './ControlGastos';
 import ModalEdicionGasto from './ModalEdicionGasto';
 import ModalEdicionLimiteGastos from './ModalEdicionLimiteGastos';
+import TituloVista from '../TituloVista';
 
 function Select(props) {
     return (
@@ -38,7 +39,7 @@ function ComboAnioYMes(props) {
 
     return (
         <div className="mb-3 mt-3">
-            <h2 className='grosor-titulos mb-4'>Mis Gastos</h2>
+            <TituloVista titulo='Mis gastos' />
             <div className="row ml-0">
                 <div className="ml-3">
                     {select('Año', props.anioSeleccionado, props.comboAnio.aniosASeleccionar, props.setearAnioSeleccionado)}
