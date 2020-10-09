@@ -1,9 +1,12 @@
 import React from 'react';
 import TituloVista from '../TituloVista';
+import CarteraActivos from './CarteraActivos';
+
 
 function Cartera() {
     return <div className="mb-3 mt-3">
         <TituloVista titulo='Mi cartera' />
+        <CarteraActivos/>
     </div>
 }
 

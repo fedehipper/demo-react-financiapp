@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Cartera from "../components/cartera/Cartera";
-import GastosView from "../components/gastos/Gastos";
+import Cartera from "../components/cartera/CarteraView";
+import GastosView from "../components/gastos/GastosView";
 
 function MiCartera() {
     return <Cartera />;
