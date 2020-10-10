@@ -22,7 +22,6 @@ Vue.component("gasto", {
             gastosMesSeleccionado: [],
             sumatoriaGasto: "",
             mostrarMensajePeriodoSinGastos: false,
-            mostrarPestaniaVerGrafico: false,
             graficoBurnUpData: "",
             gastoSeleccionado: ""
         };
@@ -32,12 +31,8 @@ Vue.component("gasto", {
             axios.get("/api/gastoBurnUp?anio=" + this.anioSeleccionado + "&mes=" + this.mesSeleccionado)
                     .then(response => {
                         this.graficoBurnUpData = response.data;
-                        if (this.fechaSeleccionadaEsAnteriorAHoy()) {
-                            this.mostrarPestaniaVerGrafico = true;
+                        if (this.graficoBurnUpData.disponible) {
                             this.graficar();
-                        } else {
-                            this.graficoBurnUp.destroy();
-                            this.mostrarPestaniaVerGrafico = false;
                         }
                     });
         },
@@ -262,7 +257,7 @@ Vue.component("gasto", {
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab" href="#detalle-gastos">Detalle mensual</a>
                                     </li>
-                                    <li v-if="mostrarPestaniaVerGrafico" class="nav-item" @click="buscarGraficoBurnUp">
+                                    <li v-if="graficoBurnUpData.disponible" class="nav-item" @click="buscarGraficoBurnUp">
                                         <a class="nav-link" data-toggle="tab" href="#grafico-gastos">Gráfico mensual</a>
                                     </li>
                                     <li class="nav-item">
@@ -310,8 +305,13 @@ Vue.component("gasto", {
                                 
                                 <div class="tab-pane fade" id="grafico-gastos">
                                     <div class="row">
-                                        <div class="col mb-4">
+                                        <div v-show="graficoBurnUpData.disponible" class="col mb-4">
                                             <canvas id="burnUp" class="chartjs" width="770" height="385" style="display: block; width: 770px; height: 385px;"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="row ml-0 mr-0">
+                                        <div v-show="!graficoBurnUpData.disponible" class="alert alert-warning col mb-4" role="alert">
+                                            El gráfico para sus gastos se encontrará disponible el primer día de este período.
                                         </div>
                                     </div>
                                 </div>
@@ -319,7 +319,7 @@ Vue.component("gasto", {
                                 <div class="tab-pane fade" id="control-gastos">
                                     <control-gasto :sumatoriaGasto="sumatoriaGasto" :montoLimite="montoMensualEstimado" @editarLimite="actualizarMontoMensualEstimado"/>
                                 </div>
-                            
+    
                             </div>
     
                         </div>

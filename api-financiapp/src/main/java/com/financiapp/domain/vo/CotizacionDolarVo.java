@@ -2,7 +2,7 @@ package com.financiapp.domain.vo;
 
 import java.math.BigDecimal;
 
-public class CotizacionDolar {
+public class CotizacionDolarVo {
 
     private BigDecimal libre;
 

@@ -5,13 +5,14 @@ import com.financiapp.domain.Usuario;
 import com.financiapp.domain.vo.ComboAniosVo;
 import com.financiapp.domain.vo.ComboMesesVo;
 import com.financiapp.domain.vo.GastoVo;
-import com.financiapp.domain.vo.GraficoBurnUpGastosMensual;
+import com.financiapp.domain.vo.GraficoBurnUpGastosMensualVo;
 import com.financiapp.domain.vo.SumatoriaGastoMesVo;
 import com.financiapp.repository.GastoRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -87,13 +88,34 @@ public class GastoService {
                 .forEach(gastoPorPago -> gastoRepository.save(gastoPorPago));
     }
 
-    public GraficoBurnUpGastosMensual obtenerBurnUpPorAnioYMes(String anio, String mes) {
-        LocalDate fechaPorParametro = determinarFechaPorParametro(Integer.valueOf(anio), Integer.valueOf(mes));
-        var graficoBurnUpGastosMensual = new GraficoBurnUpGastosMensual();
+    public GraficoBurnUpGastosMensualVo obtenerBurnUpPorAnioYMes(String anio, String mes) {
+        if (fechaPorParametroSuperaMesActual(Integer.valueOf(anio), Integer.valueOf(mes))) {
+            return graficoNoDisponible();
+        } else {
+            return graficoDisponible(determinarFechaPorParametro(anio, mes));
+        }
+    }
+
+    private GraficoBurnUpGastosMensualVo graficoDisponible(LocalDate fechaPorParametro) {
+        GraficoBurnUpGastosMensualVo graficoBurnUpGastosMensual = new GraficoBurnUpGastosMensualVo();
         graficoBurnUpGastosMensual.setDiasDelMes(diasDelMesYAnioSeleccionado(fechaPorParametro));
         graficoBurnUpGastosMensual.setGastoAcumuladoSinRepetirPorDia(gastoAcumuladoSinRepetirPorDia(fechaPorParametro));
         graficoBurnUpGastosMensual.setGastoEstimadoAcumuladoPorDiasDelMes(gastosTodoElMesAcumulados(fechaPorParametro));
+        graficoBurnUpGastosMensual.setDisponible(true);
         return graficoBurnUpGastosMensual;
+    }
+
+    private GraficoBurnUpGastosMensualVo graficoNoDisponible() {
+        GraficoBurnUpGastosMensualVo graficoBurnUpGastosMensual = new GraficoBurnUpGastosMensualVo();
+        graficoBurnUpGastosMensual.setDiasDelMes(Collections.EMPTY_LIST);
+        graficoBurnUpGastosMensual.setGastoAcumuladoSinRepetirPorDia(Collections.EMPTY_LIST);
+        graficoBurnUpGastosMensual.setGastoEstimadoAcumuladoPorDiasDelMes(Collections.EMPTY_LIST);
+        graficoBurnUpGastosMensual.setDisponible(false);
+        return graficoBurnUpGastosMensual;
+    }
+
+    private boolean fechaPorParametroSuperaMesActual(int anio, int mes) {
+        return LocalDate.of(anio, mes, 1).isAfter(LocalDate.now());
     }
 
     public SumatoriaGastoMesVo sumatoriaGastoMes(int anio, int mes) {
@@ -109,6 +131,7 @@ public class GastoService {
         var gastoVo = new GastoVo();
         gastoVo.setConcepto(gasto.getConcepto());
         gastoVo.setFecha(gasto.getFecha());
+        gastoVo.setPrimerCuota(gasto.getGasto() == null);
         gastoVo.setId(gasto.getId());
         gastoVo.setNecesario(gasto.isNecesario());
         gastoVo.setValor(gasto.getValor().setScale(2).toString());
@@ -206,9 +229,11 @@ public class GastoService {
                 .findByUsuarioIdAndFechaBetweenOrderByFechaDesc(usuarioService.buscarUsuarioLogueado().getId(), fechaInicio, fechaFin);
     }
 
-    private LocalDate determinarFechaPorParametro(int anio, int mes) {
+    private LocalDate determinarFechaPorParametro(String anio, String mes) {
         var hoy = LocalDate.now();
-        return fechaPorParametroEsHoy(anio, mes, hoy) ? LocalDate.of(anio, mes, hoy.getDayOfMonth()) : LocalDate.of(anio, mes, 1);
+        return fechaPorParametroEsHoy(Integer.valueOf(anio), Integer.valueOf(mes), hoy)
+                ? LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), hoy.getDayOfMonth())
+                : LocalDate.of(Integer.valueOf(anio), Integer.valueOf(mes), 1);
     }
 
     private boolean fechaPorParametroEsHoy(int anio, int mes, LocalDate hoy) {

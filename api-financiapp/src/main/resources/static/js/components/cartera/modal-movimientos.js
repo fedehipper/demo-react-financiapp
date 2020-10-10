@@ -42,7 +42,6 @@ Vue.component("modal-movimientos", {
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary" @click="confirmar">Aceptar</button>
                         </div>
                     </form>

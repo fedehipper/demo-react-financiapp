@@ -186,6 +186,9 @@ Vue.component("cartera", {
                                         <a class="nav-link active" data-toggle="tab" href="#cartera">Cartera de activos</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#grafico-cartera">Gráfico</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#suma-cartera">Suma por moneda</a>
                                     </li>
                                 </ul>
@@ -221,14 +224,15 @@ Vue.component("cartera", {
                                                 @buscarMovimientosPorActivoId="buscarMovimientosPorActivoId"
                                             />                                
                                         </tbody>
-                                    </table>
-    
+                                    </table>    
+                                </div>
+
+                                <div class="tab-pane fade show" id="grafico-cartera">
                                     <div class="row grafico-espaciado">
                                         <div class="col-10 mb-4 mt-3 offset-1">
                                             <canvas id="porcentajesActivos" class="chartjs" width="770" height="385" style="display: block; width: 770px; height: 385px;"></canvas>
                                         </div>
                                     </div>
-    
                                 </div>
                                 
                                 <div class="tab-pane fade" id="suma-cartera">
@@ -245,4 +249,3 @@ Vue.component("cartera", {
         </div>
     `
 });
-

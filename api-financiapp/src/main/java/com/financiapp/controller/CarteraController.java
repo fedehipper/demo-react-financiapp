@@ -1,6 +1,6 @@
 package com.financiapp.controller;
 
-import com.financiapp.repository.CotizacionDolarRepository;
+import com.financiapp.service.CotizacionDolarService;
 import java.io.IOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +10,15 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class CarteraController {
 
-    private final CotizacionDolarRepository cotizacionDolarRepository;
+    private final CotizacionDolarService cotizacionDolarService;
 
-    public CarteraController(CotizacionDolarRepository cotizacionDolarRepository) {
-        this.cotizacionDolarRepository = cotizacionDolarRepository;
+    public CarteraController(CotizacionDolarService cotizacionDolarService) {
+        this.cotizacionDolarService = cotizacionDolarService;
     }
 
     @GetMapping(value = "/cartera")
     public ModelAndView cartera(ModelAndView modelAndView) throws IOException {
-        modelAndView.addObject("cotizacionDolar", cotizacionDolarRepository.buscarCotizacionDolar().getLibre());
+        modelAndView.addObject("cotizacionDolar", cotizacionDolarService.buscarCotizacion().getLibre());
         modelAndView.setViewName("cartera");
         return modelAndView;
     }
