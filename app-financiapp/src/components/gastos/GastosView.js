@@ -38,19 +38,14 @@ function ComboAnioYMes(props) {
             setearValorSeleccionado={setearValorSeleccionado} />
     }
 
-    return (
-        <div className="mb-3 mt-3">
-            <TituloVista titulo='Mis gastos' />
-            <div className="row ml-0">
-                <div className="ml-3">
-                    {select('Año', props.anioSeleccionado, props.comboAnio.aniosASeleccionar, props.setearAnioSeleccionado)}
-                </div>
-                <div className="ml-5">
-                    {select('Mes', props.mesSeleccionado, props.comboMes.mesesASeleccionar, props.setearMesSeleccionado)}
-                </div>
-            </div>
+    return <div className="row ml-0 mb-3">
+        <div className="ml-3">
+            {select('Año', props.anioSeleccionado, props.comboAnio.aniosASeleccionar, props.setearAnioSeleccionado)}
         </div>
-    );
+        <div className="ml-5">
+            {select('Mes', props.mesSeleccionado, props.comboMes.mesesASeleccionar, props.setearMesSeleccionado)}
+        </div>
+    </div>
 }
 
 function NavGastos(props) {
@@ -328,7 +323,7 @@ function GastosView() {
     }
     
     const detalleAccionToastComponent = () => {
-        return <DetalleAccionToast
+        return <DetalleAccionToast 
             descripcionToast={descripcionToast}
             cerrarToast={cerarToast} />
     }
@@ -353,12 +348,19 @@ function GastosView() {
         />
     }
 
-    return <div>
-        {detalleAccionToastComponent()}
+    return <div className='mt-3'>
         {modalEdicionGastoComponent()}
         {modalNuevoGastoComponent()}
         {modalEliminacionGastoComponent()}
         {modalEdicionLimiteGastoComponent()}
+        <div className='row'>
+            <div className='col-9'>
+                <TituloVista titulo='Mis gastos' />
+            </div>
+            <div className='col-3'>
+                {detalleAccionToastComponent()} 
+            </div>
+        </div>
         {comboAnioMesComponent()}
         {navGastosComponent()}
     </div >
