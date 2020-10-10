@@ -325,12 +325,7 @@ function GastosView() {
         />
     }
     
-    const detalleAccionToastComponent = () => {
-        return <DetalleAccionToast 
-            descripcionToast={descripcionToast}
-            cerrarToast={cerarToast} />
-    }
-
+    const detalleAccionToastComponent = () => <DetalleAccionToast descripcionToast={descripcionToast} cerrarToast={cerarToast} />
     const graficoGastosComponent = () => <GraficoGastos graficoGastos={graficoGastos} graficoGastosDisponible={graficoGastos.disponible}/>
     
     const controlGastosComponent = () => {
