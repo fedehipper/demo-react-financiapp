@@ -231,17 +231,26 @@ function GastosView() {
 
     const crearNuevoGasto = (nuevoGasto) => {
         gastosService.crearGasto(nuevoGasto)
-            .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado));
+            .then(() => {
+                buscarTodosLosGastos(anioSeleccionado, mesSeleccionado);
+                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha creado un nuevo gasto.' });
+            });
     }
 
     const editarGasto = (gastoEditado) => {
         gastosService.editarGasto(gastoEditado)
-            .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado));
+            .then(() => {
+                buscarTodosLosGastos(anioSeleccionado, mesSeleccionado);
+                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha actualizado el gasto seleccionado.' });
+            });
     }
 
     const eliminarGastoPorId = () => {
         gastosService.eliminarGastoPorId(gastoSeleccionado.id)
-            .then(() => buscarTodosLosGastos(anioSeleccionado, mesSeleccionado))
+            .then(() => {
+                buscarTodosLosGastos(anioSeleccionado, mesSeleccionado);
+                setDescripcionToast({ esVisible: true, colorTexto: 'text-success', accionRealizada: 'Se ha eliminado el el gasto seleccionado.' });
+            });
     }
 
     const buscarSumatoriaGastos = (anio, mes) => {
