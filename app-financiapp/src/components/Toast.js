@@ -12,7 +12,7 @@ function DetalleAccionToast(props) {
             <Toast.Header>
                 <strong className="mr-auto">Acción realizada</strong>
             </Toast.Header>
-            <Toast.Body className='text-success'><strong>{props.descripcionToast.accionRealizada}</strong></Toast.Body>
+            <Toast.Body className={props.descripcionToast.colorTexto}><strong>{props.descripcionToast.accionRealizada}</strong></Toast.Body>
     </Toast>
 }
 

@@ -171,7 +171,7 @@ function GastosView() {
             .cambiarNecesidad(gastoId)
             .then(() => {
                 buscarTodosLosGastosALModificarUnaNecesidad();
-                setDescripcionToast({ esVisible: true, accionRealizada: 'Se ha actualizado la necesidad del gasto.' });
+                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha actualizado la necesidad del gasto.' });
             });
     };
 
@@ -263,7 +263,10 @@ function GastosView() {
             montoEstimado: monto
         }
         gastosService.editarMontoMensualEstimado(montoMensualAEditar)
-            .then(() => buscarMontoMensualEstimado(anioSeleccionado, mesSeleccionado));
+            .then(() => {
+                buscarMontoMensualEstimado(anioSeleccionado, mesSeleccionado);
+                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha actualizado el monto mensual estimado.' });
+            });
     }
 
     
