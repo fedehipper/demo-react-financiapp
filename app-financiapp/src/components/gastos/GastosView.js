@@ -12,6 +12,7 @@ import ControlGastos from './ControlGastos';
 import ModalEdicionGasto from './ModalEdicionGasto';
 import ModalEdicionLimiteGastos from './ModalEdicionLimiteGastos';
 import TituloVista from '../TituloVista';
+import DetalleAccionToast from '../Toast';
 
 function Select(props) {
     return (
@@ -55,9 +56,7 @@ function ComboAnioYMes(props) {
 function NavGastos(props) {
     const [opcionSeleccionada, setOpcionSeleccionada] = useState('detalle-gastos');
 
-    const abrirModal = () => {
-        props.abrirModal();
-    }
+    const abrirModal = () => props.abrirModal();
 
     const asignarOpcionSeleccionada = () => {
         if (opcionSeleccionada === 'detalle-gastos') {
@@ -75,24 +74,22 @@ function NavGastos(props) {
         </Nav.Item>
     }
 
-    return (
-        <div>
-            <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2" onSelect={setOpcionSeleccionada}>
-                <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
-                    {seccionNav('detalle-gastos', 'Detalle mensual')}
-                    {props.graficoGastosDisponible ? seccionNav('grafico-gastos', 'Gráfico mensual') : <></>}
-                    {seccionNav('control-gastos', 'Limita tus gastos')}
-                </ul>
-                <Boton
-                    accion={abrirModal}
-                    color='danger'
-                    icono={faPlusCircle}
-                    texto='Nuevo gasto'
-                />
-            </Nav>
-            {asignarOpcionSeleccionada()}
-        </div>
-    );
+    return <div>
+        <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2" onSelect={setOpcionSeleccionada}>
+            <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
+                {seccionNav('detalle-gastos', 'Detalle mensual')}
+                {props.graficoGastosDisponible ? seccionNav('grafico-gastos', 'Gráfico mensual') : <></>}
+                {seccionNav('control-gastos', 'Limita tus gastos')}
+            </ul>
+            <Boton
+                accion={abrirModal}
+                color='danger'
+                icono={faPlusCircle}
+                texto='Nuevo gasto'
+            />
+        </Nav>
+        {asignarOpcionSeleccionada()}
+    </div>
 }
 
 function GastosView() {
@@ -124,11 +121,18 @@ function GastosView() {
         gastoInnecesario: ''
     });
     const [montoMensualEstimado, setMontoMensualEstimado] = useState(0.00);
+    const [descripcionToast, setDescripcionToast] = useState({
+        esVisible: false
+    })
 
     useEffect(() => {
         inicializarGastosPorAnioYMes();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const cerarToast = () => {
+        setDescripcionToast({ esVisible: false });
+    }
 
     const buscarGraficoGastos = (anio, mes) => {
         gastosService.buscarGraficoGastos(anio, mes)
@@ -169,7 +173,10 @@ function GastosView() {
     const cambiarNecesidad = (gastoId) => {
         gastosService
             .cambiarNecesidad(gastoId)
-            .then(() => buscarTodosLosGastosALModificarUnaNecesidad());
+            .then(() => {
+                buscarTodosLosGastosALModificarUnaNecesidad();
+                setDescripcionToast({ esVisible: true });
+            });
     };
 
     const buscarMesesPorAnioSeleccionado = (anioSeleccionado) => {
@@ -263,63 +270,92 @@ function GastosView() {
             .then(() => buscarMontoMensualEstimado(anioSeleccionado, mesSeleccionado));
     }
 
-    return (
-        <div>
-            <ModalEdicionGasto
-                modalEdicionGastoAbierto={modalEdicionGastoAbierto}
-                cerrarModal={cerrarModalEdicionGasto}
-                gastoAEditar={gastoSeleccionado}
-                editarGasto={editarGasto}
-            />
-            <ModalNuevoGasto
-                modalNuevoGastoAbierto={modalNuevoGastoAbierto}
-                cerrarModal={cerrarModalNuevoGasto}
-                crearNuevoGasto={crearNuevoGasto}
-            />
-            <ModalEliminacionGasto
-                conceptoAEliminar={gastoSeleccionado.concepto}
-                modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
-                cerrarModal={cerrarModalEliminacionGasto}
-                eliminarGastoPorId={eliminarGastoPorId}
-            />
-            <ModalEdicionLimiteGastos
-                modalEdicionLimiteGastosAbierto={modalEdicionLimiteGastosAbierto}
-                cerrarModal={cerrarModalEdicionLimiteGastos}
-                montoMensualEstimado={montoMensualEstimado}
-                editarMontoMensualEstimado={editarMontoMensualEstimado}
-            />
-            <ComboAnioYMes
-                comboAnio={comboAnio}
-                comboMes={comboMes}
-                mesSeleccionado={mesSeleccionado}
-                anioSeleccionado={anioSeleccionado}
-                setearAnioSeleccionado={setearAnioSeleccionado}
-                setearMesSeleccionado={setearMesSeleccionado}
-            />
-            <NavGastos
-                abrirModal={abrirModalNuevoGasto}
-                tablaGastos={
-                    <DetalleMensual
-                        gastos={gastos}
-                        cambiarNecesidad={cambiarNecesidad}
-                        abrirModalEliminacionGasto={abrirModalEliminacionGasto}
-                        abrirModalEdicionGasto={abrirModalEdicionGasto}
-                    />}
-                graficoGastos={
-                    <GraficoGastos
-                        graficoGastos={graficoGastos}
-                        graficoGastosDisponible={graficoGastos.disponible}
-                    />
-                }
-                controlGastos={<ControlGastos
-                    sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
-                    montoMensualEstimado={montoMensualEstimado}
-                    abrirModal={abrirModalEdicionLimiteGastos}
-                />}
-                graficoGastosDisponible={graficoGastos.disponible}
-            />
+    
+    const modalEdicionGastoComponent = () => {
+        return <ModalEdicionGasto
+        modalEdicionGastoAbierto={modalEdicionGastoAbierto}
+        cerrarModal={cerrarModalEdicionGasto}
+        gastoAEditar={gastoSeleccionado}
+        editarGasto={editarGasto}
+        />
+    }
+    
+    const modalNuevoGastoComponent = () => {
+        return <ModalNuevoGasto
+        modalNuevoGastoAbierto={modalNuevoGastoAbierto}
+        cerrarModal={cerrarModalNuevoGasto}
+        crearNuevoGasto={crearNuevoGasto}
+        />
+    }
+    
+    const modalEliminacionGastoComponent = () => {
+        return <ModalEliminacionGasto
+        conceptoAEliminar={gastoSeleccionado.concepto}
+        modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
+        cerrarModal={cerrarModalEliminacionGasto}
+        eliminarGastoPorId={eliminarGastoPorId}
+        />
+    }
+    
+    const modalEdicionLimiteGastoComponent = () => {
+        return <ModalEdicionLimiteGastos
+        modalEdicionLimiteGastosAbierto={modalEdicionLimiteGastosAbierto}
+        cerrarModal={cerrarModalEdicionLimiteGastos}
+        montoMensualEstimado={montoMensualEstimado}
+        editarMontoMensualEstimado={editarMontoMensualEstimado}
+        />
+    }
+    
+    const comboAnioMesComponent = () => {
+        return <ComboAnioYMes
+        comboAnio={comboAnio}
+        comboMes={comboMes}
+        mesSeleccionado={mesSeleccionado}
+        anioSeleccionado={anioSeleccionado}
+        setearAnioSeleccionado={setearAnioSeleccionado}
+        setearMesSeleccionado={setearMesSeleccionado}
+        />
+    }
+    
+    const detalleMensualComponent = () => {
+        return <DetalleMensual
+        gastos={gastos}
+        cambiarNecesidad={cambiarNecesidad}
+        abrirModalEliminacionGasto={abrirModalEliminacionGasto}
+        abrirModalEdicionGasto={abrirModalEdicionGasto}
+        />
+    }
+    
+    const detalleAccionToastComponent = () => <DetalleAccionToast descripcionToast={descripcionToast} cerrarToast={cerarToast}/>
+    const graficoGastosComponent = () => <GraficoGastos graficoGastos={graficoGastos} graficoGastosDisponible={graficoGastos.disponible}/>
+    
+    const controlGastosComponent = () => {
+        return <ControlGastos
+        sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
+        montoMensualEstimado={montoMensualEstimado}
+        abrirModal={abrirModalEdicionLimiteGastos}
+        />
+    }
+    
+    const navGastosComponent = () => {
+        return <NavGastos
+        abrirModal={abrirModalNuevoGasto}
+        tablaGastos={detalleMensualComponent()}
+        graficoGastos={graficoGastosComponent()}
+            controlGastos={controlGastosComponent()}
+            graficoGastosDisponible={graficoGastos.disponible}
+        />
+    }
+
+    return <div>
+            {detalleAccionToastComponent()}
+            {modalEdicionGastoComponent()}
+            {modalNuevoGastoComponent()}
+            {modalEliminacionGastoComponent()}
+            {modalEdicionLimiteGastoComponent()}
+            {comboAnioMesComponent()}
+            {navGastosComponent()}
         </div >
-    );
 }
 
 export default GastosView;
