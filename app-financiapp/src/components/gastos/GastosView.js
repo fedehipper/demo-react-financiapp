@@ -122,7 +122,8 @@ function GastosView() {
     });
     const [montoMensualEstimado, setMontoMensualEstimado] = useState(0.00);
     const [descripcionToast, setDescripcionToast] = useState({
-        esVisible: false
+        esVisible: false,
+        accionRealizada: ''
     })
 
     useEffect(() => {
@@ -175,7 +176,7 @@ function GastosView() {
             .cambiarNecesidad(gastoId)
             .then(() => {
                 buscarTodosLosGastosALModificarUnaNecesidad();
-                setDescripcionToast({ esVisible: true });
+                setDescripcionToast({ esVisible: true, accionRealizada: 'Se ha actualizado la necesidad del gasto.' });
             });
     };
 
@@ -273,89 +274,94 @@ function GastosView() {
     
     const modalEdicionGastoComponent = () => {
         return <ModalEdicionGasto
-        modalEdicionGastoAbierto={modalEdicionGastoAbierto}
-        cerrarModal={cerrarModalEdicionGasto}
-        gastoAEditar={gastoSeleccionado}
-        editarGasto={editarGasto}
+            modalEdicionGastoAbierto={modalEdicionGastoAbierto}
+            cerrarModal={cerrarModalEdicionGasto}
+            gastoAEditar={gastoSeleccionado}
+            editarGasto={editarGasto}
         />
     }
     
     const modalNuevoGastoComponent = () => {
         return <ModalNuevoGasto
-        modalNuevoGastoAbierto={modalNuevoGastoAbierto}
-        cerrarModal={cerrarModalNuevoGasto}
-        crearNuevoGasto={crearNuevoGasto}
+            modalNuevoGastoAbierto={modalNuevoGastoAbierto}
+            cerrarModal={cerrarModalNuevoGasto}
+            crearNuevoGasto={crearNuevoGasto}
         />
     }
     
     const modalEliminacionGastoComponent = () => {
         return <ModalEliminacionGasto
-        conceptoAEliminar={gastoSeleccionado.concepto}
-        modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
-        cerrarModal={cerrarModalEliminacionGasto}
-        eliminarGastoPorId={eliminarGastoPorId}
+            conceptoAEliminar={gastoSeleccionado.concepto}
+            modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
+            cerrarModal={cerrarModalEliminacionGasto}
+            eliminarGastoPorId={eliminarGastoPorId}
         />
     }
     
     const modalEdicionLimiteGastoComponent = () => {
         return <ModalEdicionLimiteGastos
-        modalEdicionLimiteGastosAbierto={modalEdicionLimiteGastosAbierto}
-        cerrarModal={cerrarModalEdicionLimiteGastos}
-        montoMensualEstimado={montoMensualEstimado}
-        editarMontoMensualEstimado={editarMontoMensualEstimado}
+            modalEdicionLimiteGastosAbierto={modalEdicionLimiteGastosAbierto}
+            cerrarModal={cerrarModalEdicionLimiteGastos}
+            montoMensualEstimado={montoMensualEstimado}
+            editarMontoMensualEstimado={editarMontoMensualEstimado}
         />
     }
     
     const comboAnioMesComponent = () => {
         return <ComboAnioYMes
-        comboAnio={comboAnio}
-        comboMes={comboMes}
-        mesSeleccionado={mesSeleccionado}
-        anioSeleccionado={anioSeleccionado}
-        setearAnioSeleccionado={setearAnioSeleccionado}
-        setearMesSeleccionado={setearMesSeleccionado}
+            comboAnio={comboAnio}
+            comboMes={comboMes}
+            mesSeleccionado={mesSeleccionado}
+            anioSeleccionado={anioSeleccionado}
+            setearAnioSeleccionado={setearAnioSeleccionado}
+            setearMesSeleccionado={setearMesSeleccionado}
         />
     }
     
     const detalleMensualComponent = () => {
         return <DetalleMensual
-        gastos={gastos}
-        cambiarNecesidad={cambiarNecesidad}
-        abrirModalEliminacionGasto={abrirModalEliminacionGasto}
-        abrirModalEdicionGasto={abrirModalEdicionGasto}
+            gastos={gastos}
+            cambiarNecesidad={cambiarNecesidad}
+            abrirModalEliminacionGasto={abrirModalEliminacionGasto}
+            abrirModalEdicionGasto={abrirModalEdicionGasto}
         />
     }
     
-    const detalleAccionToastComponent = () => <DetalleAccionToast descripcionToast={descripcionToast} cerrarToast={cerarToast}/>
+    const detalleAccionToastComponent = () => {
+        return <DetalleAccionToast
+            descripcionToast={descripcionToast}
+            cerrarToast={cerarToast} />
+    }
+
     const graficoGastosComponent = () => <GraficoGastos graficoGastos={graficoGastos} graficoGastosDisponible={graficoGastos.disponible}/>
     
     const controlGastosComponent = () => {
         return <ControlGastos
-        sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
-        montoMensualEstimado={montoMensualEstimado}
-        abrirModal={abrirModalEdicionLimiteGastos}
+            sumatoriaGastos={sumatoriaGastosPorPeriodoSeleccionado}
+            montoMensualEstimado={montoMensualEstimado}
+            abrirModal={abrirModalEdicionLimiteGastos}
         />
     }
     
     const navGastosComponent = () => {
         return <NavGastos
-        abrirModal={abrirModalNuevoGasto}
-        tablaGastos={detalleMensualComponent()}
-        graficoGastos={graficoGastosComponent()}
+            abrirModal={abrirModalNuevoGasto}
+            tablaGastos={detalleMensualComponent()}
+            graficoGastos={graficoGastosComponent()}
             controlGastos={controlGastosComponent()}
             graficoGastosDisponible={graficoGastos.disponible}
         />
     }
 
     return <div>
-            {detalleAccionToastComponent()}
-            {modalEdicionGastoComponent()}
-            {modalNuevoGastoComponent()}
-            {modalEliminacionGastoComponent()}
-            {modalEdicionLimiteGastoComponent()}
-            {comboAnioMesComponent()}
-            {navGastosComponent()}
-        </div >
+        {detalleAccionToastComponent()}
+        {modalEdicionGastoComponent()}
+        {modalNuevoGastoComponent()}
+        {modalEliminacionGastoComponent()}
+        {modalEdicionLimiteGastoComponent()}
+        {comboAnioMesComponent()}
+        {navGastosComponent()}
+    </div >
 }
 
 export default GastosView;

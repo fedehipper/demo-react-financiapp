@@ -8,7 +8,7 @@ function DetalleAccionToast(props) {
             <strong className="mr-auto">Bootstrap</strong>
             <small>11 mins ago</small>
         </Toast.Header>
-        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+        <Toast.Body>{props.descripcionToast.accionRealizada}</Toast.Body>
     </Toast>
 }
 
