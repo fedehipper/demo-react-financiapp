@@ -14,28 +14,18 @@ import ModalEdicionLimiteGastos from './ModalEdicionLimiteGastos';
 import TituloVista from '../TituloVista';
 import DetalleAccionToast from '../Toast';
 
-function Select(props) {
-    return (
-        <div className='row'>
+function ComboAnioYMes(props) {
+    const select = (nombreSelect, valorSeleccionado, valores, setearValorSeleccionado) => {
+        return <div className='row'>
             <div className='mr-3 mt-2'>
-                <label>{props.nombreSelect}</label>
+                <label>{nombreSelect}</label>
             </div>
             <div>
-                <select className="form-control" onChange={props.setearValorSeleccionado} value={props.valorSeleccionado}>
-                    {props.valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
+                <select className="form-control" onChange={setearValorSeleccionado} value={valorSeleccionado}>
+                    {valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
                 </select>
             </div>
         </div>
-    );
-}
-
-function ComboAnioYMes(props) {
-    const select = (nombreSelect, valorSeleccionado, valores, setearValorSeleccionado) => {
-        return <Select
-            nombreSelect={nombreSelect}
-            valorSeleccionado={valorSeleccionado}
-            valores={valores}
-            setearValorSeleccionado={setearValorSeleccionado} />
     }
 
     return <div className="row ml-0 mb-3">
