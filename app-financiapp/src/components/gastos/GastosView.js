@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './../../css/financiapp.css';
 import gastosService from '../../service/gastosService.js';
-import ModalNuevoGasto from './ModalNuevoGasto.js';
 import { Nav } from 'react-bootstrap';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import DetalleMensual from './DetalleMensual';
 import Boton from '../Boton';
-import ModalEliminacionGasto from './ModalEliminacionGasto';
 import GraficoGastos from './GraficoGastos';
 import ControlGastos from './ControlGastos';
-import ModalEdicionGasto from './ModalEdicionGasto';
 import ModalEdicionLimiteGastos from './ModalEdicionLimiteGastos';
 import TituloVista from '../TituloVista';
 import DetalleAccionToast from '../Toast';
+import ModalNuevoGasto from './ModalNuevoGasto';
 
 function Select(props) {
     return (
@@ -88,12 +86,10 @@ function NavGastos(props) {
 }
 
 function GastosView() {
-    const [gastoSeleccionado, setGastoSeleccionado] = useState({});
-    const [modalEliminacionGastoAbierto, setModalEliminacionGastoAbierto] = useState(false);
-    const [modalEdicionGastoAbierto, setModalEdicionGastoAbierto] = useState(false);
+    const [buscarGastos, setBuscarGastos] = useState(false);
+    const [gastoNuevoCreado, setGastoNuevoCreado] = useState(false);
     const [modalNuevoGastoAbierto, setModalNuevoGastoAbierto] = useState(false);
     const [modalEdicionLimiteGastosAbierto, setModalEdicionLimiteGastosAbierto] = useState(false);
-    const [gastos, setGastos] = useState([]);
     const [anioSeleccionado, setAnioSeleccionado] = useState('');
     const [mesSeleccionado, setMesSeleccionado] = useState('');
     const [comboAnio, setComboAnio] = useState({
@@ -148,33 +144,6 @@ function GastosView() {
             .then(anioActual => buscarMesesPorAnioSeleccionado(anioActual));
     };
 
-    const buscarTodosLosGastos = (anioSeleccionado, mesSeleccionado) => {
-        gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
-            .then(response => response.json())
-            .then(gastos => setGastos(gastos));
-    };
-
-    const buscarTodosLosGastosALModificarUnaNecesidad = () => {
-        gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
-            .then(response => response.json())
-            .then(gastos => setGastos(gastos));
-    };
-
-    const buscarTodosLosGastosCuandoCambiaSoloMes = (mesSeleccionado) => {
-        gastosService.buscarTodos(anioSeleccionado, mesSeleccionado)
-            .then(response => response.json())
-            .then(gastos => setGastos(gastos));
-    };
-
-    const cambiarNecesidad = (gastoId) => {
-        gastosService
-            .cambiarNecesidad(gastoId)
-            .then(() => {
-                buscarTodosLosGastosALModificarUnaNecesidad();
-                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha actualizado la necesidad del gasto.' });
-            });
-    };
-
     const buscarMesesPorAnioSeleccionado = (anioSeleccionado) => {
         gastosService.buscarMesesDisponiblesPorAnio(anioSeleccionado)
             .then(response => response.json())
@@ -186,8 +155,7 @@ function GastosView() {
                 }
             })
             .then(anioYMesSeleccionados => {
-                buscarTodosLosGastos(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
-                asignarEstadoPor(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
+                actualizarEstadoPor(anioYMesSeleccionados.anioSeleccionado, anioYMesSeleccionados.mesSeleccionado);
             });
     };
 
@@ -195,63 +163,24 @@ function GastosView() {
         const anioSeleccionado = parseInt(eventoCambioAnio.target.value);
         setAnioSeleccionado(anioSeleccionado);
         buscarMesesPorAnioSeleccionado(anioSeleccionado);
-        asignarEstadoPor(anioSeleccionado, mesSeleccionado);
+        actualizarEstadoPor(anioSeleccionado, mesSeleccionado);
     };
 
     const setearMesSeleccionado = (eventoCambioMes) => {
         const mesSeleccionado = parseInt(eventoCambioMes.target.value);
         setMesSeleccionado(mesSeleccionado);
-        buscarTodosLosGastosCuandoCambiaSoloMes(mesSeleccionado);
-        asignarEstadoPor(anioSeleccionado, mesSeleccionado);
+        actualizarEstadoPor(anioSeleccionado, mesSeleccionado);
     };
 
-    const asignarEstadoPor = (anio, mes) => {
+    const actualizarEstadoPor = (anio, mes) => {
         buscarGraficoGastos(anio, mes);
         buscarSumatoriaGastos(anio, mes);
         buscarMontoMensualEstimado(anio, mes);
-    }
-
-    const cerrarModalEliminacionGasto = () => setModalEliminacionGastoAbierto(false);
-    const abrirModalEliminacionGasto = (idGastoSeleccionado, conceptoGastoSeleccionado) => {
-        setGastoSeleccionado({ id: idGastoSeleccionado, concepto: conceptoGastoSeleccionado });
-        setModalEliminacionGastoAbierto(true);
+        setBuscarGastos(true);
     }
 
     const cerrarModalEdicionLimiteGastos = () => setModalEdicionLimiteGastosAbierto(false);
     const abrirModalEdicionLimiteGastos = () => setModalEdicionLimiteGastosAbierto(true);
-
-    const cerrarModalEdicionGasto = () => setModalEdicionGastoAbierto(false);
-    const abrirModalEdicionGasto = (gastoSeleccionado) => {
-        setGastoSeleccionado(gastoSeleccionado);
-        setModalEdicionGastoAbierto(true);
-    }
-
-    const abrirModalNuevoGasto = () => setModalNuevoGastoAbierto(true);
-    const cerrarModalNuevoGasto = () => setModalNuevoGastoAbierto(false);
-
-    const crearNuevoGasto = (nuevoGasto) => {
-        gastosService.crearGasto(nuevoGasto)
-            .then(() => {
-                buscarTodosLosGastos(anioSeleccionado, mesSeleccionado);
-                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha creado un nuevo gasto.' });
-            });
-    }
-
-    const editarGasto = (gastoEditado) => {
-        gastosService.editarGasto(gastoEditado)
-            .then(() => {
-                buscarTodosLosGastos(anioSeleccionado, mesSeleccionado);
-                setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha actualizado el gasto seleccionado.' });
-            });
-    }
-
-    const eliminarGastoPorId = () => {
-        gastosService.eliminarGastoPorId(gastoSeleccionado.id)
-            .then(() => {
-                buscarTodosLosGastos(anioSeleccionado, mesSeleccionado);
-                setDescripcionToast({ esVisible: true, colorTexto: 'text-success', accionRealizada: 'Se ha eliminado el el gasto seleccionado.' });
-            });
-    }
 
     const buscarSumatoriaGastos = (anio, mes) => {
         gastosService.buscarSumatoriaGastos(anio, mes)
@@ -277,33 +206,6 @@ function GastosView() {
                 setDescripcionToast({ esVisible: true, colorTexto:'text-success', accionRealizada: 'Se ha actualizado el monto mensual estimado.' });
             });
     }
-
-    
-    const modalEdicionGastoComponent = () => {
-        return <ModalEdicionGasto
-            modalEdicionGastoAbierto={modalEdicionGastoAbierto}
-            cerrarModal={cerrarModalEdicionGasto}
-            gastoAEditar={gastoSeleccionado}
-            editarGasto={editarGasto}
-        />
-    }
-    
-    const modalNuevoGastoComponent = () => {
-        return <ModalNuevoGasto
-            modalNuevoGastoAbierto={modalNuevoGastoAbierto}
-            cerrarModal={cerrarModalNuevoGasto}
-            crearNuevoGasto={crearNuevoGasto}
-        />
-    }
-    
-    const modalEliminacionGastoComponent = () => {
-        return <ModalEliminacionGasto
-            conceptoAEliminar={gastoSeleccionado.concepto}
-            modalEliminacionGastoAbierto={modalEliminacionGastoAbierto}
-            cerrarModal={cerrarModalEliminacionGasto}
-            eliminarGastoPorId={eliminarGastoPorId}
-        />
-    }
     
     const modalEdicionLimiteGastoComponent = () => {
         return <ModalEdicionLimiteGastos
@@ -327,10 +229,11 @@ function GastosView() {
     
     const detalleMensualComponent = () => {
         return <DetalleMensual
-            gastos={gastos}
-            cambiarNecesidad={cambiarNecesidad}
-            abrirModalEliminacionGasto={abrirModalEliminacionGasto}
-            abrirModalEdicionGasto={abrirModalEdicionGasto}
+            dejarDeBuscarGastos={() => setBuscarGastos(false)}
+            buscarGastos={buscarGastos}
+            gastoNuevoCreado={gastoNuevoCreado}
+            anioSeleccionado={anioSeleccionado}
+            mesSeleccionado={mesSeleccionado}
         />
     }
     
@@ -344,7 +247,9 @@ function GastosView() {
             abrirModal={abrirModalEdicionLimiteGastos}
         />
     }
-    
+
+    const abrirModalNuevoGasto = () => setModalNuevoGastoAbierto(true);
+
     const navGastosComponent = () => {
         return <NavGastos
             abrirModal={abrirModalNuevoGasto}
@@ -355,10 +260,22 @@ function GastosView() {
         />
     }
 
+    const modalNuevoGastoComponent = () => {
+        return <ModalNuevoGasto
+            modalNuevoGastoAbierto={modalNuevoGastoAbierto}
+            cerrarModal={cerrarModalNuevoGasto}
+            crearNuevoGasto={crearNuevoGasto}
+        />
+    }
+    
+    const cerrarModalNuevoGasto = () => setModalNuevoGastoAbierto(false);
+    const crearNuevoGasto = (nuevoGasto) => {
+        gastosService.crearGasto(nuevoGasto)
+            .then(() => setGastoNuevoCreado(true));
+    }
+
     return <div className='mt-3'>
-        {modalEdicionGastoComponent()}
         {modalNuevoGastoComponent()}
-        {modalEliminacionGastoComponent()}
         {modalEdicionLimiteGastoComponent()}
         <div className='row'>
             <div className='col-9'>
