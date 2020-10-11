@@ -61,11 +61,7 @@ function NavGastos(props) {
         }
     }
 
-    const seccionNav = (eventKey, titulo) => {
-        return <Nav.Item>
-            <Nav.Link eventKey={eventKey}>{titulo}</Nav.Link>
-        </Nav.Item>
-    }
+    const seccionNav = (eventKey, titulo) => <Nav.Item><Nav.Link eventKey={eventKey}>{titulo}</Nav.Link></Nav.Item>
 
     return <div>
         <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2" onSelect={setOpcionSeleccionada}>
