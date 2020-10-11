@@ -5,6 +5,16 @@ import IconoEnAnchor from '../IconoEnAnchor';
 
 
 function DetalleMensual(props) {
+
+    const iconoAccion = (icono, color, accion, textoTooltip) => {
+        return <IconoEnAnchor
+            icono={icono}
+            color={color}
+            accion={accion}
+            textoTooltip={textoTooltip}
+        />
+    }
+
     return (
         <Table size="sm" striped hover bordered>
             <thead className="thead-light text-center">
@@ -32,22 +42,8 @@ function DetalleMensual(props) {
                                 />
                             </div>
                         </td>
-                        <td>
-                            <IconoEnAnchor
-                                icono={faEdit}
-                                color='text-primary'
-                                accion={() => props.abrirModalEdicionGasto(unGasto)}
-                                textoTooltip='Editar gasto'
-                            />
-                        </td>
-                        <td>
-                            <IconoEnAnchor
-                                icono={faTrash}
-                                color='text-danger'
-                                accion={() => props.abrirModalEliminacionGasto(unGasto.id, unGasto.concepto)} // al pasarle parametros debo llamarlo como lambda, si no estoy ejecutando la función en el renderizado
-                                textoTooltip='Eliminar gasto'
-                            />
-                        </td>
+                        <td>{iconoAccion(faEdit, 'text-primary',() => props.abrirModalEdicionGasto(unGasto),  'Editar gasto')}</td>
+                        <td>{iconoAccion(faTrash, 'text-danger',() => props.abrirModalEliminacionGasto(unGasto.id,unGasto.concepto),  'Eliminar gasto')}</td>
                     </tr>
                 })}
             </tbody>
