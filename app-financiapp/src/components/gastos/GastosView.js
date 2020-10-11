@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './../../css/financiapp.css';
 import gastosService from '../../service/gastosService.js';
 import ModalNuevoGasto from './ModalNuevoGasto.js';
-import { Nav } from 'react-bootstrap';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import DetalleMensual from './DetalleMensual';
-import Boton from '../Boton';
 import ModalEliminacionGasto from './ModalEliminacionGasto';
 import GraficoGastos from './GraficoGastos';
 import ControlGastos from './ControlGastos';
@@ -13,69 +10,8 @@ import ModalEdicionGasto from './ModalEdicionGasto';
 import ModalEdicionLimiteGastos from './ModalEdicionLimiteGastos';
 import TituloVista from '../TituloVista';
 import DetalleAccionToast from '../Toast';
-
-function ComboAnioYMes(props) {
-    const select = (nombreSelect, valorSeleccionado, valores, setearValorSeleccionado) => {
-        return <div className='row'>
-            <div className='mr-3 mt-2'>
-                <label>{nombreSelect}</label>
-            </div>
-            <div>
-                <select className="form-control" onChange={setearValorSeleccionado} value={valorSeleccionado}>
-                    {valores.map(unValor => <option value={unValor} key={unValor}>{unValor}</option>)}
-                </select>
-            </div>
-        </div>
-    }
-
-    return <div className="row ml-0 mb-3">
-        <div className="ml-3">
-            {select('Año', props.anioSeleccionado, props.comboAnio.aniosASeleccionar, props.setearAnioSeleccionado)}
-        </div>
-        <div className="ml-5">
-            {select('Mes', props.mesSeleccionado, props.comboMes.mesesASeleccionar, props.setearMesSeleccionado)}
-        </div>
-    </div>
-}
-
-function NavGastos(props) {
-    const [opcionSeleccionada, setOpcionSeleccionada] = useState('detalle-gastos');
-
-    const abrirModal = () => props.abrirModal();
-
-    const asignarOpcionSeleccionada = () => {
-        if (opcionSeleccionada === 'detalle-gastos') {
-            return <div className='tab-pane show active'>{props.tablaGastos}</div>
-        } else if (opcionSeleccionada === 'grafico-gastos') {
-            return <div className='tab-pane'>{props.graficoGastos}</div>
-        } else {
-            return <div className='tab-pane'>{props.controlGastos}</div>
-        }
-    }
-
-    const seccionNav = (eventKey, titulo) => {
-        return <Nav.Item>
-            <Nav.Link eventKey={eventKey}>{titulo}</Nav.Link>
-        </Nav.Item>
-    }
-
-    return <div>
-        <Nav className="navbar navbar-expand-lg navbar-light bg-light pl-2 pr-2" onSelect={setOpcionSeleccionada}>
-            <ul className="nav navbar-nav mr-auto mt-2 mt-lg-0">
-                {seccionNav('detalle-gastos', 'Detalle mensual')}
-                {props.graficoGastosDisponible ? seccionNav('grafico-gastos', 'Gráfico mensual') : <></>}
-                {seccionNav('control-gastos', 'Limita tus gastos')}
-            </ul>
-            <Boton
-                accion={abrirModal}
-                color='danger'
-                icono={faPlusCircle}
-                texto='Nuevo gasto'
-            />
-        </Nav>
-        {asignarOpcionSeleccionada()}
-    </div>
-}
+import NavGastos from './NavGastos';
+import ComboAnioYMes from './ComboAnioMes';
 
 function GastosView() {
     const [gastoSeleccionado, setGastoSeleccionado] = useState({});
@@ -209,7 +145,7 @@ function GastosView() {
 
     const cerrarModalEdicionLimiteGastos = () => setModalEdicionLimiteGastosAbierto(false);
     const abrirModalEdicionLimiteGastos = () => setModalEdicionLimiteGastosAbierto(true);
-
+    
     const cerrarModalEdicionGasto = () => setModalEdicionGastoAbierto(false);
     const abrirModalEdicionGasto = (gastoSeleccionado) => {
         setGastoSeleccionado(gastoSeleccionado);
