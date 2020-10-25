@@ -6,7 +6,7 @@ import IconoEnAnchor from '../IconoEnAnchor';
 
 function DetalleMensual(props) {
     return (
-        <Table size="sm" striped hover bordered>
+        <Table size="sm" hover>
             <thead className="thead-light text-center">
                 <tr>
                     <th>Concepto</th>

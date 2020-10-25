@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import carteraService from './../../service/carteraService.js';
@@ -16,7 +15,7 @@ function CarteraActivos() {
         buscarCarteraActivos(); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <Table size="sm" striped hover bordered>
+    return <Table size="sm" hover>
         <thead className="thead-light text-center">
                 <tr>
                     <th>Activo</th>
