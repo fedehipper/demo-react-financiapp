@@ -269,7 +269,7 @@ Vue.component("gasto", {
                             
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="detalle-gastos">
-                                    <table class="table table-sm table-striped table-hover table-bordered">
+                                    <table class="table table-sm table-hover">
                                         <col width="250">
                                         <col width="70">
                                         <col width="50">

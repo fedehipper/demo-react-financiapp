@@ -23,7 +23,7 @@ Vue.component("modal-movimientos", {
                     </div>
                     <form @submit.prevent>
                         <div class="modal-body">
-                            <table class="table table-sm table-striped table-hover table-bordered mb-0">
+                            <table class="table table-sm table-hover mb-0">
                                 <thead class="thead-light">
                                     <tr class="text-center">
                                         <th>Fecha</th>

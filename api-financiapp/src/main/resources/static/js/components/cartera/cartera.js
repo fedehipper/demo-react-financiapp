@@ -186,7 +186,7 @@ Vue.component("cartera", {
                                         <a class="nav-link active" data-toggle="tab" href="#cartera">Cartera de activos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#grafico-cartera">Gráfico</a>
+                                        <a class="nav-link" data-toggle="tab" href="#grafico-cartera">Gráfico porcentual</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#suma-cartera">Suma por moneda</a>
@@ -198,7 +198,7 @@ Vue.component("cartera", {
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="cartera">
                                 
-                                    <table class="table table-sm table-striped table-hover table-bordered">
+                                    <table class="table table-sm table-hover">
                                         <thead class="thead-light text-center">
                                             <tr>
                                                 <th>Activo</th>
